@@ -1,0 +1,78 @@
+﻿@using HRCMDemoEntity
+@model LoginTableEntity
+
+@{
+    ViewBag.Title = "登录";
+}
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<style>
+    .btnok {
+        border-radius: 20px;
+    }
+</style>
+
+<script>
+    $(function () {
+     
+        $("#txtUserName").val();
+        $("#txtUserPwd").val();
+    });
+</script>
+<body>
+    <div style="width:200px;margin:0px auto;margin-top:15%;">
+        <div class="text-center">
+            <h4 style="font-weight:600">用户登录</h4>
+            <br />
+            @using (Html.BeginForm("Login", "HRCMDemo", FormMethod.Post))
+            {
+                <table>
+
+                    <tr>
+                        <td colspan="2">
+                            @Html.TextBoxFor(o => o.LoginName, htmlAttributes: new { @class = "form-control  btnok", @placeholder = "输入用户名..." })
+                            @*<input class="form-control" placeholder="输入用户名..." style="border-radius:20px" type="text" name="txtUserName" value="" />*@
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.ValidationMessageFor(o => o.LoginName, "", new { @class = "text-danger" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            @Html.TextBoxFor(o => o.LoginPwd, htmlAttributes: new { @class = "form-control  btnok", @placeholder = "输入密码...", @type = "password" })
+                            @*<input class="form-control  text-primary" placeholder="输入密码..." style="border-radius:20px" type="text" name="txtUserPwd" value="@ViewBag.Pwd" />*@
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.ValidationMessageFor(o => o.LoginPwd, "", new { @class = "text-danger" })
+                        </td>
+                    </tr>
+                    <tr>
+
+                        <td class="text-center">
+                            <div class="checkbox">
+                                <label>
+                                   @Html.CheckBoxFor(o=>o.LoginState) 记住我
+                                </label>
+                            </div>
+                        </td>
+                        <td>&nbsp;&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <input  type="submit" class="form-control btn btn-primary text-center btnok" name="name" value="登录" />
+                        </td>
+                    </tr>
+                </table>
+            }
+        </div>
+    </div>
+    <div style="height:160px"></div>
+</body>
+
+

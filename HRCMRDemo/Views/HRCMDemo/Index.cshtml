@@ -1,0 +1,241 @@
+﻿
+@{
+    ViewBag.Title = "";
+}
+
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-3.4.1.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<link href="~/Content/index_css.css" rel="stylesheet" />
+
+
+<script>
+    $(function () {
+        $("#accordion > div > div.panel-heading > h4 > a").attr("style", "color:#939DA9");//#2B4EA2
+        var str = document.URL.substring(document.URL.indexOf("=")+1, document.URL.length);
+        switch (str) {
+            case "1":
+                $("#dept").show();
+                break
+            case "2":
+
+
+                break;
+            case "3":
+
+
+                break;
+            case "4":
+
+
+                break;
+            case "5":
+             
+                break;
+            default:
+               
+        }
+        var strarr = ["emp", "date", "test", "dept", "addwork", "check", "sal", "msg"];
+        
+        for (var i = 0; i < strarr.length; i++) {
+            //alert("#" + strarr[i]);
+            $("#" + strarr[i]).click(function () {
+                //#emp > div.panel-heading > h4 > a
+                //alert($("#" + strarr[i]));
+                var str = "" + "#" + this.id + " > div.panel-heading > h4 > a";
+                $("#lbltext").html($(str).text() + "&nbsp;&nbsp>" )
+              
+            });
+        }
+
+    });
+    
+
+</script>
+@*<div id="aupadte"></div>
+<img src="~/Images/user_interface_icons.svg" />*@
+<body>
+    <div id="bigger">
+        <div id="left">
+            <div id="left_top" style="margin-left:10px">
+                <span>
+                    <font style="color:brown;font-size:30px;">H</font>
+                    <font style="color:aquamarine">R</font>
+                    <font style="color:burlywood">C</font>
+                    <font style="color:coral">M</font>
+                </span>
+                &nbsp;&nbsp;
+                <label class="textWeight">@ViewBag.User</label>
+            </div>
+            @*菜单栏部分开始*@
+            <div id="left_ton" class="text-center table-hover">
+                @*菜单栏开始*@
+                <div class="panel-group" id="accordion">
+                    @*员工资料管理*@
+                    <div id="emp" class="panel panel-default">
+                        <div class="panel-heading">
+                            <div id="a1"></div>
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion"
+                                   href="#collapse1">
+                                    员工资料管理
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapse1" class="panel-collapse collapse in">
+                            <div class="panel-body">
+                                    <input type="button" class="btn btn-link active" name="name" value="查看个人信息" />
+                                    <input type="button" class="btn btn-link active" name="name" value="查看员工信息" />
+                            </div>
+                        </div>
+                    </div>
+                    @*请假管理*@
+                    <div id="date" class="panel panel-default">
+                        <div class="panel-heading">
+                            <div id="a2"></div>
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion"
+                                   href="#collapse2">
+                                    请假管理
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapse2" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                123
+                            </div>
+                        </div>
+                    </div>
+                    @*考勤管理*@
+                    <div id="test" class="panel panel-default">
+                        <div class="panel-heading">
+                            <div id="a3"></div>
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion"
+                                   href="#collapse3">
+                                    考勤管理
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapse3" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                456
+                            </div>
+                        </div>
+                    </div>
+                    @*部门管理*@
+                    <div id="dept" hidden="hidden" class="panel panel-default">
+                        <div class="panel-heading">
+                            <div id="a4"></div>
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion"
+                                   href="#collapse4">
+                                    部门管理
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapse4" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                    <input type="button"  class="btn btn-link active" name="name" value="查看部门信息" />
+                            </div>
+                        </div>
+                    </div>
+                    @*加班管理*@
+                    <div id="addwork" class="panel panel-default">
+                        <div class="panel-heading">
+                            <div id="a5"></div>
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion"
+                                   href="#collapse5">
+                                    加班管理
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapse5" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                456
+                            </div>
+                        </div>
+                    </div>
+                    @*业绩评定*@
+                    <div id="check" class="panel panel-default">
+                        <div class="panel-heading">
+                            <div id="a6"></div>
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion"
+                                   href="#collapse6">
+                                    业绩评定
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapse6" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                456
+                            </div>
+                        </div>
+                    </div>
+                    @*薪资管理*@
+                    <div id="sal" class="panel panel-default">
+                        <div class="panel-heading">
+                            <div id="a7"></div>
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion"
+                                   href="#collapse7">
+                                    薪资管理
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapse7" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                456
+                            </div>
+                        </div>
+                    </div>
+                    @*公告管理*@
+                    <div id="msg" class="panel panel-default">
+                        <div class="panel-heading">
+                            <div id="a8"></div>
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion"
+                                   href="#collapse8">
+                                    公告管理
+                                </a>
+                            </h4>
+                        </div>
+
+                        <div id="collapse8" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                456
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @*菜单栏结束*@
+            </div>
+            @*菜单栏部分结束*@
+
+        </div>
+        <div id="right">
+            <div id="right_top">
+                <div id="loginop">
+                        <div style="float:left">
+                            <div id="aupadte"></div>
+                            <input type="button" class="btn btn-link" name="name" value="修改密码" />
+                        </div>
+                        <div style="float:left;margin-top:7px;margin-left:-6%;">
+                            <div id="aexit"></div>
+                             @Html.ActionLink("退出", "Login", new { @class = "btn btn-link" })
+                        </div>
+                </div>
+                <div class="clearfix"></div>
+                <div id="map">
+                    <div id="a1" style="margin-top:7.5px;margin-left:1%"></div>
+                    <label class="btn btn-link">主页&nbsp;&nbsp;></label>
+                    <label style="margin-left:-2%" id="lbltext" class="btn btn-link"></label>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</body>
+

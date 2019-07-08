@@ -1,0 +1,175 @@
+﻿* {
+    margin: 0px;
+    padding: 0px;
+}
+
+#bigger {
+    width: 100%;
+    height: auto;
+    /*height: 800px;*/
+    border: 1px solid gray;
+}
+
+#left {
+    float: left;
+    width: 20%;
+    height: auto;
+    /*background-color: #1E242B;*/
+    /*border: 1px solid red;*/
+}
+
+#right_top {
+    float: right;
+    width: 80%;
+    height: 50px;
+    /*border: 1px solid blue;*/
+}
+
+#left-top {
+    width: 20%;
+}
+
+.textWeight {
+    font-size: 20px;
+    font-weight: bolder;
+}
+
+#a1 {
+    /*border: 1px solid red;*/
+    position: relative;
+    width: 25px;
+    height: 25px;
+    background-image: url('../../Images/user_interface_icons.svg');
+    overflow: hidden;
+    background-size: 210px;
+    background-repeat: no-repeat;
+    background-position: -30px -108px;
+    float: left;
+    top: -4px;
+}
+
+#a2 {
+    /*border: 1px solid red;*/
+    position: relative;
+    width: 25px;
+    height: 25px;
+    background-image: url('../../Images/user_interface_icons.svg');
+    overflow: hidden;
+    background-size: 210px;
+    background-repeat: no-repeat;
+    background-position: -30px -26px;
+    float: left;
+    top: -4px;
+}
+
+#a3 {
+    /*border: 1px solid red;*/
+    position: relative;
+    width: 25px;
+    height: 25px;
+    background-image: url('../../Images/user_interface_icons.svg');
+    overflow: hidden;
+    background-size: 210px;
+    background-repeat: no-repeat;
+    background-position: -78px -26px;
+    float: left;
+    top: -4px;
+}
+
+#a4 {
+    /*border: 1px solid red;*/
+    position: relative;
+    width: 25px;
+    height: 25px;
+    background-image: url('../../Images/user_interface_icons.svg');
+    overflow: hidden;
+    background-size: 210px;
+    background-repeat: no-repeat;
+    background-position: -155px -80px;
+    float: left;
+    top: -1px;
+}
+
+#a5 {
+    /*border: 1px solid red;*/
+    position: relative;
+    width: 25px;
+    height: 25px;
+    background-image: url('../../Images/user_interface_icons.svg');
+    overflow: hidden;
+    background-size: 210px;
+    background-repeat: no-repeat;
+    background-position: -129px -110px;
+    float: left;
+    top: -4px;
+}
+
+#a6 {
+    /*border: 1px solid red;*/
+    position: relative;
+    width: 25px;
+    height: 25px;
+    background-image: url('../../Images/user_interface_icons.svg');
+    overflow: hidden;
+    background-size: 210px;
+    background-repeat: no-repeat;
+    background-position: -79px -56px;
+    float: left;
+    top: -4px;
+}
+
+#a7 {
+    /*border: 1px solid red;*/
+    position: relative;
+    width: 25px;
+    height: 25px;
+    background-image: url('../../Images/user_interface_icons.svg');
+    overflow: hidden;
+    background-size: 210px;
+    background-repeat: no-repeat;
+    background-position: -105px -110px;
+    float: left;
+    top: -3px;
+}
+
+#a8 {
+    /*border: 1px solid red;*/
+    position: relative;
+    width: 25px;
+    height: 25px;
+    background-image: url('../../Images/user_interface_icons.svg');
+    overflow: hidden;
+    background-size: 210px;
+    background-repeat: no-repeat;
+    background-position: -103px -30px;
+    float: left;
+}
+
+#aupadte {
+    /*border: 1px solid red;*/
+    position: relative;
+    width: 25px;
+    height: 25px;
+    background-image: url('../../Images/user_interface_icons.svg');
+    overflow: hidden;
+    background-size: 210px;
+    background-repeat: no-repeat;
+    background-position: -120px -76px;
+    float: left;
+}
+
+#aexit {
+    /*border: 1px solid red;*/
+    /*position: relative;*/
+    width: 25px;
+    height: 25px;
+    background-image: url('../../Images/user_interface_icons.svg');
+    overflow: hidden;
+    background-size: 210px;
+    background-repeat: no-repeat;
+    background-position: -155px -57px;
+    float: left;
+    margin-left: 50px;
+}
+
+
