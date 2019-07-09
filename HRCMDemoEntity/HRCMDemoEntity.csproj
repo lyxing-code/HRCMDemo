@@ -46,6 +46,7 @@
     <Compile Include="LoginTableEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StaffTableEntity.cs" />
+    <Compile Include="UserInfoEntity.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

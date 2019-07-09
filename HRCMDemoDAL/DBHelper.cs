@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.Data;
 using System.Configuration;
 
+
 /// <summary>
 ///DBHelper：数据库访问操作类
 /// </summary>
@@ -36,14 +37,29 @@ public class DBHelper
     /// <summary>
     /// 多行查询操作：返回DataTable
     /// </summary>
-    /// <param name="sql"></param>
+    /// <param name="sql">SQL语句</param>
+    /// <param name="parameters">参数</param>
     /// <returns></returns>
-    public static DataTable GetDataTable(string sql)
+    public static DataTable GetDataTable(string sql, params SqlParameter [] parameters)
     {
-        DataTable dt = new DataTable();
-        SqlDataAdapter dad = new SqlDataAdapter(sql, Connection);
-        dad.Fill(dt);
-        return dt;
+        //防止注入式攻击
+        try
+        {
+            DataTable dt = new DataTable();
+            SqlDataAdapter dad = new SqlDataAdapter(sql, Connection);
+            if (parameters != null)
+            {
+                dad.SelectCommand.Parameters.AddRange(parameters);
+            }
+            dad.Fill(dt);
+            return dt;
+        }
+        catch (Exception)
+        {
+
+            throw;
+        }
+      
     }
 
     /// <summary>

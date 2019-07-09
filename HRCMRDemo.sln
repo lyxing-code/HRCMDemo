@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HRCMDemoDAL", "HRCMDemoDAL\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HRCMDemoBLL", "HRCMDemoBLL\HRCMDemoBLL.csproj", "{8FC94B33-512D-4044-803F-45EECE11754C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HRCMRDemoUI", "HRCMRDemoUI\HRCMRDemoUI\HRCMRDemoUI.csproj", "{CBBBF29D-FE04-43CA-A957-A093516B75BB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{8FC94B33-512D-4044-803F-45EECE11754C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8FC94B33-512D-4044-803F-45EECE11754C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8FC94B33-512D-4044-803F-45EECE11754C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CBBBF29D-FE04-43CA-A957-A093516B75BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBBBF29D-FE04-43CA-A957-A093516B75BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CBBBF29D-FE04-43CA-A957-A093516B75BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CBBBF29D-FE04-43CA-A957-A093516B75BB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
