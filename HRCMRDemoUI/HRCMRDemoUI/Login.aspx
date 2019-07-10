@@ -38,7 +38,8 @@
                     type: "get",
                     url: "Handler/LoginHandler.ashx",
                     data:
-                   {
+                    {
+                        Method:"Login",
                         name: $("#txtName").val(),
                         pwd: $("#txtPwd").val()
                     },
@@ -46,10 +47,7 @@
                     success: function (rs) {
                         if (rs != "1")
                         {   
-                            //alert(rs[0].LoginName);
-                            //alert(1);
                             window.location.href = "Index.aspx";
-                             //alert(rs[0].LosginName);
                         }
                         else
                         {

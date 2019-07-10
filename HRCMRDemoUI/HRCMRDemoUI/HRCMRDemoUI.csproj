@@ -357,6 +357,7 @@
     <Content Include="bootstrap-dist\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="bootstrap-dist\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="WebForm1.aspx" />
+    <Content Include="Handler\DeptHandler.ashx" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="img\addressbook\1.jpg" />
     <Content Include="img\addressbook\2.jpg" />
@@ -1364,6 +1365,9 @@
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Handler\DeptHandler.ashx.cs">
+      <DependentUpon>DeptHandler.ashx</DependentUpon>
     </Compile>
     <Compile Include="Index.aspx.cs">
       <DependentUpon>Index.aspx</DependentUpon>

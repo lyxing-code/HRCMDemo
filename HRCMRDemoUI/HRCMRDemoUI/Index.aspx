@@ -32,15 +32,56 @@
  
     <script>
         $(function () {
-            $("#list li").click(function () {
-                
-                $("#list > li").removeClass("active");
-                $(this).addClass("active");
-                if ($(this).hasClass("active")) {
-                    $("#depttable").show();
-                }
+
+            //ajax获取session
+            $.ajax({
+                    type: "get",
+                    url: "Handler/LoginHandler.ashx",
+                    data:
+                    {
+                        Method:"Gessession",
+                    },
+                    dataType: "json",
+                success: function (rs)
+                {
+                    //alert(rs[0]);
+                    //alert(rs[0].UserName);
+                    $("#user_name").text(rs[0].UserName);
+                    //权限分配
+                    switch (rs[0].RoleID)
+                    {
+                        case 1:
+                            break;
+                        case 2:
+                            $("#deptinfo").hide();
+                            break;
+                        case 3:
+                             $("#deptinfo").hide();
+                            break;
+                        case 4:
+                             $("#deptinfo").hide();
+                            break;
+                        case 5:
+                            $("#deptinfo").hide();
+                            break;
+                        default:
+                             $("#deptinfo").hide();
+                             break;
+                    }
+               }
 
             });
+
+            //下拉列表菜单点击事件
+            $("#list li").click(function () {
+                $("#list > li").removeClass("active");
+                $(this).addClass("active");
+                if ($(this).attr("id") == "deptinfo") {
+                    $("#depttable").show();
+                }
+            });
+
+
 
 
         });
@@ -336,7 +377,7 @@
 					<li class="dropdown user" id="header-user">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 							<img alt="" src="img/avatars/avatar3.jpg" />
-							<span class="username" id="user_name">xxx</span>
+							<span class="username" id="user_name"></span>
 							<i class="fa fa-angle-down"></i>
 						</a>
 						<ul class="dropdown-menu">
@@ -662,7 +703,7 @@
 						<!-- 菜单列表 -->
 						<ul id="list">
                            <%-- 员工资料--%>
-							<li class="active">
+							<li class="active" id="empinfo">
 								<a href="#">
 								<i class="fa fa-tachometer fa-fw"></i> <span class="menu-text">员工资料管理</span>
 								<span class="selected"></span>
@@ -670,15 +711,17 @@
 							</li>
                              <%-- 员工资料--%>
 
-                            <li class="has-sub">
+                            <%--请假管理--%>
+                            <li class="has-sub" id="sumday">
 								<a href="javascript:;" class="">
 								<i class="fa fa-pencil-square-o fa-fw"></i> <span class="menu-text">请假管理</span>
 								<span class="menu-text"></span>
 								</a>
 							</li>
+                            <%--请假管理--%>
 
                             <%--考勤管理--%>
-							<li class="has-sub">
+							<li class="has-sub" id="testwork">
 								<a href="javascript:;" class="">
 								<i class="fa fa-bookmark-o fa-fw"></i> <span class="menu-text">考勤管理</span>
 								<span class="arrow"></span>
@@ -702,7 +745,7 @@
                             <%--考勤管理--%>
 
                              <%--部门管理--%>
-							<li>
+							<li id="deptinfo">
                                 <a class="" href="#">
                                 <i class="fa fa-desktop fa-fw"></i> 
                                 <span class="menu-text">部门管理</span>
@@ -711,7 +754,7 @@
                             <%--部门管理--%>
                             
                              <%--加班管理--%>
-                            <li>
+                            <li id="addwork">
                                 <a class="" href="#">
                                 <i class="fa fa-columns fa-fw"></i> 
                                 <span class="menu-text">加班管理</span>
@@ -720,7 +763,7 @@
                               <%--加班管理--%>
 
                               <%--业绩管理--%>
-                            <li class="has-sub">
+                            <li class="has-sub" id="workinfo">
 								<a href="javascript:;" class="">
 								<i class="fa fa-bar-chart-o fa-fw"></i> <span class="menu-text">业绩评定</span>
 								<span class="menu-text"></span>
@@ -729,7 +772,7 @@
                             <%--业绩管理--%>
 
                               <%--薪资管理--%>
-                            <li class="has-sub">
+                            <li class="has-sub" id="salinfo">
 								<a href="javascript:;" class="">
 								<i class="fa fa-file-text fa-fw"></i> <span class="menu-text">薪资管理</span>
 								<span class="menu-text"></span>
@@ -738,7 +781,7 @@
                             <%--薪资管理--%>
 
                               <%--公告管理--%>
-                            <li class="has-sub">
+                            <li class="has-sub" id="msg">
 								<a href="javascript:;" class="">
 								<i class="fa fa-calendar fa-fw"></i> <span class="menu-text">管理公告</span>
 								<span class="menu-text"></span>
@@ -768,7 +811,7 @@
 				<!-- /SIDEBAR -->
 		<div id="main-content">
 			<!-- SAMPLE BOX CONFIGURATION MODAL FORM-->
-			<div class="modal fade" id="box-config" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<%--<div class="modal fade" id="box-config" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 				<div class="modal-dialog">
 				  <div class="modal-content">
 					<div class="modal-header">
@@ -784,7 +827,7 @@
 					</div>
 				  </div>
 				</div>
-			  </div>
+			  </div>--%>
 			<!-- /SAMPLE BOX CONFIGURATION MODAL FORM-->
             <div class="container">
                 	<div class="row">
@@ -800,10 +843,10 @@
 						</div>
                     </div>
 		        </div>
-                
-                <div class="container" id="depttable" hidden="hidden">
-                    <iframe src="Department.aspx" class="container"></iframe>
-                </div>
+                   <div style="width:100%;height:100%" class="text-center">
+                       <iframe style="width:100%;height:600px;" src="Department.aspx" hidden="hidden" id="depttable" frameborder="0">
+                       </iframe>
+                   </div>
            </div>
             </div>
 	
