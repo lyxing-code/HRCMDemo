@@ -22,10 +22,21 @@ namespace HRCMRDemoUI
             DataTable dt = new UserInfoBLL().GetTable(name, pwd);
             if (dt.Rows.Count>0)
             {
-             string  json = JsonConvert.SerializeObject(dt);
-             context.Response.Write(json);
-             context.Response.Redirect("Index.aspx");
+                contextResponseWrite(context, dt);
+                //json = JsonConvert.SerializeObject(dt);
+                //context.Response.Write(json);
             }
+            else
+            {
+                //json = JsonConvert.SerializeObject(dt);
+                contextResponseWrite(context, "1");
+            }
+        }
+
+        public void contextResponseWrite(HttpContext context,object o)
+        {
+             string json = JsonConvert.SerializeObject(o);
+             context.Response.Write(json);
         }
 
         public bool IsReusable

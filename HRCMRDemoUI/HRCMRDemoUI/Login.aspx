@@ -27,19 +27,35 @@
     <script type="text/javascript">
         $(function () {
 
+            $(".checkbox").click(function () {
+                alert(1);
+            });
+
             $("#btnlogin").click(function () {
                 //alert($("#txtName").val());  
                 //alert($("#txtPwd").val());
                 $.ajax({
-                    type: "post",
+                    type: "get",
                     url: "Handler/LoginHandler.ashx",
-                    data: {name : $("#txtName").val(),pwd : $("#txtPwd").val() },
+                    data:
+                   {
+                        name: $("#txtName").val(),
+                        pwd: $("#txtPwd").val()
+                    },
                     dataType: "json",
                     success: function (rs) {
-                        //alert(1);
-                     
-                        //window.open("Index.aspx?LoginName="+rs[0].LoginName);
-                        alert(rs[0].LoginName); 
+                        if (rs != "1")
+                        {   
+                            //alert(rs[0].LoginName);
+                            //alert(1);
+                            window.location.href = "Index.aspx";
+                             //alert(rs[0].LosginName);
+                        }
+                        else
+                        {
+                            alert("账号密码有误!");
+                        }
+                       
                     }
 
                 });
@@ -83,16 +99,15 @@
 								  <div class="form-group">
 									<label for="exampleInputEmail1">用户名</label>
 									<i class="fa fa-envelope"></i>
-									<input type="text" class="form-control" id="txtName" >
+									<input type="text" class="form-control" id="txtName" />
 								  </div>
 								  <div class="form-group"> 
 									<label for="exampleInputPassword1">密码</label>
 									<i class="fa fa-lock"></i>
 									<input type="password" class="form-control" id="txtPwd" />
 								  </div>
-								  <div class="">
-									<label class="checkbox"> <input type="checkbox" class="uniform" value="" />记住我</label>
-									<button type="submit" class="btn btn-danger" id="btnlogin">登 录</button>
+								  <div class="form-actions">
+									<button type="button" class="btn btn-danger" id="btnlogin">登 录</button>
 								  </div>
 								</form>
 								<!-- SOCIAL LOGIN -->
@@ -113,7 +128,7 @@
 									</a>
 								</div>
 								<!-- /SOCIAL LOGIN -->
-								<%--<div class="login-helpers">
+							<%--	<div class="login-helpers">
 									<a href="#" onclick="swapScreen('forgot');return false;">忘记密码?</a> <br />
 									还没有注册账号? <a href="#" onclick="swapScreen('register');return false;">立即注册</a>
 								</div>--%>
@@ -124,12 +139,12 @@
 			</section>
 			<!--/LOGIN -->
 			<!-- REGISTER -->
-			<section id="register">
+		<%--	<section id="register">
 				<div class="container">
 					<div class="row">
 						<div class="col-md-4 col-md-offset-4">
 							<div class="login-box-plain">
-								<h2 class="bigintro">Register</h2>
+								<h2 class="bigintro">注册</h2>
 								<div class="divide-40"></div>
 								<form role="form">
 								  <div class="form-group">
@@ -187,7 +202,7 @@
 						</div>
 					</div>
 				</div>
-			</section>
+			</section>--%>
 			<!--/REGISTER -->
 			<!-- FORGOT PASSWORD -->
 			<section id="forgot">
@@ -228,13 +243,13 @@
    
 	
 	<!-- UNIFORM -->
-	<%--<script type="text/javascript" src="js/uniform/jquery.uniform.min.js"></script>--%>
+	<script type="text/javascript" src="js/uniform/jquery.uniform.min.js"></script>
 	<!-- CUSTOM SCRIPT -->
-	<%--<script src="js/script.js"></script>--%>
-	<%--<script>
+	<script src="js/script.js"></script>
+	<script>
 		jQuery(document).ready(function() {		
-		    App.setPage("login");  //Set current page
-			App.init(); //Initialise plugins and elements
+		    App.setPage("Login.aspx");  //Set current page
+			App.init(); //Initialise plugins and elesments
 		});
 	</script>
 	<script type="text/javascript">
@@ -242,7 +257,7 @@
 			jQuery('.visible').removeClass('visible animated fadeInUp');
 			jQuery('#'+id).addClass('visible animated fadeInUp');
 		}
-	</script>--%>
+	</script>
 	<!-- /JAVASCRIPTS -->
 </body>
 </html>

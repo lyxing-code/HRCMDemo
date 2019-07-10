@@ -10,7 +10,7 @@
 namespace HRCMRDemoUI {
     
     
-    public partial class Index {
+    public partial class WebForm1 {
         
         /// <summary>
         /// skin_switcher 控件。

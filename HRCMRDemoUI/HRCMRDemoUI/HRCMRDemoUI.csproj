@@ -134,6 +134,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="About.aspx" />
+    <Content Include="bootstrap-dist\css\bootstrap-theme.css" />
+    <Content Include="bootstrap-dist\css\bootstrap-theme.min.css" />
+    <Content Include="bootstrap-dist\css\bootstrap.css" />
+    <Content Include="bootstrap-dist\css\bootstrap.min.css" />
+    <Content Include="bootstrap-dist\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="bootstrap-dist\js\bootstrap.js" />
+    <Content Include="bootstrap-dist\js\bootstrap.min.js" />
     <Content Include="Contact.aspx" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
@@ -162,6 +169,7 @@
     <Content Include="css\themes\utopia.css" />
     <Content Include="css\themes\utopia.min.css" />
     <Content Include="Default.aspx" />
+    <Content Include="Department.aspx" />
     <Content Include="email_templates\email_template_layout_1.html" />
     <Content Include="email_templates\email_template_layout_2.html" />
     <Content Include="email_templates\email_template_layout_3.html" />
@@ -345,6 +353,10 @@
     <Content Include="frontend_theme\img\testimonials\Thumbs.db" />
     <Content Include="frontend_theme\img\Thumbs.db" />
     <Content Include="Handler\LoginHandler.ashx" />
+    <Content Include="bootstrap-dist\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="bootstrap-dist\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="bootstrap-dist\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="WebForm1.aspx" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="img\addressbook\1.jpg" />
     <Content Include="img\addressbook\2.jpg" />
@@ -1285,7 +1297,6 @@
     <Content Include="js\xcharts\xcharts.min.css" />
     <Content Include="js\xcharts\xcharts.min.js" />
     <Content Include="Login.aspx" />
-    <Content Include="login.html" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
@@ -1344,6 +1355,13 @@
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Department.aspx.cs">
+      <DependentUpon>Department.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Department.aspx.designer.cs">
+      <DependentUpon>Department.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -1385,6 +1403,13 @@
     </Compile>
     <Compile Include="ViewSwitcher.ascx.designer.cs">
       <DependentUpon>ViewSwitcher.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="WebForm1.aspx.cs">
+      <DependentUpon>WebForm1.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WebForm1.aspx.designer.cs">
+      <DependentUpon>WebForm1.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

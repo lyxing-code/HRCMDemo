@@ -45,8 +45,8 @@ public class DBHelper
         //防止注入式攻击
         try
         {
-            DataTable dt = new DataTable();
-            SqlDataAdapter dad = new SqlDataAdapter(sql, Connection);
+             DataTable dt = new DataTable();
+             SqlDataAdapter dad = new SqlDataAdapter(sql, Connection);
             if (parameters != null)
             {
                 dad.SelectCommand.Parameters.AddRange(parameters);
@@ -61,6 +61,8 @@ public class DBHelper
         }
       
     }
+
+      
 
     /// <summary>
     /// 查询操作：返回首行首列数据
