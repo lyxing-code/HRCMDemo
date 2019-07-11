@@ -16,22 +16,51 @@ public class DBHelper
     /// 更新操作：增，删，改 共用
     /// </summary>
     /// <param name="sql"></param>
+    /// <param name="parameters">参数</param>
     /// <returns>bool</returns>
-    public static bool UpdateOpera(string sql)
+    public static bool UpdateOpera(string sql, params SqlParameter[] parameters)
     {
-        SqlCommand cmd = new SqlCommand(sql, Connection);
-        return cmd.ExecuteNonQuery() > 0;
-    }
+        try
+        {
+            SqlCommand cmd = new SqlCommand(sql, Connection);
+            if (parameters != null && parameters.Length >  0)
+            {
+                cmd.Parameters.Add(parameters);
+            }
+            return cmd.ExecuteNonQuery() > 0;
+        }
+        catch (Exception)
+        {
 
+            throw;
+        }
+       
+    }
+    
+    
     /// <summary>
     /// 多行查询操作：返回SqlDataReader
     /// </summary>
     /// <param name="sql">查询SQL语句</param>
+    /// <param name="parameters">参数</param>
     /// <returns>SqlDataReader</returns>
-    public static SqlDataReader GetReader(string sql)
+    public static SqlDataReader GetReader(string sql, params SqlParameter[] parameters)
     {
-        SqlCommand cmd = new SqlCommand(sql, Connection);
-        return cmd.ExecuteReader();
+        try
+        {
+            SqlCommand cmd = new SqlCommand(sql, Connection);
+            if (parameters != null && parameters.Length > 0)
+            {
+                cmd.Parameters.Add(parameters);
+            }
+            return cmd.ExecuteReader();
+        }
+        catch (Exception)
+        {
+
+            throw;
+        }
+        
     }
 
     /// <summary>
@@ -47,7 +76,7 @@ public class DBHelper
         {
              DataTable dt = new DataTable();
              SqlDataAdapter dad = new SqlDataAdapter(sql, Connection);
-            if (parameters != null)
+            if (parameters != null && parameters.Length > 0)
             {
                 dad.SelectCommand.Parameters.AddRange(parameters);
             }

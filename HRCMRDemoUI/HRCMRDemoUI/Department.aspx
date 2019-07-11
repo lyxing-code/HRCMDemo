@@ -65,6 +65,14 @@
             //alert(id);
             $('#myModal').modal({ "backdrop": "static" });//打开模态框
         }
+
+
+         function addedpt() {
+            //alert(id);
+            $('#myModal').modal({ "backdrop": "static" });//打开模态框
+
+         }
+        
     </script>
 
 
@@ -82,6 +90,9 @@
                           </td>
                           <td>
                               &nbsp;&nbsp;&nbsp;<input type="button" class="btn btn-grey"  name="name" value="查询" onclick="databind();" />
+                          </td>
+                          <td>
+                              &nbsp;&nbsp;&nbsp;<input type="button" id="adddept" class="btn btn-grey"  name="name" value="添加" onclick="addedpt();" />
                           </td>
                       </tr>
                   </table>
@@ -137,7 +148,15 @@
                         <h4 class="modal-title" id="myModalLabel">修改部门 </h4>
 
                     </div>
-                    <div class="modal-body">在这里添加一些文本         </div>
+                    <div class="modal-body">
+                        <table>
+                            <tr>
+                                <td>
+                                    <input type="text" class="form-control" name="name" value="" />
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
                         <button type="button" class="btn btn-primary">
