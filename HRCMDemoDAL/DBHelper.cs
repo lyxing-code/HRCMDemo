@@ -23,9 +23,12 @@ public class DBHelper
         try
         {
             SqlCommand cmd = new SqlCommand(sql, Connection);
-            if (parameters != null && parameters.Length >  0)
+            if (parameters.Length >  0)
             {
-                cmd.Parameters.Add(parameters);
+                for (int i = 0; i < parameters.Length; i++)
+                {
+                    cmd.Parameters.Add(parameters[i]);
+                }
             }
             return cmd.ExecuteNonQuery() > 0;
         }
@@ -78,7 +81,10 @@ public class DBHelper
              SqlDataAdapter dad = new SqlDataAdapter(sql, Connection);
             if (parameters != null && parameters.Length > 0)
             {
-                dad.SelectCommand.Parameters.AddRange(parameters);
+                for (int i = 0; i < parameters.Length; i++)
+                {
+                    dad.SelectCommand.Parameters.Add(parameters[i]);
+                }
             }
             dad.Fill(dt);
             return dt;

@@ -25,63 +25,229 @@
     <script src="js/jquery/jquery-2.0.3.min.js"></script>
     <script src="Scripts/bootstrap.min.js"></script>
     <script>
-        $(function () {
-            databind();
 
+        //加载数据
+        $(function () {
+            databind("select");
         });
         
-        function databind() {
+        function databind(op) {
              $.ajax({
                     type: "get",
                     url: "Handler/DeptHandler.ashx",
                     data:
                     {
-                       deptname :$("#deptname").val()
+                       opname: op,
+                       deptname: $("#deptname").val(),
                     },
                     dataType: "json",
                  success: function (rs)
                  {
-                     var str = ""
-                     $.each(rs, function (index,itme) {
-                         str += "<tr>";
-                         str += "<td>" + itme.DepartmentID + "</td>";
-                         str += "<td>" + itme.DepartmentName + "</td>";
-                         str += "<td>" + itme.DepartmentRemarks + "</td>";
-                         str += "<td><input type='button' class='btn  btn-success'  name='name' value='修改' onclick='updatainfo("+itme.DepartmentID+");' />&nbsp;&nbsp;&nbsp;<input type='button' class='btn btn-danger'  name='name' value='删除' onclick='deleteinfo("+itme.DepartmentID+");' /></td>";
-                         str += "</tr>";
-                     });
-                     //保留表头
-                     $("#datatable tr:gt(0)").remove();
-                     $("#datatable tbody").append(str);
+                     if (rs != "-1") {
+                         var str = ""
+                         $.each(rs, function (index, itme) {
+                             str += "<tr>";
+                             str += "<td>" + itme.DepartmentID + "</td>";
+                             str += "<td>" + itme.DepartmentName + "</td>";
+                             str += "<td>" + itme.DepartmentRemarks + "</td>";
+                             str += "<td><input type='button' class='btn  btn-success'  name='name' value='修改' onclick='updatainfo(" + itme.DepartmentID + ");' />&nbsp;&nbsp;&nbsp;<input type='button' class='btn btn-danger'  name='name' value='删除' onclick='deleteinfo(" + itme.DepartmentID + ");' /></td>";
+                             str += "</tr>";
+                         });
+                         //保留表头
+                         $("#datatable tr:gt(0)").remove();
+                         $("#datatable tbody").append(str);
+                     } else {
+                         alert("无法加载数据!");
+                     }
+                    
                  }
                 });
         }
 
+        //删除部门按钮事件
         function deleteinfo(id) {
-            alert(id);
-        }
 
+            if (confirm("是否确认删除?"))
+            {
+                $.ajax({
+                    type: "get",
+                    url: "Handler/DeptHandler.ashx",
+                    data:
+                    {
+                       opname: "delete",
+                       deptid:id
+                    },
+                    dataType: "json",
+                 success: function (rs)
+                 {
+                     if (rs = "delsuccess")
+                     {
+                         alert("删除成功!");
+                         databind("select");
+                     }
+                     else
+                     {
+                         alert("删除失败!");
+                     }
+                 }
+                });
+            }
+              
+        }
+      
+        //修改部门按钮事件
          function updatainfo(id) {
-            //alert(id);
-            $('#myModal').modal({ "backdrop": "static" });//打开模态框
+              //alert(id);
+              $("#deptid").val(id);
+              //alert($("#deptid").val());
+             $("#myModalLabel").text("修改部门");
+             $("#isupdateok").show();
+             $("#isok").hide();
+             //加载选中行的数据到模态框控件中
+             $.ajax({
+                    type: "get",
+                    url: "Handler/DeptHandler.ashx",
+                    data:
+                    {
+                       opname: "selectbyid",
+                       deptid : id,
+                    },
+                    dataType: "json",
+                 success: function (rs)
+                 {
+                     //alert(rs);   
+                     //绑定值
+                     $("#txtdeptnameModal").val(rs[0].DepartmentName),
+                     $("#txtdeptmRemarkModal").val(rs[0].DepartmentRemarks)
+                 }
+            });
+
+             $('#myModal').modal({ "backdrop": "static" });//打开模态框
         }
-
-
+        
+        //键盘点击事件
+        function onkeycode() {
+            if ($("#txtdeptnameModal").val() == "" || (($("#txtdeptnameModal").val()).indexOf(" ")) != -1) {
+                $("#error").text("请输入部门名称");//修改文本错误信息
+                $("#error").show();//显示错误信息
+                $("#isok").addClass("disabled");//禁用添加按钮
+            }
+            else
+            {
+                     $.ajax({
+                        type: "get",
+                        url: "Handler/DeptHandler.ashx",
+                        data:
+                        {
+                           opname: "selectbyname",
+                           deptname: $("#txtdeptnameModal").val(),
+                        },
+                         dataType: "json",
+                         success: function (rs)
+                         {
+                             if (rs != "-1") {
+                                 $("#isok").addClass("disabled");
+                                 //$("#isupdateok").addClass("disabled");
+                                 $("#error").text("部门已经存在!")
+                                 $("#error").show();
+                             }
+                             else
+                             {
+                                 $("#isok").removeClass("disabled");//解除添加按钮
+                                 //$("#isupdateok").removeClass("disabled");
+                                 $("#error").hide();//隐藏错误文本信息
+                             }
+                         }
+                });
+ 
+                }
+             };
+        
+        
+        //添加部门
          function addedpt() {
             //alert(id);
             $('#myModal').modal({ "backdrop": "static" });//打开模态框
+            $("#myModalLabel").text("添加部门");//修改模态框标题
+             //清空控件数据
+             $("#txtdeptnameModal").val("");
+             $("#txtdeptmRemarkModal").val("");
 
+             $("#error").text("请输入部门名称");
+             $("#error").show();
+             $("#isok").addClass("disabled");
+             $("#isok").show();
+             $("#isupdateok").hide();//隐藏修改按钮
          }
-        
+
+        //模态框添加按钮
+        function opOk() {
+           //var a = $("#txtdeptmModal").val();
+            //添加
+            $.ajax({
+                    type: "get",
+                    url: "Handler/DeptHandler.ashx",
+                    data:
+                    {
+                       opname: "insert",
+                       deptname: $("#txtdeptnameModal").val(),
+                       deptrek :$("#txtdeptmRemarkModal").val()
+                    },
+                    dataType: "json",
+                 success: function (rs)
+                 {
+                     if (rs = "addsuccess")
+                     {
+                         alert("添加成功!");
+                         databind("select");
+                     }
+                     else
+                     {
+                         alert("添加失败!");
+                     }
+                 }
+            });
+            $('#myModal').modal("hide");
+        }
+
+        //模态框修改按钮
+        function isupdataok() {
+            //alert($("#deptid").val());
+            //修改
+               $.ajax({
+                    type: "get",
+                    url: "Handler/DeptHandler.ashx",
+                    data:
+                    {
+                       opname: "update",
+                       deptid : $("#deptid").val(),
+                       deptname: $("#txtdeptnameModal").val(),
+                       deptrek :$("#txtdeptmRemarkModal").val()
+                    },
+                    dataType: "json",
+                 success: function (rs)
+                 {
+                     if (rs = "updatesuccess")
+                     {
+                         alert("修改成功!");
+                         databind("select");
+                     }
+                     else
+                     {
+                         alert("修改失败!");
+                     }
+                 }
+            });
+            $('#myModal').modal("hide");
+        }
+
     </script>
-
-
 
 </head>
 <body>
         <div>
           <div style="width:95%;height:90%">
-              <div>
+              <div style="margin-top:15px;margin-left:10px;">
                   <table>
                       <tr>
                           <td class=" label-inverse label-left">部门名称:&nbsp;&nbsp;</td>
@@ -89,7 +255,7 @@
                                <input type="text"  class="form-control" id="deptname" name="name" value="" />
                           </td>
                           <td>
-                              &nbsp;&nbsp;&nbsp;<input type="button" class="btn btn-grey"  name="name" value="查询" onclick="databind();" />
+                              &nbsp;&nbsp;&nbsp;<input type="button" class="btn btn-grey"  name="name" value="查询" onclick="databind('select');" />
                           </td>
                           <td>
                               &nbsp;&nbsp;&nbsp;<input type="button" id="adddept" class="btn btn-grey"  name="name" value="添加" onclick="addedpt();" />
@@ -98,9 +264,8 @@
                   </table>
               </div>
               <br />
-
-								<!-- 表格-->
-								<div class="box border inverse">
+		    <!-- 表格-->
+		<div class="box border inverse">
 									<div class="box-title">
 										<h4><i class="fa fa-table"></i>部门信息</h4>
 										<div class="tools">
@@ -136,8 +301,8 @@
 
 
 
-                      <!-- 模态框（Modal） -->
-        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+           <!-- 模态框（Modal） -->
+       <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content" >
                     <div class="modal-header">
@@ -149,18 +314,41 @@
 
                     </div>
                     <div class="modal-body">
-                        <table>
+                        <table class="text-center">
                             <tr>
                                 <td>
-                                    <input type="text" class="form-control" name="name" value="" />
+                                   <label>部门名称:</label>&nbsp;&nbsp;&nbsp;
+                                </td>
+                                <td>
+                                    <input type="text" id="txtdeptnameModal" class="form-control" name="name" value=""   onkeyup="onkeycode();"/>
+                                </td>
+                                <td>
+                                   &nbsp;&nbsp;&nbsp;<label id="error" class="text-danger">请输入部门名称</label>
+                                </td>
+                            </tr>
+                             <tr>
+                                 <td>
+                                     <input type="hidden" id="deptid" name="name" value="" />
+                                 </td>
+                                 <td>&nbsp;</td>
+                             </tr>
+                            <tr id="Remark">
+                                <td>
+                                   <label>备注:</label>&nbsp;&nbsp;&nbsp;
+                                </td>
+                                <td>
+                                    <input type="text" id="txtdeptmRemarkModal" class="form-control" name="name" value="" />
                                 </td>
                             </tr>
                         </table>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                        <button type="button" class="btn btn-primary">
-                            提交更改           
+                        <button id="isok"  type="button" class="btn btn-primary disabled" onclick="opOk();">
+                            添加     
+                        </button>
+                         <button id="isupdateok" hidden="hidden"  type="button" class="btn btn-primary" onclick="isupdataok();">
+                            修改     
                         </button>
                     </div>
                 </div>
@@ -168,10 +356,9 @@
             </div>
             <!-- /.modal -->
         </div>
-
-
-
-              </div>
+              
+          
+          </div>
         </div>
     
 </body>
