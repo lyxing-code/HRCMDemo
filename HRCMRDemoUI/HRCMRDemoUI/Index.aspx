@@ -6,7 +6,7 @@
 <head runat="server">
 	<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
 	<meta charset="utf-8"/>
-	<title>HRCM 人力之源管理 | 首页 </title>
+	<title>HRCM 人力之源管理 | 首页</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no"/>
 	<meta name="description" content=""/>
 	<meta name="author" content=""/>
@@ -29,7 +29,13 @@
 	<link href='http://fonts.useso.com/css?family=Open+Sans:300,400,600,700' rel='stylesheet' type='text/css'/>
     <!-- JQUERY -->
 	<script src="js/jquery/jquery-2.0.3.min.js"></script>
- 
+     
+    <style>
+        .libgcolor{
+            background-color:palevioletred;/*F4F4F4*/
+        }
+    </style>
+
     <script>
         $(function () {
 
@@ -72,17 +78,34 @@
 
             });
 
-            //下拉列表菜单点击事件
+            //下拉列表菜单点击事件 
+            //showdept
             $("#list li").click(function () {
                 $("#list > li").removeClass("active");
                 $(this).addClass("active");
                 if ($(this).attr("id") == "deptinfo") {
                     $("#depttable").show();
+                } else {
+                          $("#depttable").hide();
                 }
+               
             });
 
+            //showuser
+            $("#list li li").click(function () {
+                //$("#depttable").hide();//.attr("hidden","hidden");
+                $(this).removeClass().addClass("libgcolor");
+                 if($(this).attr("id") =="userinfo") {
+                    $("#usertable").show();
+                 }
+                 else {
+                    
+                     $("#usertable").hide();
+                 }
+                
+            });
 
-
+           
 
         });
 
@@ -703,11 +726,15 @@
 						<!-- 菜单列表 -->
 						<ul id="list">
                            <%-- 员工资料--%>
-							<li class="active" id="empinfo">
+							<li class="has-sub" id="empinfo">
 								<a href="#">
 								<i class="fa fa-tachometer fa-fw"></i> <span class="menu-text">员工资料管理</span>
-								<span class="selected"></span>
-								</a>					
+								<span class="arrow"></span>
+								</a>	
+                                <ul class="sub">
+                                    <li id="userinfo"><a class="" href="#"><span class="sub-menu-text">个人信息</span></a></li>
+                                    <li><a class="" href="#"><span class="sub-menu-text">查询同事信息</span></a></li>
+                                </ul>
 							</li>
                              <%-- 员工资料--%>
 
@@ -845,6 +872,10 @@
 		        </div>
                    <div style="width:100%;height:100%" class="text-center">
                        <iframe style="width:100%;height:600px;" src="Department.aspx" hidden="hidden" id="depttable" frameborder="0">
+                       </iframe>
+                   </div>
+                  <div style="width:100%;height:100%" class="text-center">
+                       <iframe style="width:100%;height:600px;" src="UserInfo.aspx" hidden="hidden" id="usertable" frameborder="0">
                        </iframe>
                    </div>
            </div>

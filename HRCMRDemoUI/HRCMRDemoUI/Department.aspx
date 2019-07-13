@@ -47,6 +47,7 @@
                          var str = ""
                          $.each(rs, function (index, itme) {
                              str += "<tr>";
+                             str += "<td><input type='checkbox' name='chklist' value=''id='" + itme.DepartmentID + "' /></td>";
                              str += "<td>" + itme.DepartmentID + "</td>";
                              str += "<td>" + itme.DepartmentName + "</td>";
                              str += "<td>" + itme.DepartmentRemarks + "</td>";
@@ -80,14 +81,16 @@
                     dataType: "json",
                  success: function (rs)
                  {
-                     if (rs = "delsuccess")
+                     alert(rs);
+                     if (rs != "delfailed") 
                      {
                          alert("删除成功!");
                          databind("select");
+                         
                      }
                      else
                      {
-                         alert("删除失败!");
+                         alert("删除失败!该部门有员工!");
                      }
                  }
                 });
@@ -240,6 +243,32 @@
             });
             $('#myModal').modal("hide");
         }
+        
+        //点击全选
+        function delall() {
+            //alert(2);
+            //alert($("#chkall").prop("checked"));
+            $("input[name='chklist']").each(function (index,i) {
+                //alert(i.id);
+                i.checked = $("#chkall").prop("checked");
+            });
+            //alert($("input[name='chklist']").length);
+           //$("input[name='chklist']:checked").length
+            
+        }
+
+        //全选删除
+        function deleteall() {
+            var str = "";
+            $("input[name='chklist']").each(function (index, i) {
+                //alert(i.id);
+                if (this.checked) {
+                    str += i.id + ",";
+                }
+            });
+            deleteinfo(str.substring(0, str.length-1))
+            //deleteinfo(str);
+        }
 
     </script>
 
@@ -259,6 +288,9 @@
                           </td>
                           <td>
                               &nbsp;&nbsp;&nbsp;<input type="button" id="adddept" class="btn btn-grey"  name="name" value="添加" onclick="addedpt();" />
+                          </td>
+                          <td>
+                              &nbsp;&nbsp;&nbsp;<input type="button" id="deleteall" class="btn btn-danger"  name="name" value="删除多行" onclick="deleteall();" />
                           </td>
                       </tr>
                   </table>
@@ -287,6 +319,9 @@
 										<table class="table table-bordered table-hover" id="datatable">
 											<thead>
 											  <tr>
+                                                  <th style="text-align:center">
+                                                      <input type="checkbox" id="chkall" name="name" value="" onchange="delall();" />
+                                                  </th>
 												<th  style="text-align:center">部门编号</th>
 												<th  style="text-align:center">部门名称</th>
 												<th  style="text-align:center">备注</th>

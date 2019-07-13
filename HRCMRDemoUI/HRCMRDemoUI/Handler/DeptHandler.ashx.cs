@@ -121,7 +121,8 @@ namespace HRCMRDemoUI.Handler
         public void Delete(HttpContext context)
         {
             string id = context.Request["deptid"];
-            if (new DepartmentBLL().GetDeleteInfo(new DepartmentEntity() { DepartmentID= Convert.ToInt32(id) }))
+            //new DepartmentEntity() { DepartmentID= Convert.ToInt32(id) }
+            if (new DepartmentBLL().GetDeleteInfo(id))
             {
                 LoginHandler.contextResponseWrite(context, "delsuccess");
             }

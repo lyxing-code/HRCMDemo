@@ -30,5 +30,10 @@ namespace HRCMDemoBLL
             return DepartmentDAL.DeleteInfo(obj);
         }
 
+        public  bool GetDeleteInfo(string id)
+        {
+            return DepartmentDAL.DeleteInfo(id);
+        }
+
     }
 }

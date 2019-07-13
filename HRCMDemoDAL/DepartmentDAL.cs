@@ -11,6 +11,25 @@ namespace HRCMDemoDAL
 {
     public static class DepartmentDAL
     {
+
+        private static List<DepartmentEntity> Commnuity(string sql,params SqlParameter[] parameter)
+        {
+            List<DepartmentEntity> list = new List<DepartmentEntity>();
+            SqlDataReader sdr = DBHelper.GetReader(sql, parameter);
+            while (sdr.Read())
+            {
+                DepartmentEntity obj = new DepartmentEntity()
+                {
+                    DepartmentID = Convert.ToInt32(sdr["DepartmentID"]),
+                    DepartmentName = sdr["DepartmentName"].ToString(),
+                    DepartmentRemarks = sdr["DepartmentRemarks"].ToString()
+                };
+                list.Add(obj);
+            }
+            return list;
+        }
+
+
         /// <summary>
         /// 查询所有部门
         /// </summary>
@@ -97,6 +116,26 @@ namespace HRCMDemoDAL
                     new SqlParameter("@departmentid",obj.DepartmentID),
                };
             return DBHelper.UpdateOpera(sql, parametersArr);
+        }
+        
+        /// <summary>
+        /// 删除单|多行
+        /// </summary>
+        /// <param name="id">id</param>
+        /// <returns></returns>
+        public static bool DeleteInfo(string id)
+        {
+            string sql = "SELECT * FROM Department WHERE DepartmentID IN (SELECT DepartmentID FROM UserInfo WHERE DepartmentID IN("+id+"));";
+            
+            if (Commnuity(sql).Count > 0)
+            {
+                return false;
+            }
+            else
+            {
+                sql = "DELETE Department WHERE DepartmentID IN ("+id+")";
+                return DBHelper.UpdateOpera(sql);
+            }
         }
 
 

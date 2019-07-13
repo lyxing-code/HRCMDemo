@@ -54,7 +54,11 @@ public class DBHelper
             SqlCommand cmd = new SqlCommand(sql, Connection);
             if (parameters != null && parameters.Length > 0)
             {
-                cmd.Parameters.Add(parameters);
+                for (int i = 0; i < parameters.Length; i++)
+                {
+                    cmd.Parameters.Add(parameters[i]);
+                }
+                
             }
             return cmd.ExecuteReader();
         }

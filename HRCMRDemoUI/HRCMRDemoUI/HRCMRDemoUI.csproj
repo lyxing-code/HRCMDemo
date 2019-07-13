@@ -134,6 +134,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="About.aspx" />
+    <Content Include="App_Data\HRCM_sql.sql" />
     <Content Include="bootstrap-dist\css\bootstrap-theme.css" />
     <Content Include="bootstrap-dist\css\bootstrap-theme.min.css" />
     <Content Include="bootstrap-dist\css\bootstrap.css" />
@@ -356,6 +357,7 @@
     <Content Include="bootstrap-dist\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="bootstrap-dist\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="bootstrap-dist\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="UserInfo.aspx" />
     <Content Include="WebForm1.aspx" />
     <Content Include="Handler\DeptHandler.ashx" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
@@ -1401,6 +1403,13 @@
     <Compile Include="Site.Mobile.Master.designer.cs">
       <DependentUpon>Site.Mobile.Master</DependentUpon>
     </Compile>
+    <Compile Include="UserInfo.aspx.cs">
+      <DependentUpon>UserInfo.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UserInfo.aspx.designer.cs">
+      <DependentUpon>UserInfo.aspx</DependentUpon>
+    </Compile>
     <Compile Include="ViewSwitcher.ascx.cs">
       <DependentUpon>ViewSwitcher.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1416,9 +1425,7 @@
       <DependentUpon>WebForm1.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
