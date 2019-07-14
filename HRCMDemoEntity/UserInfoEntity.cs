@@ -9,8 +9,10 @@ namespace HRCMDemoEntity
     public class UserInfoEntity
     {
         public int UserID { get; set; }
+        public int DepartmentID { get; set; }
         public int RoleID { get; set; }
         public string UserNumber { get; set; }
+        public string UserFace { get; set; }
         public string LoginName { get; set; }
         public string LoginPwd { get; set; }
         public string UserName { get; set; }
@@ -24,5 +26,6 @@ namespace HRCMDemoEntity
         public DateTime EntryTime { get; set; }
         public DateTime DimissionTime { get; set; }
         public double BasePay { get; set; }
+        public string  DepartmentName { get; set; }
     }
 }

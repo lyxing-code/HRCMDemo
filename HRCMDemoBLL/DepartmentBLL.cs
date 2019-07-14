@@ -35,5 +35,10 @@ namespace HRCMDemoBLL
             return DepartmentDAL.DeleteInfo(id);
         }
 
+        public  List<DepartmentEntity> GetAllInfo()
+        {
+            return DepartmentDAL.SelectAll();
+        }
+
     }
 }

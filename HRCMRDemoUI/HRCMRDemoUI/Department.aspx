@@ -81,7 +81,7 @@
                     dataType: "json",
                  success: function (rs)
                  {
-                     alert(rs);
+                     //alert(rs);
                      if (rs != "delfailed") 
                      {
                          alert("删除成功!");

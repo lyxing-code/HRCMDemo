@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HRCMDemoEntity;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -8,9 +9,44 @@ using System.Threading.Tasks;
 
 namespace HRCMDemoDAL
 {
-    public class UserInfoDAL
+    public static class UserInfoDAL
     {
-        public DataTable SelectTable(string name,string pwd)
+
+        private static List<UserInfoEntity> Commnuity(string sql, params SqlParameter[] parameter)
+        {
+            List<UserInfoEntity> list = new List<UserInfoEntity>();
+            SqlDataReader sdr = DBHelper.GetReader(sql, parameter);
+            while (sdr.Read())
+            {
+                UserInfoEntity obj = new UserInfoEntity()
+                {
+                    UserID = Convert.ToInt32(sdr["UserID"]),
+                    DepartmentID = Convert.ToInt32(sdr["DepartmentID"]),
+                    RoleID = Convert.ToInt32(sdr["RoleID"]),
+                    UserNumber  = sdr["UserNumber"].ToString(),
+                    UserFace = sdr["UserFace"].ToString(),
+                    LoginName = sdr["LoginName"].ToString(),
+                    LoginPwd = sdr["LoginPwd"].ToString(),
+                    UserName = sdr["UserName"].ToString(),
+                    UserAge = Convert.ToInt32(sdr["UserAge"]),
+                    UserSex = Convert.ToInt32(sdr["UserSex"]),
+                    UserTel = Convert.ToString(sdr["UserTel"]),
+                    UserAddress = Convert.ToString(sdr["UserAddress"]),
+                    UserIphone = Convert.ToString(sdr["UserIphone"]),
+                    UserRemarks = Convert.ToString(sdr["UserRemarks"]),
+                    UserStatr = Convert.ToInt32(sdr["UserStatr"]),
+                    EntryTime = Convert.ToDateTime(sdr["EntryTime"]),
+                    DimissionTime = Convert.ToDateTime(sdr["DimissionTime"]),
+                    BasePay = Convert.ToDouble(sdr["BasePay"]),
+                    DepartmentName = sdr["DepartmentName"].ToString()
+                };
+                list.Add(obj);
+            }
+            return list;
+        }
+
+
+        public static DataTable SelectTable(string name,string pwd)
         {
             string sql = "SELECT * FROM UserInfo WHERE LoginName =@LoginName AND LoginPwd=@LoginPwd";
             SqlParameter[] parametersArr =  new SqlParameter [] 
@@ -20,6 +56,108 @@ namespace HRCMDemoDAL
             };
             return DBHelper.GetDataTable(sql, parametersArr);
         }
+
+
+        /// <summary>
+        /// 返回所有员工信息
+        /// </summary>
+        /// <returns>员工信息集合</returns>
+        public static List<UserInfoEntity> SelectAll()
+        {
+            string sql = "SELECT * FROM UserInfo t1,Department t2   WHERE t1.DepartmentID = t2.DepartmentID ";
+            return Commnuity(sql);
+        }
+
+        /// <summary>
+        /// 通过员工Id查询该员工的信息
+        /// </summary>
+        /// <param name="id">员工编号</param>
+        /// <returns>UserInfoEntity实例</returns>
+        public static UserInfoEntity SelectById(string id)
+        {
+            string sql = "SELECT * FROM UserInfo t1,Department t2   WHERE t1.DepartmentID = t2.DepartmentID AND t1.UserID = @UserID ";
+
+            SqlParameter[] parameters = new SqlParameter[]
+            {
+                new SqlParameter("@UserID",id),
+            };
+            return Commnuity(sql, parameters).Count > 0 ? Commnuity(sql, parameters)[0] : null ;
+        }
+
+
+        /// <summary>
+        /// 删除单行或者多行数据
+        /// </summary>
+        /// <param name="idlist">用户id的集合</param>
+        /// <returns>bool</returns>
+        public static bool DeleteByIdList(string idlist)
+        {
+            string sql = "DELETE UserInfo WHERE UserID IN ("+idlist+")";
+            return DBHelper.UpdateOpera(sql);
+        }
+
+        /// <summary>
+        /// 添加新用户
+        /// </summary>
+        /// <param name="o">用户对象的实例</param>
+        /// <returns>bool</returns>
+        public static bool InsertInfo(UserInfoEntity o)
+        {
+            string sql = "INSERT INTO UserInfo (DepartmentID, RoleID, UserNumber, UserFace, LoginName, LoginPwd, UserName, UserAge, UserSex, UserTel, UserAddress, UserIphone, UserRemarks, UserStatr, EntryTime, DimissionTime, BasePay)VALUES "+
+                "("+o.DepartmentID+", "+o.RoleID+", '"+o.UserNumber+"', '"+o.UserFace+"', '"+o.LoginName+"', '"+o.LoginPwd+"', '"+o.UserName+"',"+o.UserAge+", "+o.UserSex+",'"+o.UserTel+"', '"+o.UserAddress+"','"+o.UserIphone+"','"+o.UserRemarks+"', DEFAULT, getdate(), getdate(), "+o.BasePay + ")";
+            return DBHelper.UpdateOpera(sql);
+        }
+
+        /// <summary>
+        /// 修改用户信息
+        /// </summary>
+        /// <param name="o">用户对象的实例</param>
+        /// <returns>bool</returns>
+        public static bool UpdateInfo(UserInfoEntity o)
+        {
+            string sql = " UPDATE UserInfo SET " +
+                         "DepartmentID = @departmentid," +
+                          "RoleID = @roleid," +
+                         "UserNumber = @usernumber," +
+                        "UserFace = @userface," +
+                        "LoginName = @loginname," +
+                        "LoginPwd = @loginpwd," +
+                        "UserName = @username," +
+                        "UserAge = @userage," +
+                        "UserSex = @usersex," +
+                        "UserTel = @usertel," +
+                        "UserAddress = @useraddress," +
+                        "UserIphone = @useriphone," +
+                        "UserRemarks = @userremarks," +
+                        "UserStatr = @userstatr," +
+                        "EntryTime = @entrytime," +
+                        "DimissionTime = @dimissiontime," +
+                        "BasePay = @basepay" +
+                        "WHERE UserID = @userid";
+            SqlParameter[] parameters = new SqlParameter[]
+            {
+                new SqlParameter("@departmentid",o.DepartmentID),
+                new SqlParameter("@roleid",o.RoleID),
+                new SqlParameter("@usernumber",o.UserNumber),
+                new SqlParameter("@userface",o.UserFace),
+                new SqlParameter("@loginname",o.LoginName),
+                new SqlParameter("@loginpwd",o.LoginPwd),
+                new SqlParameter("@username",o.UserName),
+                new SqlParameter("@userage",o.UserAge),
+                new SqlParameter("@usersex",o.UserSex),
+                new SqlParameter("@usertel",o.UserTel),
+                new SqlParameter("@useraddress",o.UserAddress),
+                new SqlParameter("@useriphone",o.UserIphone),
+                new SqlParameter("@userremarks",o.UserRemarks),
+                new SqlParameter("@userstatr","DEFAULT"),
+                new SqlParameter("@entrytime",o.EntryTime),
+                new SqlParameter("@dimissiontime",o.DimissionTime),
+                new SqlParameter("@basepay",o.BasePay),
+                new SqlParameter("@userid",o.UserID),
+            };
+            return DBHelper.UpdateOpera(sql, parameters);
+        }
+
 
     }
 }

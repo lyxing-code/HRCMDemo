@@ -171,6 +171,7 @@
     <Content Include="css\themes\utopia.min.css" />
     <Content Include="Default.aspx" />
     <Content Include="Department.aspx" />
+    <Content Include="EmpManger.aspx" />
     <Content Include="email_templates\email_template_layout_1.html" />
     <Content Include="email_templates\email_template_layout_2.html" />
     <Content Include="email_templates\email_template_layout_3.html" />
@@ -360,6 +361,7 @@
     <Content Include="UserInfo.aspx" />
     <Content Include="WebForm1.aspx" />
     <Content Include="Handler\DeptHandler.ashx" />
+    <Content Include="Handler\EmpHandler.ashx" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="img\addressbook\1.jpg" />
     <Content Include="img\addressbook\2.jpg" />
@@ -1365,11 +1367,21 @@
     <Compile Include="Department.aspx.designer.cs">
       <DependentUpon>Department.aspx</DependentUpon>
     </Compile>
+    <Compile Include="EmpManger.aspx.cs">
+      <DependentUpon>EmpManger.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="EmpManger.aspx.designer.cs">
+      <DependentUpon>EmpManger.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Handler\DeptHandler.ashx.cs">
       <DependentUpon>DeptHandler.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handler\EmpHandler.ashx.cs">
+      <DependentUpon>EmpHandler.ashx</DependentUpon>
     </Compile>
     <Compile Include="Index.aspx.cs">
       <DependentUpon>Index.aspx</DependentUpon>

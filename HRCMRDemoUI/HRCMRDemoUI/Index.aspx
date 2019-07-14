@@ -60,18 +60,23 @@
                             break;
                         case 2:
                             $("#deptinfo").hide();
+                            $("#deptmanger").hide();
                             break;
                         case 3:
-                             $("#deptinfo").hide();
+                            $("#deptinfo").hide();
+                             $("#deptmanger").hide();
                             break;
                         case 4:
-                             $("#deptinfo").hide();
+                            $("#deptinfo").hide();
+                             $("#deptmanger").hide();
                             break;
                         case 5:
                             $("#deptinfo").hide();
+                             $("#deptmanger").hide();
                             break;
                         default:
-                             $("#deptinfo").hide();
+                            $("#deptinfo").hide();
+                             $("#deptmanger").hide();
                              break;
                     }
                }
@@ -79,21 +84,29 @@
             });
 
             //下拉列表菜单点击事件 
+            var titlt = "";//导航标题
             //showdept
-            $("#list li").click(function () {
+            $("#list >li").click(function () {
+                $("#sp_map").text($("#" + $(this).attr("id") + "  > a >span[class='menu-text']").text() + titlt)
+                  //alert(titlt);
                 $("#list > li").removeClass("active");
                 $(this).addClass("active");
                 if ($(this).attr("id") == "deptinfo") {
                     $("#depttable").show();
                 } else {
-                          $("#depttable").hide();
+                    $("#depttable").hide();
+                    //$("#empmangertable").hide();
+                    //  $("#usertable").hide();
                 }
-               
+
             });
 
+           
             //showuser
             $("#list li li").click(function () {
-                //$("#depttable").hide();//.attr("hidden","hidden");
+                titlt =  " / " +$("#" + $(this).attr("id") + " > a > span").text();
+                $("#sp_map").text(titlt)
+                //alert(titlt);
                 $(this).removeClass().addClass("libgcolor");
                  if($(this).attr("id") =="userinfo") {
                     $("#usertable").show();
@@ -101,7 +114,13 @@
                  else {
                     
                      $("#usertable").hide();
-                 }
+                }
+
+                if ($(this).attr("id") =="empmanger" ) {
+                    $("#empmangertable").show();
+                } else {
+                     $("#empmangertable").hide();
+                }
                 
             });
 
@@ -734,6 +753,7 @@
                                 <ul class="sub">
                                     <li id="userinfo"><a class="" href="#"><span class="sub-menu-text">个人信息</span></a></li>
                                     <li><a class="" href="#"><span class="sub-menu-text">查询同事信息</span></a></li>
+                                    <li id="empmanger"><a class="" href="#"><span class="sub-menu-text">员工信息管理</span></a></li>
                                 </ul>
 							</li>
                              <%-- 员工资料--%>
@@ -837,26 +857,11 @@
 				</div>
 				<!-- /SIDEBAR -->
 		<div id="main-content">
-			<!-- SAMPLE BOX CONFIGURATION MODAL FORM-->
-			<%--<div class="modal fade" id="box-config" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-				<div class="modal-dialog">
-				  <div class="modal-content">
-					<div class="modal-header">
-					  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					  <h4 class="modal-title">Box Settings</h4>
-					</div>
-					<div class="modal-body">
-					  Here goes box setting content.
-					</div>
-					<div class="modal-footer">
-					  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-					  <button type="button" class="btn btn-primary">Save changes</button>
-					</div>
-				  </div>
-				</div>
-			  </div>--%>
-			<!-- /SAMPLE BOX CONFIGURATION MODAL FORM-->
+			
+
             <div class="container">
+
+               <%-- 站点导航栏--%>
                 	<div class="row">
 							<div class="col-sm-12">
 								<div class="page-header">
@@ -865,16 +870,22 @@
 											<i class="fa fa-home"></i>
 											<a href="index.html">首页</a>
 										</li>
-										<li>aaa</li>
+										<li id="map"><span id="sp_map"></span></li>
 							    </ul>
 						</div>
                     </div>
 		        </div>
+               
+                <%--其他页面--%>
                    <div style="width:100%;height:100%" class="text-center">
                        <iframe style="width:100%;height:600px;" src="Department.aspx" hidden="hidden" id="depttable" frameborder="0">
                        </iframe>
                    </div>
                   <div style="width:100%;height:100%" class="text-center">
+                       <iframe style="width:100%;height:600px;" src="EmpManger.aspx" hidden="hidden" id="empmangertable" frameborder="0">
+                       </iframe>
+                   </div>
+                <div style="width:100%;height:100%" class="text-center">
                        <iframe style="width:100%;height:600px;" src="UserInfo.aspx" hidden="hidden" id="usertable" frameborder="0">
                        </iframe>
                    </div>

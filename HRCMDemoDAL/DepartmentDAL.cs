@@ -138,6 +138,11 @@ namespace HRCMDemoDAL
             }
         }
 
+        public static List<DepartmentEntity> SelectAll()
+        {
+            return Commnuity("SELECT * FROM Department");
+        }
+
 
     }
 }

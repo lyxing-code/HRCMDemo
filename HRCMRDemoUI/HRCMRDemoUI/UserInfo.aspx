@@ -6,7 +6,7 @@
 <head runat="server">
 <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
 	<meta charset="utf-8"/>
-	<title>HRCM 人力之源管理 | 首页</title>
+	<title>HRCM 人力之源管理 | 员工管理</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no"/>
 	<meta name="description" content=""/>
 	<meta name="author" content=""/>
@@ -41,13 +41,10 @@
     <div id="this_user">
         <table>
             <tr>
-                <td></td>
+                <td>123456</td>
             </tr>
         </table>
-
     </div>
-
-
        <div>
       <%--    <div style="width:95%;height:90%">
               <div style="margin-top:15px;margin-left:10px;">
