@@ -64,19 +64,23 @@
                             break;
                         case 3:
                             $("#deptinfo").hide();
-                             $("#deptmanger").hide();
+                            $("#deptmanger").hide();
+                            $("#empmanger").hide();
                             break;
                         case 4:
                             $("#deptinfo").hide();
-                             $("#deptmanger").hide();
+                            $("#deptmanger").hide();
+                              $("#empmanger").hide();
                             break;
                         case 5:
                             $("#deptinfo").hide();
-                             $("#deptmanger").hide();
+                            $("#deptmanger").hide();
+                             $("#empmanger").hide();
                             break;
                         default:
                             $("#deptinfo").hide();
-                             $("#deptmanger").hide();
+                            $("#deptmanger").hide();
+                              $("#empmanger").hide();
                              break;
                     }
                }

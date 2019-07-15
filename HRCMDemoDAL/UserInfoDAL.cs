@@ -38,7 +38,8 @@ namespace HRCMDemoDAL
                     EntryTime = Convert.ToDateTime(sdr["EntryTime"]),
                     DimissionTime = Convert.ToDateTime(sdr["DimissionTime"]),
                     BasePay = Convert.ToDouble(sdr["BasePay"]),
-                    DepartmentName = sdr["DepartmentName"].ToString()
+                    DepartmentName = sdr["DepartmentName"].ToString(),
+                    RoleName = sdr["RoleName"].ToString()
                 };
                 list.Add(obj);
             }
@@ -62,12 +63,12 @@ namespace HRCMDemoDAL
         /// 返回所有员工信息
         /// </summary>
         /// <returns>员工信息集合</returns>
-        public static List<UserInfoEntity> SelectAll()
+        public static List<UserInfoEntity> SelectAll(string strwhere)
         {
-            string sql = "SELECT * FROM UserInfo t1,Department t2   WHERE t1.DepartmentID = t2.DepartmentID ";
+            string sql = "SELECT t1.*,t2.DepartmentName,t3.RoleName FROM UserInfo t1,Department t2, Role t3   WHERE t1.DepartmentID = t2.DepartmentID AND t1.RoleID = t3.RoleID "+ strwhere;
             return Commnuity(sql);
         }
-
+        
         /// <summary>
         /// 通过员工Id查询该员工的信息
         /// </summary>
@@ -75,15 +76,14 @@ namespace HRCMDemoDAL
         /// <returns>UserInfoEntity实例</returns>
         public static UserInfoEntity SelectById(string id)
         {
-            string sql = "SELECT * FROM UserInfo t1,Department t2   WHERE t1.DepartmentID = t2.DepartmentID AND t1.UserID = @UserID ";
+            string sql = "SELECT t1.*,t2.DepartmentName,t3.RoleName FROM UserInfo t1,Department t2, Role t3   WHERE t1.DepartmentID = t2.DepartmentID AND t1.RoleID = t3.RoleID AND t1.UserID = @UserID ";
 
             SqlParameter[] parameters = new SqlParameter[]
             {
                 new SqlParameter("@UserID",id),
             };
-            return Commnuity(sql, parameters).Count > 0 ? Commnuity(sql, parameters)[0] : null ;
+            return Commnuity(sql, parameters)[0] ?? null ;
         }
-
 
         /// <summary>
         /// 删除单行或者多行数据
@@ -104,7 +104,7 @@ namespace HRCMDemoDAL
         public static bool InsertInfo(UserInfoEntity o)
         {
             string sql = "INSERT INTO UserInfo (DepartmentID, RoleID, UserNumber, UserFace, LoginName, LoginPwd, UserName, UserAge, UserSex, UserTel, UserAddress, UserIphone, UserRemarks, UserStatr, EntryTime, DimissionTime, BasePay)VALUES "+
-                "("+o.DepartmentID+", "+o.RoleID+", '"+o.UserNumber+"', '"+o.UserFace+"', '"+o.LoginName+"', '"+o.LoginPwd+"', '"+o.UserName+"',"+o.UserAge+", "+o.UserSex+",'"+o.UserTel+"', '"+o.UserAddress+"','"+o.UserIphone+"','"+o.UserRemarks+"', DEFAULT, getdate(), getdate(), "+o.BasePay + ")";
+                "("+o.DepartmentID+", "+o.RoleID+", '"+o.UserNumber+"', '"+o.UserFace+"', '"+o.LoginName+"', '"+o.LoginPwd+"', '"+o.UserName+"',"+o.UserAge+", "+o.UserSex+",'"+o.UserTel+"', '"+o.UserAddress+"','"+o.UserIphone+"','"+o.UserRemarks+"', 0, getdate(), getdate(), "+o.BasePay + ")";
             return DBHelper.UpdateOpera(sql);
         }
 
@@ -118,10 +118,7 @@ namespace HRCMDemoDAL
             string sql = " UPDATE UserInfo SET " +
                          "DepartmentID = @departmentid," +
                           "RoleID = @roleid," +
-                         "UserNumber = @usernumber," +
                         "UserFace = @userface," +
-                        "LoginName = @loginname," +
-                        "LoginPwd = @loginpwd," +
                         "UserName = @username," +
                         "UserAge = @userage," +
                         "UserSex = @usersex," +
@@ -129,19 +126,13 @@ namespace HRCMDemoDAL
                         "UserAddress = @useraddress," +
                         "UserIphone = @useriphone," +
                         "UserRemarks = @userremarks," +
-                        "UserStatr = @userstatr," +
-                        "EntryTime = @entrytime," +
-                        "DimissionTime = @dimissiontime," +
-                        "BasePay = @basepay" +
-                        "WHERE UserID = @userid";
+                        "BasePay = @basepay " +
+                        " WHERE UserID = @userid";
             SqlParameter[] parameters = new SqlParameter[]
             {
                 new SqlParameter("@departmentid",o.DepartmentID),
                 new SqlParameter("@roleid",o.RoleID),
-                new SqlParameter("@usernumber",o.UserNumber),
                 new SqlParameter("@userface",o.UserFace),
-                new SqlParameter("@loginname",o.LoginName),
-                new SqlParameter("@loginpwd",o.LoginPwd),
                 new SqlParameter("@username",o.UserName),
                 new SqlParameter("@userage",o.UserAge),
                 new SqlParameter("@usersex",o.UserSex),
@@ -149,14 +140,14 @@ namespace HRCMDemoDAL
                 new SqlParameter("@useraddress",o.UserAddress),
                 new SqlParameter("@useriphone",o.UserIphone),
                 new SqlParameter("@userremarks",o.UserRemarks),
-                new SqlParameter("@userstatr","DEFAULT"),
-                new SqlParameter("@entrytime",o.EntryTime),
-                new SqlParameter("@dimissiontime",o.DimissionTime),
                 new SqlParameter("@basepay",o.BasePay),
                 new SqlParameter("@userid",o.UserID),
             };
             return DBHelper.UpdateOpera(sql, parameters);
         }
+
+
+
 
 
     }

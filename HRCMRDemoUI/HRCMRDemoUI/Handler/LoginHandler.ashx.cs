@@ -35,7 +35,7 @@ namespace HRCMRDemoUI
         {
             string name = context.Request["name"];
             string pwd = context.Request["pwd"];
-            context.Response.ContentType = "text/plain";
+            //context.Response.ContentType = "text/plain";
             DataTable dt = new UserInfoBLL().GetTable(name, pwd);
             if (dt.Rows.Count > 0)
             {

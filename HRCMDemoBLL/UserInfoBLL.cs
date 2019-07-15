@@ -21,12 +21,11 @@ namespace HRCMDemoBLL
         /// 获取员工信息
         /// </summary>
         /// <returns>员工信息集合</returns>
-        public  List<UserInfoEntity> GetAllInfo()
+        public  List<UserInfoEntity> GetAllInfo(string strwhere)
         {
-            return UserInfoDAL.SelectAll();
+            return UserInfoDAL.SelectAll(strwhere);
         }
-
-
+        
         /// <summary>
         /// 通过员工Id获取该员工的信息
         /// </summary>

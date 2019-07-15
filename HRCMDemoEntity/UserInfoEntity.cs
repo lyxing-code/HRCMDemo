@@ -27,5 +27,6 @@ namespace HRCMDemoEntity
         public DateTime DimissionTime { get; set; }
         public double BasePay { get; set; }
         public string  DepartmentName { get; set; }
+        public string RoleName { get; set; }
     }
 }
