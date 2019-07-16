@@ -2,6 +2,7 @@
 using HRCMDemoEntity;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Web;
 
@@ -15,6 +16,7 @@ namespace HRCMRDemoUI.Handler
 
         public void ProcessRequest(HttpContext context)
         {
+
             string op = context.Request["Method"];
             switch (op)
             {
@@ -47,6 +49,9 @@ namespace HRCMRDemoUI.Handler
             }
 
         }
+
+        //上传头像Imgup
+     
 
         //修改
         public void UpdatebyId(HttpContext context)
@@ -136,6 +141,7 @@ namespace HRCMRDemoUI.Handler
         {
             string str = context.Request["Eentity"];
             string[] obj = str.Split(',');
+           
 
             UserInfoEntity o = new UserInfoEntity() { };
                 o.UserFace = obj[0];
@@ -152,7 +158,6 @@ namespace HRCMRDemoUI.Handler
                 o.BasePay = Convert.ToDouble(obj[11]);
                 o.UserNumber = "NO" + obj[1];
                 o.UserIphone = obj[6];
-           
 
             if (new UserInfoBLL().AddInfo(o))
             {

@@ -151,6 +151,9 @@
     <Content Include="css\animatecss\animate.min.css" />
     <Content Include="css\cloud-admin.css" />
     <Content Include="css\cloud-admin.min.css" />
+    <Content Include="css\fileup\bootstrap.min.css" />
+    <Content Include="css\fileup\fileinput.css" />
+    <Content Include="css\fileup\fileinput.min.css" />
     <Content Include="css\flags\flags.min.css" />
     <Content Include="css\flags\flags.png" />
     <Content Include="css\inbox.css" />
@@ -282,6 +285,15 @@
     <Content Include="js\datatables\media\images\Sorting icons.psd" />
     <Content Include="js\easypiechart\jquery.easypiechart.min.js.2.0" />
     <Content Include="js\easypiechart\jquery.easypiechart.min.js.older" />
+    <Content Include="js\fileupjs\fileinput.js" />
+    <Content Include="js\fileupjs\fileinput.min.js" />
+    <Content Include="js\fileupjs\fileinput_locale_de.js" />
+    <Content Include="js\fileupjs\fileinput_locale_es.js" />
+    <Content Include="js\fileupjs\fileinput_locale_hu.js" />
+    <Content Include="js\fileupjs\fileinput_locale_LANG.js" />
+    <Content Include="js\fileupjs\fileinput_locale_ru.js" />
+    <Content Include="js\fileupjs\fileinput_locale_uk.js" />
+    <Content Include="js\fileupjs\fileinput_locale_zh.js" />
     <Content Include="js\jQuery-Knob\knob.jquery.json" />
     <Content Include="js\tablecloth\js\.DS_Store" />
     <Content Include="js\timelinejs\example_json.json" />
@@ -358,10 +370,17 @@
     <Content Include="bootstrap-dist\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="bootstrap-dist\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="bootstrap-dist\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="UserFace\1.jpg" />
+    <Content Include="UserFace\2.jpg" />
+    <Content Include="UserFace\3.jpg" />
+    <Content Include="UserFace\avatar.jpg" />
+    <Content Include="UserFace\imgbox1.jpg" />
+    <Content Include="UserFace\imgbox4.jpg" />
     <Content Include="UserInfo.aspx" />
     <Content Include="WebForm1.aspx" />
     <Content Include="Handler\DeptHandler.ashx" />
     <Content Include="Handler\EmpHandler.ashx" />
+    <Content Include="Handler\ImageHandler.ashx" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="img\addressbook\1.jpg" />
     <Content Include="img\addressbook\2.jpg" />
@@ -1382,6 +1401,9 @@
     </Compile>
     <Compile Include="Handler\EmpHandler.ashx.cs">
       <DependentUpon>EmpHandler.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handler\ImageHandler.ashx.cs">
+      <DependentUpon>ImageHandler.ashx</DependentUpon>
     </Compile>
     <Compile Include="Index.aspx.cs">
       <DependentUpon>Index.aspx</DependentUpon>

@@ -29,14 +29,25 @@
     <!-- FONTS -->
     <link href='http://fonts.useso.com/css?family=Open+Sans:300,400,600,700' rel='stylesheet' type='text/css' />
     <!-- JQUERY -->
-
     <link href="Content/bootstrap.min.css" rel="stylesheet" />
     <script src="js/jquery/jquery-2.0.3.min.js"></script>
     <script src="Scripts/bootstrap.min.js"></script>
+    <script src="js/fileupjs/fileinput.min.js"></script>
+    <link href="css/fileup/fileinput.css" rel="stylesheet" />
+    <script src="js/fileupjs/fileinput_locale_zh.js"></script>
+    <style>
+       
+        .imagecss {
+            width:29px;
+            height:29px;
+            border-radius:50%;
+        }
+
+    </style>
 
     <script>
 
-      
+
         $(function () {
             //数据加载
             BindData("select","","");
@@ -140,7 +151,8 @@
                                 str += "<tr class=gradeA odd'>";
                                 str += "<td><input type='checkbox' name='chklist' value='' id='"+item.UserID+"'  /></td>";
                                 str += "<td>" + item.UserNumber + "</td>";
-                                str += "<td>" + item.UserName + "</td>";
+                                str += "<td>" + item.UserName + "</td>"; 
+                                str += "<td ><img class='imagecss' alt='无法加载' src='UserFace/"+item.UserFace+"' /></td>";
                                 str += "<td>" + item.DepartmentName + "</td>";
                                 str += "<td>" + (item.UserSex == 1 ? "<font color='blue'>男</font>" : "<font color='red'>女</font>") + "</td>";
                                 str += "<td>" + item.UserAge + "</td>";
@@ -227,7 +239,8 @@
             });
         }
 
-         var arr = new Array();
+        var arr = new Array();
+
         //添加事件
         function addInfo() {
             $("#addok").removeClass("disabled");
@@ -241,7 +254,9 @@
             $("#a2").show();
             $("#a3").show();
             //清空文本
-            $("#txtuserFaceModal").val("");
+            //$("#txtuserFaceModal").val("");
+            $("#userFaceModal").attr("src", "#")
+            $("#txtuserFaceModal").val("")
             $("#txtuserNameModal").val("");
             $("#selectdeptModal").val("-1");
             $("#selectRoleModal").val("-1");
@@ -271,11 +286,11 @@
             $("#a2").hide();
             $("#a3").hide();
 
-
             //绑定用户
             $.ajax({
                             type: "get",
                             url: "Handler/EmpHandler.ashx",
+                            //processData: false,
                             data:
                             {
                                     Method: "selectbyid",
@@ -286,7 +301,8 @@
                          {
                              if (state = "success")
                              {
-                                 $("#txtuserFaceModal").val(rs.UserFace);
+                                 $("#userFaceModal").attr("src", "UserFace/" + rs.UserFace);
+                                 //$("#txtuserFaceModal").val(rs.UserFace);
                                  $("#txtuserNameModal").val(rs.UserName);
                                  $("#selectdeptModal").val(rs.DepartmentID);
                                  $("#selectRoleModal").val(rs.RoleID);
@@ -314,7 +330,10 @@
 
         //模态框添加按钮
         function AddOk() {
-            arr[0] = $("#txtuserFaceModal").val();
+            
+            var fliename = $("#txtuserFaceModal").val();
+            //alert(fliename.substring(fliename.indexOf("h")+2));
+            arr[0] = fliename.substring(fliename.indexOf("h")+2);
             arr[1] = $("#txtuserNameModal").val();
             arr[2] = $("#selectdeptModal").val();
             arr[3] = $("#selectRoleModal").val();
@@ -330,10 +349,11 @@
             for (var i = 0; i < arr.length; i++) {
                 str += arr[i] + ",";
             }
+            //alert(arr);
             //alert( arr[10] + "|" +  $("#txtLoginPwdModal1").val());
+            //添加
             if ($("#txtLoginPwdModal1").val() == $("#txtLoginPwdModal2").val())
             {
-                
                  $.ajax({
                             type: "get",
                             url: "Handler/EmpHandler.ashx",
@@ -343,6 +363,7 @@
                                     Eentity: str
                             },
                             dataType: "json",
+                            async: false,
                          success: function (rs)
                          {
                              if (rs = "addsuccess")
@@ -371,7 +392,9 @@
         //模态框修改按钮
         function isupdataok() {
             var empid = $("#empid").val();
-            arr[0] = $("#txtuserFaceModal").val();
+            //$("#txtuserFaceModal").val();
+            var fliename = $("#txtuserFaceModal").val();
+            arr[0] = fliename.substring(fliename.indexOf("h")+2);
             arr[1] = $("#txtuserNameModal").val();
             arr[2] = $("#selectdeptModal").val();
             arr[3] = $("#selectRoleModal").val();
@@ -384,6 +407,7 @@
              var str = ""; 
             for (var i = 0; i < arr.length; i++) {
                 str += arr[i] + ",";
+               
             }
             //alert( arr[10] + "|" +  $("#txtLoginPwdModal1").val());
                  $.ajax({
@@ -410,12 +434,34 @@
                              }
                          }
                  });
-
                 $('#myModal').modal("hide");
         }
-            
+            //上传图片
+        function Upuserface() {
 
-      </script>
+              var datalist = new FormData($("#addorupdate")[0]);
+            //图片上传
+            $.ajax(
+                {
+                     type: "post",
+                     url: "Handler/ImageHandler.ashx",
+                     data: datalist,
+                    dataType: "json",
+                    async: false,
+                    contentType: false,
+                    processData: false,
+                    success: function (rs) {
+                        //alert(rs.txtuserNameModal);
+                    },
+                    error: function (rs) {
+                        //alert(rs);
+                    }
+
+                });
+
+        } 
+
+    </script>
    
    
 
@@ -546,6 +592,11 @@
                                                             </th>
                                                             <th style="text-align:center" class="sorting_asc" role="columnheader" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 176px;" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending">
                                                                 <font style="vertical-align: inherit;">
+                                                            <font style="vertical-align: inherit;">头像</font>
+                                                        </font>
+                                                            </th>
+                                                            <th style="text-align:center" class="sorting_asc" role="columnheader" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 176px;" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending">
+                                                                <font style="vertical-align: inherit;">
                                                             <font style="vertical-align: inherit;">部门</font>
                                                         </font>
                                                             </th>
@@ -668,6 +719,7 @@
             </div>
 
      <!-- 模态框（Modal） -->
+      <form id="addorupdate" enctype="multipart/form-data">
        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content" >
@@ -687,13 +739,23 @@
                                  </td>
                                  <td>&nbsp;</td>
                              </tr>
+                            <%--用户头像--%>
+                             <tr>
+                                <td>
+                                   <label>头像:</label>&nbsp;&nbsp;&nbsp;
+                                </td>
+                                <td>
+                                    <img class="imagecss" src="#" alt="无法加载" id="userFaceModal" />
+                                </td>
+                            </tr>
+                            <tr><td>&nbsp;</td></tr>
                            <%-- 头像上传txtuserFaceModal--%>
                             <tr>
                                 <td>
                                    <label>头像上传:</label>&nbsp;&nbsp;&nbsp;
                                 </td>
                                 <td>
-                                    <input type="text" id="txtuserFaceModal" class="form-control field" name="name" value=""/>
+                                    <input onchange="Upuserface();" type="file" id="txtuserFaceModal" class="field" name="txtuserFaceModal"  multiple="multiple"/>
                                 </td>
                             </tr>
                           <tr><td>&nbsp;</td></tr>
@@ -703,7 +765,7 @@
                                    <label>姓名:</label>&nbsp;&nbsp;&nbsp;
                                 </td>
                                 <td>
-                                    <input type="text" id="txtuserNameModal" class="form-control field" name="name" value=""/>
+                                    <input type="text" id="txtuserNameModal" class="form-control field" name="txtuserNameModal" value=""/>
                                 </td>
                             </tr>
                           <tr><td>&nbsp;</td></tr>
@@ -713,7 +775,7 @@
                                    <label>部门:</label>&nbsp;&nbsp;&nbsp;
                                 </td>
                                 <td>
-                                   <select  id="selectdeptModal" class="form-control" style="width: 150px">
+                                   <select  id="selectdeptModal" class="form-control" name="selectdeptModal" style="width: 150px">
                                   
                                     </select>
                                 </td>
@@ -725,7 +787,7 @@
                                    <label>职位:</label>&nbsp;&nbsp;&nbsp;
                                 </td>
                                 <td>
-                                    <select  id="selectRoleModal" class="form-control" style="width: 150px">
+                                    <select  id="selectRoleModal" class="form-control" name="selectRoleModal" style="width: 150px">
                                   
                                     </select>
                                 </td>
@@ -737,7 +799,7 @@
                                    <label>登录名:</label>&nbsp;&nbsp;&nbsp;
                                 </td>
                                 <td>
-                                    <input type="text"  class="form-control" id="txtLoginNameModal" name="name" value="" />
+                                    <input type="text"  class="form-control" id="txtLoginNameModal" name="txtLoginNameModal" value="" />
                                 </td>
                             </tr>
                                 <tr id="a1"><td>&nbsp;</td></tr>
@@ -747,7 +809,7 @@
                                    <label>登录密码:</label>&nbsp;&nbsp;&nbsp;
                                 </td>
                                 <td>
-                                  <input type="password"  class="form-control" id="txtLoginPwdModal1" name="name" value="" />
+                                  <input type="password"  class="form-control" id="txtLoginPwdModal1" name="txtLoginPwdModal1" value="" />
                                 </td>
                             </tr>
                                 <tr id="a2"><td>&nbsp;</td></tr>
@@ -757,7 +819,7 @@
                                    <label>确认密码:</label>&nbsp;&nbsp;&nbsp;
                                 </td>
                                 <td>
-                                  <input type="password"  class="form-control" id="txtLoginPwdModal2" name="name" value="" />
+                                  <input type="password"  class="form-control" id="txtLoginPwdModal2" name="txtLoginPwdModal2" value="" />
                                 </td>
                             </tr>
                                 <tr id="a3"><td>&nbsp;</td></tr>
@@ -767,7 +829,7 @@
                                    <label>年龄:</label>&nbsp;&nbsp;&nbsp;
                                 </td>
                                 <td>
-                                    <input type="text" id="txtuserAgeModal" class="form-control field" name="name" value=""/>
+                                    <input type="text" id="txtuserAgeModal" class="form-control field" name="txtuserAgeModal" value=""/>
                                 </td>
                             </tr>
                           <tr><td>&nbsp;</td></tr>
@@ -789,7 +851,7 @@
                                    <label>电话:</label>&nbsp;&nbsp;&nbsp;
                                 </td>
                                 <td>
-                                    <input type="text" id="txtuserTelModal" class="form-control field" name="name" value=""/>
+                                    <input type="text" id="txtuserTelModal" class="form-control field" name="txtuserTelModal" value=""/>
                                 </td>
                             </tr>
                           <tr><td>&nbsp;</td></tr>
@@ -799,7 +861,7 @@
                                    <label>地址:</label>&nbsp;&nbsp;&nbsp;
                                 </td>
                                 <td>
-                                    <input type="text" id="txtuserAdrModal" class="form-control field" name="name" value=""/>
+                                    <input type="text" id="txtuserAdrModal" class="form-control field" name="txtuserAdrModal" value=""/>
                                 </td>
                             </tr>
                           <tr><td>&nbsp;</td></tr>
@@ -809,7 +871,7 @@
                                    <label>备注:</label>&nbsp;&nbsp;&nbsp;
                                 </td>
                                 <td>
-                                    <input type="text" id="txtusermRemarkModal" class="form-control" name="name" value="" />
+                                    <input type="text" id="txtusermRemarkModal" class="form-control" name="txtusermRemarkModal" value="" />
                                 </td>
                             </tr>
                              <tr><td>&nbsp;</td></tr>
@@ -819,7 +881,7 @@
                                    <label>薪资:</label>&nbsp;&nbsp;&nbsp;
                                 </td>
                                 <td>
-                                    <input type="text" id="txtuserSalModal" class="form-control" name="name" value="" />
+                                    <input type="text" id="txtuserSalModal" class="form-control" name="txtuserSalModal" value="" />
                                 </td>
                             </tr>
                         </table>
@@ -838,8 +900,25 @@
             </div>
             <!-- /.modal -->
         </div>
+           </form>
       <%--模态框结束--%>
 
         </div>
+
+    <script>    
+         $("#txtuserFaceModal").fileinput({
+            uploadUrl: '',
+            allowedFileExtensions: ['jpg', 'png', 'gif'],
+            maxFileSize: 1000,
+            showUpload: false,
+            showCaption: false,
+            showZoom: true,
+            browseClass:  "btn btn-success",
+            maxFileCount: 1,
+            msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
+            msgInvalidFileExtension:"不支持该类型的文件{name},只支持{extensions}的文件!"
+        });
+    </script>
+
 </body>
 </html>
