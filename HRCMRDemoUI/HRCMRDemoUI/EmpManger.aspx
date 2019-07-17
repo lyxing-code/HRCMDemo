@@ -246,6 +246,7 @@
             $("#addok").removeClass("disabled");
             $("#addok").show();
             $("#isupdateok").hide();
+            $("#myModalLabel").text("添加员工信息")
             $('#myModal').modal({ "backdrop": "static" });//打开模态框
             $("#username").show();
             $("#userpwd1").show();
@@ -254,9 +255,9 @@
             $("#a2").show();
             $("#a3").show();
             //清空文本
-            //$("#txtuserFaceModal").val("");
-            $("#userFaceModal").attr("src", "#")
-            $("#txtuserFaceModal").val("")
+            $("#txtuserFaceModal").val("");
+            $("#userFaceModal").attr("src","");
+            $("#txtuserFaceModal").val("");
             $("#txtuserNameModal").val("");
             $("#selectdeptModal").val("-1");
             $("#selectRoleModal").val("-1");
@@ -368,6 +369,7 @@
                          {
                              if (rs = "addsuccess")
                              {
+                                 Upuserface();
                                  alert("添加成功!");
                                  BindData("select","","");
                              }
@@ -393,7 +395,7 @@
         function isupdataok() {
             var empid = $("#empid").val();
             //$("#txtuserFaceModal").val();
-            var fliename = $("#txtuserFaceModal").val();
+            var fliename = $("#txtuserFaceModal").val() == "" ?  $("#userFaceModal").attr("src") : $("#txtuserFaceModal").val();
             arr[0] = fliename.substring(fliename.indexOf("h")+2);
             arr[1] = $("#txtuserNameModal").val();
             arr[2] = $("#selectdeptModal").val();
@@ -404,7 +406,8 @@
             arr[7] = $("#txtuserAdrModal").val();
             arr[8] = $("#txtusermRemarkModal").val();
             arr[9] = $("#txtuserSalModal").val();
-             var str = ""; 
+           
+            var str = ""; 
             for (var i = 0; i < arr.length; i++) {
                 str += arr[i] + ",";
                
@@ -429,6 +432,7 @@
                              }
                              else
                              {
+                                 Upuserface();
                                  alert("修改成功!");
                                  BindData("select","","");
                              }
@@ -436,16 +440,17 @@
                  });
                 $('#myModal').modal("hide");
         }
-            //上传图片
+
+        //上传图片
         function Upuserface() {
 
               var datalist = new FormData($("#addorupdate")[0]);
             //图片上传
             $.ajax(
                 {
-                     type: "post",
-                     url: "Handler/ImageHandler.ashx",
-                     data: datalist,
+                    type: "post",
+                    url: "Handler/ImageHandler.ashx",
+                    data: datalist,
                     dataType: "json",
                     async: false,
                     contentType: false,
@@ -728,7 +733,7 @@
                             data-dismiss="modal" aria-hidden="true">
                             &times;           
                         </button>
-                        <h4 class="modal-title" id="myModalLabel">添加员工 </h4>
+                        <h4 class="modal-title" id="myModalLabel">添加员工</h4>
 
                     </div>
                     <div class="modal-body">
@@ -755,7 +760,7 @@
                                    <label>头像上传:</label>&nbsp;&nbsp;&nbsp;
                                 </td>
                                 <td>
-                                    <input onchange="Upuserface();" type="file" id="txtuserFaceModal" class="field" name="txtuserFaceModal"  multiple="multiple"/>
+                                    <input onchange="" type="file" id="txtuserFaceModal" class="field" name="txtuserFaceModal"  multiple="multiple"/>
                                 </td>
                             </tr>
                           <tr><td>&nbsp;</td></tr>

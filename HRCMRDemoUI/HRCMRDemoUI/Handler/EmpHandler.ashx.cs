@@ -61,7 +61,7 @@ namespace HRCMRDemoUI.Handler
             string[] obj = str.Split(',');
             UserInfoEntity o = new UserInfoEntity() {
                 UserID = Convert.ToInt32(id),
-                UserFace = obj[0],
+                UserFace = obj[1] + obj[0].Substring(obj[0].LastIndexOf(".")),
                 UserName = obj[1],
                 DepartmentID = Convert.ToInt32(obj[2]),
                 RoleID = Convert.ToInt32(obj[3]),
@@ -141,10 +141,8 @@ namespace HRCMRDemoUI.Handler
         {
             string str = context.Request["Eentity"];
             string[] obj = str.Split(',');
-           
-
             UserInfoEntity o = new UserInfoEntity() { };
-                o.UserFace = obj[0];
+                o.UserFace = obj[1] + obj[0].Substring(obj[0].LastIndexOf("."));
                 o.UserName = obj[1];
                 o.DepartmentID = Convert.ToInt32(obj[2]);
                 o.RoleID = Convert.ToInt32(obj[3]);
