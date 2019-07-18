@@ -50,29 +50,26 @@ namespace HRCMRDemoUI.Handler
 
         }
 
-        //上传头像Imgup
-     
-
+      
         //修改
         public void UpdatebyId(HttpContext context)
         {
             string id = context.Request["userid"];
             string str = context.Request["Eentity"];
             string[] obj = str.Split(',');
-            UserInfoEntity o = new UserInfoEntity() {
-                UserID = Convert.ToInt32(id),
-                UserFace = obj[1] + obj[0].Substring(obj[0].LastIndexOf(".")),
-                UserName = obj[1],
-                DepartmentID = Convert.ToInt32(obj[2]),
-                RoleID = Convert.ToInt32(obj[3]),
-                UserAge = Convert.ToInt32(obj[4]),
-                UserSex = Convert.ToInt32(obj[5]),
-                UserTel = (obj[6]),
-                UserIphone= (obj[6]),
-                UserAddress = obj[7],
-                UserRemarks = obj[8],
-                BasePay = Convert.ToDouble(obj[9])
-            };
+            UserInfoEntity o = new UserInfoEntity() { };
+               o.UserID = Convert.ToInt32(id);
+               o.UserFace = (obj[0].IndexOf(".") != -1) ? (obj[1] + obj[0].Substring(obj[0].LastIndexOf("."))) : "";
+               o.UserName = obj[1];
+               o.DepartmentID = Convert.ToInt32(obj[2]);
+               o.RoleID = Convert.ToInt32(obj[3]);
+               o.UserAge = Convert.ToInt32(obj[4]);
+               o.UserSex = Convert.ToInt32(obj[5]);
+               o.UserTel = (obj[6]);
+               o.UserIphone= (obj[6]);
+               o.UserAddress = obj[7];
+               o.UserRemarks = obj[8];
+               o.BasePay = Convert.ToDouble(obj[9]);
 
             //bool bo = new UserInfoBLL().UpdateInfo(o);
             if (new UserInfoBLL().UpdateInfo(o))
@@ -142,7 +139,15 @@ namespace HRCMRDemoUI.Handler
             string str = context.Request["Eentity"];
             string[] obj = str.Split(',');
             UserInfoEntity o = new UserInfoEntity() { };
-                o.UserFace = obj[1] + obj[0].Substring(obj[0].LastIndexOf("."));
+
+                if (obj[0].IndexOf(".") != -1)
+                {
+                    o.UserFace = obj[1] + obj[0].Substring(obj[0].LastIndexOf("."));
+                }
+                else
+                {
+                    o.UserFace = "";
+                }                
                 o.UserName = obj[1];
                 o.DepartmentID = Convert.ToInt32(obj[2]);
                 o.RoleID = Convert.ToInt32(obj[3]);

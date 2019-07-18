@@ -30,7 +30,8 @@
     <link href='http://fonts.useso.com/css?family=Open+Sans:300,400,600,700' rel='stylesheet' type='text/css' />
     <!-- JQUERY -->
     <link href="Content/bootstrap.min.css" rel="stylesheet" />
-    <script src="js/jquery/jquery-2.0.3.min.js"></script>
+    <script src="Scripts/jquery-3.3.1.min.js"></script>
+   <%-- <script src="js/jquery/jquery-2.0.3.min.js"></script>--%>
     <script src="Scripts/bootstrap.min.js"></script>
     <script src="js/fileupjs/fileinput.min.js"></script>
     <link href="css/fileup/fileinput.css" rel="stylesheet" />
@@ -255,7 +256,7 @@
             $("#a2").show();
             $("#a3").show();
             //清空文本
-            $("#txtuserFaceModal").val("");
+            //$("#txtuserFaceModal").val("");
             $("#userFaceModal").attr("src","");
             $("#txtuserFaceModal").val("");
             $("#txtuserNameModal").val("");
@@ -350,7 +351,8 @@
             for (var i = 0; i < arr.length; i++) {
                 str += arr[i] + ",";
             }
-            //alert(arr);
+            //$(".file-caption-name").text()
+            //alert(fliename);
             //alert( arr[10] + "|" +  $("#txtLoginPwdModal1").val());
             //添加
             if ($("#txtLoginPwdModal1").val() == $("#txtLoginPwdModal2").val())
@@ -912,12 +914,12 @@
 
     <script>    
          $("#txtuserFaceModal").fileinput({
-            uploadUrl: '',
+            //uploadUrl: 'Handler/ImageHandler.ashx',//上传自动请求handler
             allowedFileExtensions: ['jpg', 'png', 'gif'],
             maxFileSize: 1000,
             showUpload: false,
             showCaption: false,
-            showZoom: true,
+            showZoom: false,
             browseClass:  "btn btn-success",
             maxFileCount: 1,
             msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",

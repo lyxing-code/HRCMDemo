@@ -18,9 +18,13 @@ namespace HRCMRDemoUI.Handler
             {
                 HttpPostedFile file = context.Request.Files[0];
                 string username= context.Request["txtuserNameModal"];
-                string  scr = file.FileName.Substring(file.FileName.LastIndexOf("."));
-                string filename = context.Server.MapPath(@"~/UserFace/" +  username + scr);
-                file.SaveAs(filename);
+                string scr = "";
+                if (file.FileName.IndexOf(".") != -1)
+                {
+                 scr = file.FileName.Substring(file.FileName.LastIndexOf("."));
+                }
+                string filename = context.Server.MapPath(@"~/UserFace/" +  (username ?? file.FileName) + scr);
+                file.SaveAs(filename);//3.jpg
             }
 
         }
