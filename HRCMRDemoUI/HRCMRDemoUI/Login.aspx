@@ -45,8 +45,12 @@
                     },
                     dataType: "json",
                     success: function (rs) {
-                        if (rs != "1")
-                        {   
+                        if (rs == "enableed")
+                        {
+                            alert("该用户没有权限登录!");
+                        }
+                        else if (rs != "1")
+                        {  
                             window.location.href = "Index.aspx";
                         }
                         else

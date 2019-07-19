@@ -39,18 +39,28 @@ namespace HRCMRDemoUI
             string pwd = context.Request["pwd"];
             //context.Response.ContentType = "text/plain";
             DataTable dt = new UserInfoBLL().GetTable(name, pwd);
+
             if (dt.Rows.Count > 0)
             {
                 string id = dt.Rows[0][0].ToString();
                 obj = new UserInfoBLL().GetInfoById(id);
-                context.Session["user"] = dt;
-                contextResponseWrite(context, dt);
-                
-            }
-            else
+                if (obj.UserStatr == 1)
+                {
+                    context.Session["user"] = dt;
+                    contextResponseWrite(context, dt);
+                }
+                else
+                {
+                    contextResponseWrite(context, "enableed");
+                    return;
+                }
+            }else
             {
                 contextResponseWrite(context, "1");
             }
+
+            
+           
         }
 
         /// <summary>
@@ -80,6 +90,8 @@ namespace HRCMRDemoUI
              context.Response.Write(json);
         }
 
+
+
         public bool IsReusable
         {
             get
@@ -87,5 +99,7 @@ namespace HRCMRDemoUI
                 return false;
             }
         }
+
+
     }
 }

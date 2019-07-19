@@ -11,9 +11,7 @@ namespace HRCMRDemoUI.Handler
     /// </summary>
     public class UserHandler : IHttpHandler
     {
-
-
-
+        
         public void ProcessRequest(HttpContext context)
         {
            UserInfoEntity obj = new LoginHandler().GetUser();

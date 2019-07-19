@@ -53,7 +53,8 @@
                     //alert(rs[0]);
                     //alert(rs[0].UserName);
                     $("#user_name").text(rs[0].UserName);
-                    //权限分配
+                    $("#imguser").prop("src", "UserFace/"+ rs[0].UserFace)
+                    //权限分配<a href="UserFace/韩梅梅">UserFace/韩梅梅</a>
                     switch (rs[0].RoleID)
                     {
                         case 1:
@@ -128,7 +129,14 @@
                 
             });
 
-           
+
+            $("#a_userinfo").click(function () {
+                //alert(1);
+                $("#depttable").hide();
+                $("#empmangertable").hide();
+                $("#usertable").show();
+            });
+
 
         });
 
@@ -422,12 +430,12 @@
 					<!-- 用户信息 -->
 					<li class="dropdown user" id="header-user">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-							<img alt="" src="img/avatars/avatar3.jpg" />
+							<img alt="" src="#" id="imguser" />
 							<span class="username" id="user_name"></span>
 							<i class="fa fa-angle-down"></i>
 						</a>
 						<ul class="dropdown-menu">
-							<li><a href="#"><i class="fa fa-user"></i>个人信息</a></li>
+							<li><a href="#" id="a_userinfo"><i class="fa fa-user"></i>个人信息</a></li>
 							<li><a href="#"><i class="fa fa-cog"></i>账号设置</a></li>
 							<li><a href="#"><i class="fa fa-eye"></i>个人隐私</a></li>
 							<li><a href="Login.aspx"><i class="fa fa-power-off"></i>退出登录</a></li>
