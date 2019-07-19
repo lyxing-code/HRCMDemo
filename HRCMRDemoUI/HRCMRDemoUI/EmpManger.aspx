@@ -332,7 +332,6 @@
 
         //模态框添加按钮
         function AddOk() {
-            
             var fliename = $("#txtuserFaceModal").val();
             //alert(fliename.substring(fliename.indexOf("h")+2));
             arr[0] = fliename.substring(fliename.indexOf("h")+2);
@@ -430,7 +429,6 @@
                              if (rs != "updatesuccess")
                              {
                                  alert("修改失败!");
-                                 
                              }
                              else
                              {
@@ -762,7 +760,7 @@
                                    <label>头像上传:</label>&nbsp;&nbsp;&nbsp;
                                 </td>
                                 <td>
-                                    <input onchange="" type="file" id="txtuserFaceModal" class="field" name="txtuserFaceModal"  multiple="multiple"/>
+                                    <input  type="file" id="txtuserFaceModal" class="field" name="txtuserFaceModal"  multiple="multiple"/>
                                 </td>
                             </tr>
                           <tr><td>&nbsp;</td></tr>

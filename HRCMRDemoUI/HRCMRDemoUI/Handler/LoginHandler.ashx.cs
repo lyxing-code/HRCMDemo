@@ -6,6 +6,7 @@ using System.Web;
 using HRCMDemoBLL;
 using Newtonsoft.Json;
 using System.Web.SessionState;
+using HRCMDemoEntity;
 
 namespace HRCMRDemoUI
 {
@@ -31,6 +32,7 @@ namespace HRCMRDemoUI
             }
         }
 
+       private static UserInfoEntity obj = new UserInfoEntity();
         public void Login(HttpContext context)
         {
             string name = context.Request["name"];
@@ -39,6 +41,8 @@ namespace HRCMRDemoUI
             DataTable dt = new UserInfoBLL().GetTable(name, pwd);
             if (dt.Rows.Count > 0)
             {
+                string id = dt.Rows[0][0].ToString();
+                obj = new UserInfoBLL().GetInfoById(id);
                 context.Session["user"] = dt;
                 contextResponseWrite(context, dt);
                 
@@ -57,6 +61,12 @@ namespace HRCMRDemoUI
         {
             DataTable dts = context.Session["user"] as DataTable;
             contextResponseWrite(context, dts);
+        }
+
+        
+        public UserInfoEntity GetUser()
+        {
+            return obj;
         }
 
         /// <summary>
