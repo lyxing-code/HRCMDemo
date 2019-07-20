@@ -68,7 +68,7 @@
                 SelectByNameOrDept(id,name);
             });
             
-          
+            
 
         });
 
@@ -474,46 +474,67 @@
         //分页显示条数下拉数据绑定
         function SetPagesize() {
             var pagesize = $("#pagesize").val();
-            var pageindex = $("#pageindex").text();
-            index = pageindex; 
+            $("#pageindex").text("1");
+            var pageindex =  $("#pageindex").text();
+            //alert(pageindex);
+            index = pageindex;
             size = pagesize;
             //alert(index  + "/"  +size );
-         $.ajax({
-                    type: "post",
-                    url: "Handler/PageHandler.ashx",
-                    data:
-                        {
-                            Getpageindex:index ,
-                            Getpagesize: size,
-                        },
-                   dataType: "json",
-                    success: function (rs)
+            $.ajax({
+                type: "post",
+                url: "Handler/PageHandler.ashx",
+                data:
                     {
-                             var str = "";
-                        //alert(rs.txtuserNameModal);
-                         $.each(rs , function (index,item) {
-                                str += "<tr class=gradeA odd'>";
-                                str += "<td><input type='checkbox' name='chklist' value='' id='"+item.UserID+"'  /></td>";
-                                str += "<td>" + item.UserNumber + "</td>";
-                                str += "<td>" + item.UserName + "</td>"; 
-                                str += "<td ><img class='imagecss' alt='无法加载' src='UserFace/"+item.UserFace+"' /></td>";
-                                str += "<td>" + item.DepartmentName + "</td>";
-                                str += "<td>" + (item.UserSex == 1 ? "<font color='blue'>男</font>" : "<font color='red'>女</font>") + "</td>";
-                                str += "<td>" + item.UserAge + "</td>";
-                                str += "<td>" + item.UserTel + "</td>";
-                                str += "<td>" + item.RoleName + "</td>";
-                                str += "<td>" + (item.DimissionTime).substring(0,(item.DimissionTime).indexOf("T")) + "</td>";
-                                str += "<td>" + (item.UserStatr == 1 ? "<font color='green'>可登录</font>" : "<font color='red'>不可登录</font>" ) + "</td>";
-                                str += "<td>" + (item.BasePay + " ¥") + "</td>";
-                                str +="<td><input class='btn btn-success' type='button' name='name' value='修改'  onclick='updateinfo("+item.UserID+");' /></td>"
-                                str += "</tr>";
-                          });
-                              $("#datatable1 tr:gt(0)").remove();
-                                $("#datatable1 tbody").html(str);
-                                //alert(str);
-                    }
+                        ops: "setpage",
+                        Getpageindex: index,
+                        Getpagesize: size,
+                    },
+                async: false,
+                dataType: "json",
+                success: function (rs) {
+                    var str = "";
+                    //alert(rs.txtuserNameModal);
+                    $.each(rs, function (index, item) {
+                        str += "<tr class=gradeA odd'>";
+                        str += "<td><input type='checkbox' name='chklist' value='' id='" + item.UserID + "'  /></td>";
+                        str += "<td>" + item.UserNumber + "</td>";
+                        str += "<td>" + item.UserName + "</td>";
+                        str += "<td ><img class='imagecss' alt='无法加载' src='UserFace/" + item.UserFace + "' /></td>";
+                        str += "<td>" + item.DepartmentName + "</td>";
+                        str += "<td>" + (item.UserSex == 1 ? "<font color='blue'>男</font>" : "<font color='red'>女</font>") + "</td>";
+                        str += "<td>" + item.UserAge + "</td>";
+                        str += "<td>" + item.UserTel + "</td>";
+                        str += "<td>" + item.RoleName + "</td>";
+                        str += "<td>" + (item.DimissionTime).substring(0, (item.DimissionTime).indexOf("T")) + "</td>";
+                        str += "<td>" + (item.UserStatr == 1 ? "<font color='green'>可登录</font>" : "<font color='red'>不可登录</font>") + "</td>";
+                        str += "<td>" + (item.BasePay + " ¥") + "</td>";
+                        str += "<td><input class='btn btn-success' type='button' name='name' value='修改'  onclick='updateinfo(" + item.UserID + ");' /></td>"
+                        str += "</tr>";
+                    });
+                    $("#datatable1 tr:gt(0)").remove();
+                    $("#datatable1 tbody").html(str);
+                    //alert(str);
+                }
 
-                });
+            });
+
+            $.ajax({
+                 type: "post",
+                url: "Handler/PageHandler.ashx",
+                data:
+                    {
+                        ops: "getmaxpage",
+                        Getpagesize: size,
+                    },
+                 async: false,
+                dataType: "json",
+                success: function (rs)
+                {
+                    $("#count").text(rs);
+                }
+
+
+            });
 
         }
         //首页
@@ -528,6 +549,7 @@
                     url: "Handler/PageHandler.ashx",
                     data:
                         {
+                            ops :"setpage",
                             Getpageindex:index ,
                             Getpagesize: size,
                         },
@@ -562,8 +584,11 @@
         }
         //下一页
         function Nexindex() {
-           
             index++;
+            if (index > $("#count").text()) {
+                alert("当前已经是最大页!");
+                return;
+            }
             var pagesize = $("#pagesize").val();
             $("#pageindex").text(index);
             var pageindex = $("#pageindex").text();
@@ -574,6 +599,7 @@
                     url: "Handler/PageHandler.ashx",
                     data:
                         {
+                            ops : "setpage",
                             Getpageindex:index ,
                             Getpagesize: size,
                         },
@@ -624,6 +650,7 @@
                     url: "Handler/PageHandler.ashx",
                     data:
                         {
+                            ops : "setpage",
                             Getpageindex:index ,
                             Getpagesize: size,
                         },
@@ -657,7 +684,57 @@
                 });
             // alert(index);
         }
-       //末页
+        //末页
+        function Endindex() {
+            var pagesize = $("#pagesize").val();
+            $("#pageindex").text($("#count").text());
+            var pageindex = $("#pageindex").text();
+            index = pageindex; 
+            size = pagesize;
+             $.ajax({
+                    type: "post",
+                    url: "Handler/PageHandler.ashx",
+                    data:
+                        {
+                            ops : "setpage",
+                            Getpageindex:index ,
+                            Getpagesize: size,
+                        },
+                   dataType: "json",
+                    success: function (rs)
+                    {
+                             var str = "";
+                        //alert(rs.txtuserNameModal);
+                         $.each(rs , function (index,item) {
+                                str += "<tr class=gradeA odd'>";
+                                str += "<td><input type='checkbox' name='chklist' value='' id='"+item.UserID+"'  /></td>";
+                                str += "<td>" + item.UserNumber + "</td>";
+                                str += "<td>" + item.UserName + "</td>"; 
+                                str += "<td ><img class='imagecss' alt='无法加载' src='UserFace/"+item.UserFace+"' /></td>";
+                                str += "<td>" + item.DepartmentName + "</td>";
+                                str += "<td>" + (item.UserSex == 1 ? "<font color='blue'>男</font>" : "<font color='red'>女</font>") + "</td>";
+                                str += "<td>" + item.UserAge + "</td>";
+                                str += "<td>" + item.UserTel + "</td>";
+                                str += "<td>" + item.RoleName + "</td>";
+                                str += "<td>" + (item.DimissionTime).substring(0,(item.DimissionTime).indexOf("T")) + "</td>";
+                                str += "<td>" + (item.UserStatr == 1 ? "<font color='green'>可登录</font>" : "<font color='red'>不可登录</font>" ) + "</td>";
+                                str += "<td>" + (item.BasePay + " ¥") + "</td>";
+                                str +="<td><input class='btn btn-success' type='button' name='name' value='修改'  onclick='updateinfo("+item.UserID+");' /></td>"
+                                str += "</tr>";
+                          });
+                              $("#datatable1 tr:gt(0)").remove();
+                                $("#datatable1 tbody").html(str);
+                                //alert(str);
+                    }
+
+                });
+            
+
+
+
+        }
+
+
 
     </script>
    
@@ -858,7 +935,7 @@
                                                             <div class="dataTables_info" id="datatable1_info">
                                                                 <font style="vertical-align: inherit;">
                                                              <font style="vertical-align: inherit;">
-                                                                 共有<label id="count">X</label>条数据/当前第<label id="pageindex">1</label>页
+                                                                 共有<label id="count">X</label>页/当前第<label id="pageindex">1</label>页
                                                              </font>
                                                          </font>
                                                             </div>
@@ -892,7 +969,7 @@
                                                                      </font>
                                                                         </a>
                                                                     </li>
-                                                                    <li class="" id="endindex">
+                                                                    <li class="" id="endindex" onclick="Endindex();">
                                                                         <a tabindex="0" class="paginate_button last" id="datatable1_last">
                                                                             <font style="vertical-align: inherit;">
                                                                          <font style="vertical-align: inherit;">

@@ -159,6 +159,8 @@ namespace HRCMDemoDAL
             return Commnuity(sql).Count > 0 ? Commnuity(sql) : new List<UserInfoEntity>();
         }
 
+        
+
 
 
     }
