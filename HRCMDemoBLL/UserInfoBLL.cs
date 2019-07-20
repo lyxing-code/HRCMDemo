@@ -69,6 +69,16 @@ namespace HRCMDemoBLL
         }
 
 
+        /// <summary>
+        /// 分页查询
+        /// </summary>
+        /// <param name="pageindex">当前页码</param>
+        /// <param name="pagesize">显示条数</param>
+        /// <returns></returns>
+        public  List<UserInfoEntity> GetPageSelect(int pageindex, int pagesize)
+        {
+            return UserInfoDAL.PageSelect(pageindex, pagesize);
+        }
 
 
     }

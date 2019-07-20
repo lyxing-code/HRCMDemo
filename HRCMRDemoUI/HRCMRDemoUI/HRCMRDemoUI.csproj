@@ -376,6 +376,7 @@
     <Content Include="Handler\EmpHandler.ashx" />
     <Content Include="Handler\ImageHandler.ashx" />
     <Content Include="Handler\UserHandler.ashx" />
+    <Content Include="Handler\PageHandler.ashx" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="img\addressbook\1.jpg" />
     <Content Include="img\addressbook\2.jpg" />
@@ -1399,6 +1400,9 @@
     </Compile>
     <Compile Include="Handler\ImageHandler.ashx.cs">
       <DependentUpon>ImageHandler.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handler\PageHandler.ashx.cs">
+      <DependentUpon>PageHandler.ashx</DependentUpon>
     </Compile>
     <Compile Include="Handler\UserHandler.ashx.cs">
       <DependentUpon>UserHandler.ashx</DependentUpon>

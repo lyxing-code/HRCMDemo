@@ -129,7 +129,7 @@
                 
             });
 
-
+            //点击头像下拉框显示
             $("#a_userinfo").click(function () {
                 //alert(1);
                 $("#depttable").hide();

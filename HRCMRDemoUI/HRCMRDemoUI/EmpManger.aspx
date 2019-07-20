@@ -47,11 +47,13 @@
     </style>
 
     <script>
-
-
+         
+        var index = 1;
+        var size = 3;
         $(function () {
+        
             //数据加载
-            BindData("select","","");
+            //BindData("select","","");
 
             //绑定部门下拉框
             DllBind("#selectdept");
@@ -65,8 +67,9 @@
                 //alert(id + "|" + name);
                 SelectByNameOrDept(id,name);
             });
+            
+          
 
-            //addInfo();
         });
 
         //绑定部门下拉框
@@ -132,7 +135,8 @@
 
 
         //数据绑定
-        function BindData(op,id,name) {
+        function BindData(op, id, name) {
+             $("#pageindex").text("1");
               $.ajax({
              type: "get",
                     url: "Handler/EmpHandler.ashx",
@@ -466,6 +470,195 @@
 
         } 
 
+         
+        //分页显示条数下拉数据绑定
+        function SetPagesize() {
+            var pagesize = $("#pagesize").val();
+            var pageindex = $("#pageindex").text();
+            index = pageindex; 
+            size = pagesize;
+            //alert(index  + "/"  +size );
+         $.ajax({
+                    type: "post",
+                    url: "Handler/PageHandler.ashx",
+                    data:
+                        {
+                            Getpageindex:index ,
+                            Getpagesize: size,
+                        },
+                   dataType: "json",
+                    success: function (rs)
+                    {
+                             var str = "";
+                        //alert(rs.txtuserNameModal);
+                         $.each(rs , function (index,item) {
+                                str += "<tr class=gradeA odd'>";
+                                str += "<td><input type='checkbox' name='chklist' value='' id='"+item.UserID+"'  /></td>";
+                                str += "<td>" + item.UserNumber + "</td>";
+                                str += "<td>" + item.UserName + "</td>"; 
+                                str += "<td ><img class='imagecss' alt='无法加载' src='UserFace/"+item.UserFace+"' /></td>";
+                                str += "<td>" + item.DepartmentName + "</td>";
+                                str += "<td>" + (item.UserSex == 1 ? "<font color='blue'>男</font>" : "<font color='red'>女</font>") + "</td>";
+                                str += "<td>" + item.UserAge + "</td>";
+                                str += "<td>" + item.UserTel + "</td>";
+                                str += "<td>" + item.RoleName + "</td>";
+                                str += "<td>" + (item.DimissionTime).substring(0,(item.DimissionTime).indexOf("T")) + "</td>";
+                                str += "<td>" + (item.UserStatr == 1 ? "<font color='green'>可登录</font>" : "<font color='red'>不可登录</font>" ) + "</td>";
+                                str += "<td>" + (item.BasePay + " ¥") + "</td>";
+                                str +="<td><input class='btn btn-success' type='button' name='name' value='修改'  onclick='updateinfo("+item.UserID+");' /></td>"
+                                str += "</tr>";
+                          });
+                              $("#datatable1 tr:gt(0)").remove();
+                                $("#datatable1 tbody").html(str);
+                                //alert(str);
+                    }
+
+                });
+
+        }
+        //首页
+        function Firindex() {
+            var pagesize = $("#pagesize").val();
+            $("#pageindex").text("1");
+            var pageindex = $("#pageindex").text();
+            index = pageindex; 
+            size = pagesize;
+            $.ajax({
+                    type: "post",
+                    url: "Handler/PageHandler.ashx",
+                    data:
+                        {
+                            Getpageindex:index ,
+                            Getpagesize: size,
+                        },
+                   dataType: "json",
+                    success: function (rs)
+                    {
+                             var str = "";
+                        //alert(rs.txtuserNameModal);
+                         $.each(rs , function (index,item) {
+                                str += "<tr class=gradeA odd'>";
+                                str += "<td><input type='checkbox' name='chklist' value='' id='"+item.UserID+"'  /></td>";
+                                str += "<td>" + item.UserNumber + "</td>";
+                                str += "<td>" + item.UserName + "</td>"; 
+                                str += "<td ><img class='imagecss' alt='无法加载' src='UserFace/"+item.UserFace+"' /></td>";
+                                str += "<td>" + item.DepartmentName + "</td>";
+                                str += "<td>" + (item.UserSex == 1 ? "<font color='blue'>男</font>" : "<font color='red'>女</font>") + "</td>";
+                                str += "<td>" + item.UserAge + "</td>";
+                                str += "<td>" + item.UserTel + "</td>";
+                                str += "<td>" + item.RoleName + "</td>";
+                                str += "<td>" + (item.DimissionTime).substring(0,(item.DimissionTime).indexOf("T")) + "</td>";
+                                str += "<td>" + (item.UserStatr == 1 ? "<font color='green'>可登录</font>" : "<font color='red'>不可登录</font>" ) + "</td>";
+                                str += "<td>" + (item.BasePay + " ¥") + "</td>";
+                                str +="<td><input class='btn btn-success' type='button' name='name' value='修改'  onclick='updateinfo("+item.UserID+");' /></td>"
+                                str += "</tr>";
+                          });
+                              $("#datatable1 tr:gt(0)").remove();
+                                $("#datatable1 tbody").html(str);
+                                //alert(str);
+                    }
+
+                });
+        }
+        //下一页
+        function Nexindex() {
+           
+            index++;
+            var pagesize = $("#pagesize").val();
+            $("#pageindex").text(index);
+            var pageindex = $("#pageindex").text();
+            index = pageindex; 
+            size = pagesize;
+            $.ajax({
+                    type: "post",
+                    url: "Handler/PageHandler.ashx",
+                    data:
+                        {
+                            Getpageindex:index ,
+                            Getpagesize: size,
+                        },
+                   dataType: "json",
+                    success: function (rs)
+                    {
+                             var str = "";
+                        //alert(rs.txtuserNameModal);
+                         $.each(rs , function (index,item) {
+                                str += "<tr class=gradeA odd'>";
+                                str += "<td><input type='checkbox' name='chklist' value='' id='"+item.UserID+"'  /></td>";
+                                str += "<td>" + item.UserNumber + "</td>";
+                                str += "<td>" + item.UserName + "</td>"; 
+                                str += "<td ><img class='imagecss' alt='无法加载' src='UserFace/"+item.UserFace+"' /></td>";
+                                str += "<td>" + item.DepartmentName + "</td>";
+                                str += "<td>" + (item.UserSex == 1 ? "<font color='blue'>男</font>" : "<font color='red'>女</font>") + "</td>";
+                                str += "<td>" + item.UserAge + "</td>";
+                                str += "<td>" + item.UserTel + "</td>";
+                                str += "<td>" + item.RoleName + "</td>";
+                                str += "<td>" + (item.DimissionTime).substring(0,(item.DimissionTime).indexOf("T")) + "</td>";
+                                str += "<td>" + (item.UserStatr == 1 ? "<font color='green'>可登录</font>" : "<font color='red'>不可登录</font>" ) + "</td>";
+                                str += "<td>" + (item.BasePay + " ¥") + "</td>";
+                                str +="<td><input class='btn btn-success' type='button' name='name' value='修改'  onclick='updateinfo("+item.UserID+");' /></td>"
+                                str += "</tr>";
+                          });
+                              $("#datatable1 tr:gt(0)").remove();
+                                $("#datatable1 tbody").html(str);
+                                //alert(str);
+                    }
+
+                });
+
+
+             //alert(index);
+        }
+        //上一页
+        function Pevindex() {
+            if (index > 1 ) {
+                index -- ;
+            }
+            var pagesize = $("#pagesize").val();
+            $("#pageindex").text(index);
+            var pageindex = $("#pageindex").text();
+            index = pageindex; 
+            size = pagesize;
+            $.ajax({
+                    type: "post",
+                    url: "Handler/PageHandler.ashx",
+                    data:
+                        {
+                            Getpageindex:index ,
+                            Getpagesize: size,
+                        },
+                   dataType: "json",
+                    success: function (rs)
+                    {
+                             var str = "";
+                        //alert(rs.txtuserNameModal);
+                         $.each(rs , function (index,item) {
+                                str += "<tr class=gradeA odd'>";
+                                str += "<td><input type='checkbox' name='chklist' value='' id='"+item.UserID+"'  /></td>";
+                                str += "<td>" + item.UserNumber + "</td>";
+                                str += "<td>" + item.UserName + "</td>"; 
+                                str += "<td ><img class='imagecss' alt='无法加载' src='UserFace/"+item.UserFace+"' /></td>";
+                                str += "<td>" + item.DepartmentName + "</td>";
+                                str += "<td>" + (item.UserSex == 1 ? "<font color='blue'>男</font>" : "<font color='red'>女</font>") + "</td>";
+                                str += "<td>" + item.UserAge + "</td>";
+                                str += "<td>" + item.UserTel + "</td>";
+                                str += "<td>" + item.RoleName + "</td>";
+                                str += "<td>" + (item.DimissionTime).substring(0,(item.DimissionTime).indexOf("T")) + "</td>";
+                                str += "<td>" + (item.UserStatr == 1 ? "<font color='green'>可登录</font>" : "<font color='red'>不可登录</font>" ) + "</td>";
+                                str += "<td>" + (item.BasePay + " ¥") + "</td>";
+                                str +="<td><input class='btn btn-success' type='button' name='name' value='修改'  onclick='updateinfo("+item.UserID+");' /></td>"
+                                str += "</tr>";
+                          });
+                              $("#datatable1 tr:gt(0)").remove();
+                                $("#datatable1 tbody").html(str);
+                                //alert(str);
+                    }
+
+                });
+            // alert(index);
+        }
+       //末页
+
     </script>
    
    
@@ -527,6 +720,10 @@
                                             <h4>
                                                   <input class="btn btn-danger" type="button" name="name" value="删除" onclick="deleteinfo();" />
                                             </h4>
+                                              &nbsp;&nbsp;&nbsp;
+                                             <h4>
+                                                  <input class="btn btn-default" type="button" name="name" value="点击显示全部" onclick="BindData('select','','');" />
+                                            </h4>
                                             <div class="tools hidden-xs">
                                                 <a href="#box-config" data-toggle="modal" class="config">
                                                     <i class="fa fa-cog"></i>
@@ -561,9 +758,11 @@
                                                        <%-- 显示行数--%>
                                                         <div class="pull-left">
                                                             <div id="datatable1_length" class="dataTables_length">
-                                                                <label><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">节目 </font></font>
-                                                                    <select size="1" name="datatable1_length" aria-controls="datatable1" class="form-control input-sm">
-                                                                        <option value="10" selected="selected"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">10</font></font></option>
+                                                                <label><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">显示</font></font>
+                                                                    <select size="1"  onchange="SetPagesize();"  onload="showaa();" id="pagesize" name="datatable1_length" aria-controls="datatable1" class="form-control input-sm">
+                                                                        <option value="0" selected="selected"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">==请选择==</font></font></option>
+                                                                        <option value="5"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">5</font></font></option>
+                                                                        <option value="10"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">10</font></font></option>
                                                                         <option value="25"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">25</font></font></option>
                                                                         <option value="50"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">50</font></font></option>
                                                                         <option value="100"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">100</font></font></option>
@@ -659,7 +858,7 @@
                                                             <div class="dataTables_info" id="datatable1_info">
                                                                 <font style="vertical-align: inherit;">
                                                              <font style="vertical-align: inherit;">
-                                                                 显示57个参赛作品中的11到20个
+                                                                 共有<label id="count">X</label>条数据/当前第<label id="pageindex">1</label>页
                                                              </font>
                                                          </font>
                                                             </div>
@@ -667,7 +866,7 @@
                                                         <div class="pull-right">
                                                             <div class="dataTables_paginate paging_bs_full" id="datatable1_paginate">
                                                                 <ul class="pagination">
-                                                                    <li class="">
+                                                                    <li class="" id="firindex" onclick="Firindex();">
                                                                         <a tabindex="0" class="paginate_button first" id="datatable1_first">
                                                                             <font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
                                                                         第一页
@@ -675,7 +874,7 @@
                                                                      </font>
                                                                         </a>
                                                                     </li>
-                                                                    <li class="">
+                                                                    <li class="" id="pevindex" onclick="Pevindex();">
                                                                         <a tabindex="0" class="paginate_button previous" id="datatable1_previous">
                                                                             <font style="vertical-align: inherit;">
                                                                          <font style="vertical-align: inherit;">
@@ -684,7 +883,7 @@
                                                                      </font>
                                                                         </a>
                                                                     </li>
-                                                                    <li class="">
+                                                                    <li class="" id="nexindex" onclick="Nexindex();">
                                                                         <a tabindex="0" class="paginate_button next" id="datatable1_next">
                                                                             <font style="vertical-align: inherit;">
                                                                          <font style="vertical-align: inherit;">
@@ -693,7 +892,7 @@
                                                                      </font>
                                                                         </a>
                                                                     </li>
-                                                                    <li class="">
+                                                                    <li class="" id="endindex">
                                                                         <a tabindex="0" class="paginate_button last" id="datatable1_last">
                                                                             <font style="vertical-align: inherit;">
                                                                          <font style="vertical-align: inherit;">
