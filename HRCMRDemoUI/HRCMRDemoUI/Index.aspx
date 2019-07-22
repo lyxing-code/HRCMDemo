@@ -57,11 +57,14 @@
                     //权限分配<a href="UserFace/韩梅梅">UserFace/韩梅梅</a>
                     switch (rs[0].RoleID)
                     {
+                        //leavemanger applicationdate
                         case 1:
+                          
                             break;
                         case 2:
                             $("#deptinfo").hide();
                             $("#deptmanger").hide();
+                           
                             break;
                         case 3:
                             $("#deptinfo").hide();
@@ -76,12 +79,14 @@
                         case 5:
                             $("#deptinfo").hide();
                             $("#deptmanger").hide();
-                             $("#empmanger").hide();
+                            $("#empmanger").hide();
+                            $("#leavemanger").hide();
                             break;
                         default:
                             $("#deptinfo").hide();
                             $("#deptmanger").hide();
-                              $("#empmanger").hide();
+                            $("#empmanger").hide();
+                            $("#leavemanger").hide();
                              break;
                     }
                }
@@ -97,13 +102,13 @@
                 $("#list > li").removeClass("active");
                 $(this).addClass("active");
                 if ($(this).attr("id") == "deptinfo") {
+                    $("#empmangertable").hide();
+                    $("#usertable").hide();
+                    $("#leavetable").hide();
                     $("#depttable").show();
                 } else {
                     $("#depttable").hide();
-                    //$("#empmangertable").hide();
-                    //  $("#usertable").hide();
                 }
-
             });
 
            
@@ -126,6 +131,14 @@
                 } else {
                      $("#empmangertable").hide();
                 }
+
+                if ($(this).attr("id") == "applicationdate") {
+                    $("#leavetable").show();
+                } else {
+                    $("#leavetable").hide();
+                }
+
+
                 
             });
 
@@ -134,6 +147,7 @@
                 //alert(1);
                 $("#depttable").hide();
                 $("#empmangertable").hide();
+                $("#leavetable").hide();
                 $("#usertable").show();
             });
 
@@ -774,8 +788,12 @@
                             <li class="has-sub" id="sumday">
 								<a href="javascript:;" class="">
 								<i class="fa fa-pencil-square-o fa-fw"></i> <span class="menu-text">请假管理</span>
-								<span class="menu-text"></span>
+								<span class="arrow"></span>
 								</a>
+                                <ul class="sub">
+                                    <li id="leavemanger"><a class="" href="#"><span class="sub-menu-text">请假管理</span></a></li>
+									<li id="applicationdate"><a class="" href="#"><span class="sub-menu-text">申请请假</span></a></li>
+                                </ul>
 							</li>
                             <%--请假管理--%>
 
@@ -899,6 +917,10 @@
                    </div>
                 <div style="width:100%;height:100%" class="text-center">
                        <iframe style="width:100%;height:600px;" src="UserInfo.aspx" hidden="hidden" id="usertable" frameborder="0">
+                       </iframe>
+                   </div>
+                 <div style="width:100%;height:100%" class="text-center">
+                       <iframe style="width:100%;height:600px;" src="LeaveInfo.aspx" hidden="hidden" id="leavetable" frameborder="0">
                        </iframe>
                    </div>
            </div>

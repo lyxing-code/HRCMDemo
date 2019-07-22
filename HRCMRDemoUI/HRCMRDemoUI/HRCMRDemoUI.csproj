@@ -149,7 +149,9 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Site.css" />
     <Content Include="css\animatecss\animate.min.css" />
-    <Content Include="css\bootstraptable\bootstrap-table.css" />
+    <Content Include="js\bootstrap-daterangepicker\bootstrap-datetimepicker.zh-CN.js" />
+    <Content Include="js\bootstraptable\bootstrap-table-zh-CN.min.js" />
+    <Content Include="js\bootstraptable\bootstrap-table.css" />
     <Content Include="css\cloud-admin.css" />
     <Content Include="css\cloud-admin.min.css" />
     <Content Include="css\fileup\bootstrap.min.css" />
@@ -286,6 +288,9 @@
     <Content Include="js\datatables\extras\TableTools\media\images\psd\printer.psd" />
     <Content Include="js\datatables\extras\TableTools\media\js\TableTools.min.js.gz" />
     <Content Include="js\datatables\media\images\Sorting icons.psd" />
+    <Content Include="js\datetimepicker\bootstrap-datetimepicker.js" />
+    <Content Include="js\datetimepicker\bootstrap-datetimepicker.min.css" />
+    <Content Include="js\datetimepicker\bootstrap-datetimepicker.zh-CN.js" />
     <Content Include="js\easypiechart\jquery.easypiechart.min.js.2.0" />
     <Content Include="js\easypiechart\jquery.easypiechart.min.js.older" />
     <Content Include="js\fileupjs\fileinput.js" />
@@ -373,6 +378,7 @@
     <Content Include="bootstrap-dist\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="bootstrap-dist\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="bootstrap-dist\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="LeaveInfo.aspx" />
     <Content Include="UserInfo.aspx" />
     <Content Include="WebForm1.aspx" />
     <Content Include="Handler\DeptHandler.ashx" />
@@ -381,6 +387,7 @@
     <Content Include="Handler\UserHandler.ashx" />
     <Content Include="Handler\PageHandler.ashx" />
     <Content Include="HTMLDemo\Handler\BootStrapTableHandler.ashx" />
+    <Content Include="Handler\LeaveHandler.ashx" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="img\addressbook\1.jpg" />
     <Content Include="img\addressbook\2.jpg" />
@@ -1405,6 +1412,9 @@
     <Compile Include="Handler\ImageHandler.ashx.cs">
       <DependentUpon>ImageHandler.ashx</DependentUpon>
     </Compile>
+    <Compile Include="Handler\LeaveHandler.ashx.cs">
+      <DependentUpon>LeaveHandler.ashx</DependentUpon>
+    </Compile>
     <Compile Include="Handler\PageHandler.ashx.cs">
       <DependentUpon>PageHandler.ashx</DependentUpon>
     </Compile>
@@ -1420,6 +1430,13 @@
     </Compile>
     <Compile Include="Index.aspx.designer.cs">
       <DependentUpon>Index.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="LeaveInfo.aspx.cs">
+      <DependentUpon>LeaveInfo.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="LeaveInfo.aspx.designer.cs">
+      <DependentUpon>LeaveInfo.aspx</DependentUpon>
     </Compile>
     <Compile Include="Login.aspx.cs">
       <DependentUpon>Login.aspx</DependentUpon>

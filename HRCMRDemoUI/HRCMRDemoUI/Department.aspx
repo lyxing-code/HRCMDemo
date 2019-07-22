@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title></title>
+    <title>HRCM 人力之源管理 | 部门管理</title>
     <link rel="stylesheet" type="text/css" href="css/cloud-admin.css" />
 	<link rel="stylesheet" type="text/css"  href="css/themes/default.css" id="skin_switcher" />
 	<link rel="stylesheet" type="text/css"  href="css/responsive.css" />
