@@ -60,6 +60,7 @@
             DllBind("#selectdeptModal");
             //绑定权限下拉框
             DllRole();
+            
             //复合查询
             $("#selector").click(function () {
                 var id = $("#selectdept > option:selected").val();
@@ -136,7 +137,8 @@
 
         //数据绑定
         function BindData(op, id, name) {
-             $("#pageindex").text("1");
+            $("#pageindex").text("1");
+            $("#count").text("1");
               $.ajax({
              type: "get",
                     url: "Handler/EmpHandler.ashx",

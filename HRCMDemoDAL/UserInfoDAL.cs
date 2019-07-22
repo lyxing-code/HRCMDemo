@@ -159,7 +159,18 @@ namespace HRCMDemoDAL
             return Commnuity(sql).Count > 0 ? Commnuity(sql) : new List<UserInfoEntity>();
         }
 
-        
+        /// <summary>
+        /// bootstraptable分页查询
+        /// </summary>
+        /// <param name="pageindex">当前页码</param>
+        /// <param name="pagesize">显示条数</param>
+        /// <returns></returns>
+        public static List<UserInfoEntity>BootstrapPageSelect(int pageindex, int pagesize)
+        {
+            string sql = "SELECT * FROM v_page WHERE  idx BETWEEN " + pageindex + "+1 AND " + (pageindex + pagesize) + "";
+            return Commnuity(sql).Count > 0 ? Commnuity(sql) : new List<UserInfoEntity>();
+        }
+
 
 
 

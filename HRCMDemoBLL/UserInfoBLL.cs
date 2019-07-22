@@ -81,5 +81,15 @@ namespace HRCMDemoBLL
         }
 
 
+        /// <summary>
+        /// bootstraptable分页查询
+        /// </summary>
+        /// <param name="pageindex">当前页码</param>
+        /// <param name="pagesize">显示条数</param>
+        /// <returns></returns>
+        public  List<UserInfoEntity> GetBootstrapPageSelect(int pageindex, int pagesize)
+        {
+            return UserInfoDAL.BootstrapPageSelect(pageindex, pagesize);
+        }
     }
 }

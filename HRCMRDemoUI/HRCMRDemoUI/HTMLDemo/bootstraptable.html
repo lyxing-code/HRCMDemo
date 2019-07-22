@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>bootstrapTable</title>
+    <script src="../Scripts/jquery-3.3.1.js"></script>
+    <script src="../bootstrap-dist/js/bootstrap.js"></script>
+    <link href="../Content/bootstrap.css" rel="stylesheet" />
+    <link href="../css/bootstraptable/bootstrap-table.css" rel="stylesheet" />
+    <script src="../js/bootstraptable/bootstrap-table.js"></script>
+
+    <script>
+
+
+    </script>
+</head>
+<body>
+    <table id="emptable">
+
+    </table>
+    <script>
+        $("#emptable").bootstrapTable({
+                url: 'Handler/BootStrapTableHandler.ashx', //请求后台的URL（*）控制器中的方法   那个控制器 那个方法
+                dataType: "json",
+                method: "get",
+                striped: true, //是否显示行间隔色
+                cache: false, //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                pagination: true, //是否显示分页（*）
+                //sortable: false, //是否启用排序
+                sidePagination: "server", //分页方式：client客户端分页，server服务端分页（*）       打开后表中才有数据
+                pageNumber: 1, //初始化加载第一页，默认第一页
+                clickToSelect: true, // 是否启用点击选中行
+                pageSize: 5, //每页的记录行数（*）
+                pageList: [5, 10, 15, 20], //可供选择的每页的行数（*）
+                queryParams: function (parms) {
+                    var temp = { //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
+                        //页面大小
+                        limit: parms.limit, //页面大小
+                        //////页码
+                        offset: parms.offset,
+                        //DepartmentID: $("#slDepartment").val(),
+                        //UserName: $("#txtUserName").val()
+                    };
+                    return temp;
+                },
+                columns: [
+                    { checkbox: true },
+                    { field: 'UserID', title: '编号', align: 'center' },    
+                    { field: 'UserName', title: '姓名',  align: 'center' },
+                    { field: 'DepartmentName', title: '部门', align: 'center', },
+                    { field: 'UserSex', title: '性别', align: 'center' },
+                    { field: 'UserAge', title: '年龄', align: 'center' },
+                    { field: 'UserTel', title: '联系电话',  align: 'center' },
+                    {
+                        field: 'DimissionTime',
+                        title: '入职时间',
+                        align: 'center',
+                        formatter: function (value) {
+                            if (value != null) {
+                                var date = new Date(parseInt(value.replace("/Date(", "").replace(")/", ""), 10));
+                                var month = date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+                                var currentDate = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+                                return date.getFullYear() + "-" + month + "-" + currentDate;
+                                return date.getFullYear() + "-" + month + "-" + currentDate;
+                            }
+                        }
+                    },
+                    { field: 'BasePay', title: '基本工资',  align: 'center' }
+                ]
+
+        });
+
+    </script>
+</body>
+</html>
