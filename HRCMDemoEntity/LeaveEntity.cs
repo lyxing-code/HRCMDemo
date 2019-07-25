@@ -9,7 +9,7 @@ namespace HRCMDemoEntity
     /// <summary>
     /// 申请请假
     /// </summary>
-    public class LeaveEntity : UserInfoEntity
+    public class LeaveEntity : UserInfoEntity,ICategoryItemsInterface
     {
         public int LeaveID { get; set; }
 
@@ -34,5 +34,13 @@ namespace HRCMDemoEntity
         public DateTime ApprovalTime { get; set; }
 
         public string ApproverReason { get; set; }
+
+        public int CID { get ; set; }
+        public string C_Category { get ; set ; }
+        public int CI_ID { get; set; }
+        public string CI_Name { get; set; }
+
+
+        
     }
 }

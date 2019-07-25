@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="DepartmentEntity.cs" />
     <Compile Include="DepartmentTableEntity.cs" />
+    <Compile Include="ICategoryItemsInterface.cs" />
     <Compile Include="JobTableEntity.cs" />
     <Compile Include="LeaveEntity.cs" />
     <Compile Include="LoginTableEntity.cs" />
