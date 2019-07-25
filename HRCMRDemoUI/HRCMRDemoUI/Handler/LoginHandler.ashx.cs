@@ -32,7 +32,7 @@ namespace HRCMRDemoUI
             }
         }
 
-       private static UserInfoEntity obj = new UserInfoEntity();
+        private static UserInfoEntity obj = new UserInfoEntity();
         public void Login(HttpContext context)
         {
             string name = context.Request["name"];

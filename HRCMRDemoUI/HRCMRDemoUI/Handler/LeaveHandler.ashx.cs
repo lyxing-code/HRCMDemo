@@ -104,7 +104,7 @@ namespace HRCMRDemoUI.Handler
             }
             else
             {
-                var date = from o in new LeaveBLL().GetSelectAll()
+                var date = from o in list
                            where o.UserID == user.UserID
                            select o;
                 var json = new

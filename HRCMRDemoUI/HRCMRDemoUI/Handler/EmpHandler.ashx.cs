@@ -44,13 +44,33 @@ namespace HRCMRDemoUI.Handler
                 case "updatebyid":
                     UpdatebyId(context);
                     break;
+                case "updatelogins":
+                    Updatelogins(context);
+                    break;
                 default:
                     break;
             }
 
         }
 
-      
+        private void Updatelogins(HttpContext context)
+        {
+            string id = context.Request["userid"];
+            if (new UserInfoBLL().UpdateLoginState(id))
+            {
+                LoginHandler.contextResponseWrite(context, "updatesuccess");
+            }
+            else
+            {
+                LoginHandler.contextResponseWrite(context, "updatefailed");
+            }
+
+            //throw new NotImplementedException();
+        }
+
+
+
+
         //修改
         public void UpdatebyId(HttpContext context)
         {

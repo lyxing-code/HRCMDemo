@@ -197,7 +197,7 @@
                                  <table style="margin-top:5px;margin-bottom:8px;">
                                    <tr>
                                   <td>
-                                      <label style="float:left;margin-top:6px;" class="label-left">按照离开时间查询:</label>&nbsp;&nbsp;
+                                      <label style="float:left;margin-top:6px;" class="label-left">按照申请时间查询:</label>&nbsp;&nbsp;
                                       <input type="datetime"  style="width:25%;float:left"  class=" form-control" id="timestart" name="name" value="" />
                                       <label style="float:left;margin-top:5px;">&nbsp;至&nbsp;</label>
                                       <input type="datetime" style="width:25%;float:left" class=" form-control " id="timeend" name="name" value="" />
@@ -359,8 +359,8 @@
                 sidePagination: "server", //分页方式：client客户端分页，server服务端分页（*）       打开后表中才有数据
                 pageNumber: 1, //初始化加载第一页，默认第一页
                 clickToSelect: false, // 是否启用点击选中行
-                pageSize: 5, //每页的记录行数（*）
-                pageList: [5, 10, 15, 20], //可供选择的每页的行数（*）
+                pageSize: 50, //每页的记录行数（*）
+                pageList: [50], //可供选择的每页的行数（*）
                 queryParams: function (parms) {
                     var temp = { //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
                         op: "select",//此参数用来判断操作

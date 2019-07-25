@@ -15,7 +15,7 @@ namespace HRCMDemoBLL
         /// <param name="pageindex">当前页码</param>
         /// <param name="pagesize">显示条数</param>
         /// <returns></returns>
-        public  List<LeaveEntity> GetBootstrapPageSelect(int pageindex, int pagesize,ref int count)
+        public List<LeaveEntity> GetBootstrapPageSelect(int pageindex, int pagesize, ref int count)
 
         {
             return HRCMDemoDAL.LeaveDAL.BootstrapPageSelect(pageindex, pagesize, ref count);
@@ -27,7 +27,7 @@ namespace HRCMDemoBLL
         /// </summary>
         /// <param name="obj">请假的实例</param>
         /// <returns>bool</returns>
-        public  bool AddLeaveInfo(LeaveEntity obj)
+        public bool AddLeaveInfo(LeaveEntity obj)
         {
 
             return HRCMDemoDAL.LeaveDAL.InsertInfo(obj);
@@ -37,7 +37,7 @@ namespace HRCMDemoBLL
         /// 查询所有信息
         /// </summary>
         /// <returns></returns>
-        public  List<LeaveEntity> GetSelectAll()
+        public List<LeaveEntity> GetSelectAll()
         {
             return HRCMDemoDAL.LeaveDAL.SelectAll();
         }
@@ -47,7 +47,7 @@ namespace HRCMDemoBLL
         /// </summary>
         /// <param name="idlist">请假信息id的集合字符串</param>
         /// <returns>bool</returns>
-        public  bool GetDeleteInfoBylevidlist(string idlist)
+        public bool GetDeleteInfoBylevidlist(string idlist)
         {
             return HRCMDemoDAL.LeaveDAL.DeleteInfoBylevidlist(idlist);
         }
@@ -59,11 +59,11 @@ namespace HRCMDemoBLL
         /// <param name="start">起始时间</param>
         /// <param name="end">结束时间</param>
         /// <returns></returns>
-        public  List<LeaveEntity> GetSelectDate(string start, string end)
+        public List<LeaveEntity> GetSelectDate(string start, string end)
         {
             return HRCMDemoDAL.LeaveDAL.SelectDate(start, end);
         }
 
 
-        }
+    }
 }

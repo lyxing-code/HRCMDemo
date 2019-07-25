@@ -134,6 +134,33 @@
 
         }
 
+        //登录状态设置
+        function UpdateRole(id) {
+            //alert(id);
+            $.ajax({
+                type: "post",
+                url: "Handler/EmpHandler.ashx",
+                data:
+                {
+                    Method: "updatelogins",
+                    userid: id,
+                },
+                dataType: "json",
+                async: false,
+                success: function (rs)
+                {
+                    if (rs != "updatefailed") {
+                        alert("设置成功!");
+                        BindData("select", "", "");
+                    } else {
+                        alert("设置失败!");
+                    }
+                }
+
+
+            });
+
+        }
 
         //数据绑定
         function BindData(op, id, name) {
@@ -165,12 +192,12 @@
                                 str += "<td>" + item.UserAge + "</td>";
                                 str += "<td>" + item.UserTel + "</td>";
                                 str += "<td>" + item.RoleName + "</td>";
-                                str += "<td>" + (item.DimissionTime).substring(0,(item.DimissionTime).indexOf("T")) + "</td>";
-                                str += "<td>" + (item.UserStatr == 1 ? "<font color='green'>可登录</font>" : "<font color='red'>不可登录</font>" ) + "</td>";
+                                str += "<td>" + (item.DimissionTime).substring(0, (item.DimissionTime).indexOf("T")) + "</td>";
+                                str += "<td>" + (item.UserStatr == 1 ? "<a class='btn-link' onclick='UpdateRole(" + item.UserID + ");'><font color='green'>可登录</font></a>" : "<a class='btn-link' onclick='UpdateRole(" + item.UserID +");'><font color='red'>不可登录</font></a>" ) + "</td>";
                                 str += "<td>" + (item.BasePay + " ¥") + "</td>";
-                                str +="<td><input class='btn btn-success' type='button' name='name' value='修改'  onclick='updateinfo("+item.UserID+");' /></td>"
+                                str += "<td><input class='btn btn-success' type='button' name='name' value='修改'  onclick='updateinfo(" + item.UserID +");' /></td>"
+                               
                                 str += "</tr>";
-
                             });
                               $("#datatable1 tr:gt(0)").remove();
                               $("#datatable1 tbody").append(str);
@@ -744,7 +771,7 @@
 
 </head>
 <body>
-        <div>
+        <div class="">
            <%--大层div--%>
             <div style="width: 95%; height: 90%">
 

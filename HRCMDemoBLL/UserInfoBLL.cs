@@ -91,5 +91,11 @@ namespace HRCMDemoBLL
         {
             return UserInfoDAL.BootstrapPageSelect(pageindex, pagesize);
         }
+
+        public  bool UpdateLoginState(string id)
+        {
+            return UserInfoDAL.UpdateLoginState(id);
+        }
+
     }
 }
