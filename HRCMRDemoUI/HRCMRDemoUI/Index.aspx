@@ -64,29 +64,32 @@
                         case 2:
                             $("#deptinfo").hide();
                             $("#deptmanger").hide();
-                           
                             break;
                         case 3:
                             $("#deptinfo").hide();
                             $("#deptmanger").hide();
                             $("#empmanger").hide();
+                            $("#applicationnote").hide();
                             break;
                         case 4:
                             $("#deptinfo").hide();
                             $("#deptmanger").hide();
-                              $("#empmanger").hide();
+                            $("#empmanger").hide();
+                            $("#applicationnote").hide();
                             break;
                         case 5:
                             $("#deptinfo").hide();
                             $("#deptmanger").hide();
                             $("#empmanger").hide();
                             $("#leavemanger").hide();
+                            $("#applicationnote").hide();
                             break;
                         default:
                             $("#deptinfo").hide();
                             $("#deptmanger").hide();
                             $("#empmanger").hide();
                             $("#leavemanger").hide();
+                            $("#applicationnote").hide();
                              break;
                     }
                }
@@ -103,9 +106,10 @@
                 $(this).addClass("active");
                 if ($(this).attr("id") == "deptinfo") {
                     $("#empmangertable").hide();
+                    $("#depttable").show();
                     $("#usertable").hide();
                     $("#leavetable").hide();
-                    $("#depttable").show();
+                    $("#leavemangertable").hide();
                 } else {
                     $("#depttable").hide();
                 }
@@ -122,9 +126,8 @@
                     $("#usertable").show();
                  }
                  else {
-                    
                      $("#usertable").hide();
-                }
+                 }
 
                 if ($(this).attr("id") =="empmanger" ) {
                     $("#empmangertable").show();
@@ -138,7 +141,13 @@
                     $("#leavetable").hide();
                 }
 
+                if ($(this).attr("id") == "leavemanger") {
+                    $("#leavemangertable").show();
+                } else {
+                    $("#leavemangertable").hide();
+                }
 
+               
                 
             });
 
@@ -793,6 +802,7 @@
                                 <ul class="sub">
                                     <li id="leavemanger"><a class="" href="#"><span class="sub-menu-text">请假管理</span></a></li>
 									<li id="applicationdate"><a class="" href="#"><span class="sub-menu-text">申请请假</span></a></li>
+                                    <li id="applicationnote"><a class="" href="#"><span class="sub-menu-text">请假记录</span></a></li>
                                 </ul>
 							</li>
                             <%--请假管理--%>
@@ -921,6 +931,10 @@
                    </div>
                  <div style="width:100%;height:100%" class="text-center">
                        <iframe style="width:100%;height:600px;" src="LeaveInfo.aspx" hidden="hidden" id="leavetable" frameborder="0">
+                       </iframe>
+                   </div>
+                 <div style="width:100%;height:100%" class="text-center">
+                       <iframe style="width:100%;height:600px;" src="LeaveManger.aspx" hidden="hidden" id="leavemangertable" frameborder="0">
                        </iframe>
                    </div>
            </div>

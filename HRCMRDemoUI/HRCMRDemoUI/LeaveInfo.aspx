@@ -471,7 +471,7 @@
         
     </script>
     <hr />
-    <label id="test" class="label label-danger ">123</label>
+   <%-- <label id="test" class="label label-danger ">123</label>--%>
     
 </body>
 </html>

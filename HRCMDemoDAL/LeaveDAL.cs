@@ -100,6 +100,16 @@ namespace HRCMDemoDAL
             return Commnuity(sql).Count > 0 ? Commnuity(sql) : new List<LeaveEntity>();
         }
 
+        /// <summary>
+        /// 按部门查询请假记录信息
+        /// </summary>
+        /// <param name="deptname">部门名称</param>
+        /// <returns></returns>
+        public static List<LeaveEntity> SelectBydept(string deptname)
+        {
+            string sql = "SELECT * FROM v_leavepage WHERE DepartmentName='"+deptname+"' ";
+            return Commnuity(sql).Count > 0 ? Commnuity(sql) : new List<LeaveEntity>();
+        }
 
 
     }

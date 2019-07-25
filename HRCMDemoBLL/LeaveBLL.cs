@@ -64,6 +64,15 @@ namespace HRCMDemoBLL
             return HRCMDemoDAL.LeaveDAL.SelectDate(start, end);
         }
 
+        /// <summary>
+        /// 按部门获取请假记录信息
+        /// </summary>
+        /// <param name="deptname">部门名称</param>
+        /// <returns></returns>
+        public  List<LeaveEntity> GetSelectBydept(string deptname)
+        {
+            return HRCMDemoDAL.LeaveDAL.SelectBydept(deptname);
+        }
 
     }
 }

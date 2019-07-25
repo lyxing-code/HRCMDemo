@@ -379,6 +379,7 @@
     <Content Include="bootstrap-dist\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="bootstrap-dist\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="LeaveInfo.aspx" />
+    <Content Include="LeaveManger.aspx" />
     <Content Include="UserInfo.aspx" />
     <Content Include="WebForm1.aspx" />
     <Content Include="Handler\DeptHandler.ashx" />
@@ -1437,6 +1438,13 @@
     </Compile>
     <Compile Include="LeaveInfo.aspx.designer.cs">
       <DependentUpon>LeaveInfo.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="LeaveManger.aspx.cs">
+      <DependentUpon>LeaveManger.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="LeaveManger.aspx.designer.cs">
+      <DependentUpon>LeaveManger.aspx</DependentUpon>
     </Compile>
     <Compile Include="Login.aspx.cs">
       <DependentUpon>Login.aspx</DependentUpon>

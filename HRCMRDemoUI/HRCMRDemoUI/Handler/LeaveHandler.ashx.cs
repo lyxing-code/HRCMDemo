@@ -31,11 +31,34 @@ namespace HRCMRDemoUI.Handler
                 case "deleteinfo":
                     Deleteinfo(context);
                     break;
+                case "selectbydept":
+                    Selectbydept(context);
+                    break;
                 default:
                     break;
             }
          
 
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
+        private void Selectbydept(HttpContext context)
+        {
+            string starttime = (context.Request["starttime"]);
+            string endtime = (context.Request["endtime"]);
+            if (user.RoleID != 4 || user.RoleID !=5)
+            {
+                List<LeaveEntity> list = new LeaveBLL().GetSelectBydept(user.DepartmentName);
+                LoginHandler.contextResponseWrite(context, list);
+            }
+            else
+            {
+                LoginHandler.contextResponseWrite(context, "error");
+            }
+            //throw new NotImplementedException();
         }
 
         /// <summary>
@@ -149,6 +172,10 @@ namespace HRCMRDemoUI.Handler
                 LoginHandler.contextResponseWrite(context, "delfailed");
             }
         }
+
+
+
+      
 
 
         public bool IsReusable
