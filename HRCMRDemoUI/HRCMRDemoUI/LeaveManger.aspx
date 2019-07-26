@@ -34,7 +34,9 @@
     <script src="js/bootstraptable/bootstrap-table-zh-CN.min.js"></script>
     <script>    
         $(function () {
-            DllBind("#selectdept");
+            //DllBind("#selectdept");
+            //alert(message);
+            //$("#leavetable").bootstrapTable("refresh");
         });
 
         //绑定部门下拉框
@@ -66,13 +68,73 @@
             });
         }
 
+        var str = "";
+        //打开审批模态框
         function ApplicationCheck() {
-            $("#myModal").modal("show");
+            var LeaveRemark = "";
+            $("#leavetable > tbody > tr").each(function (index, item) {
+                if ($(this).hasClass("selected")) {
+                    //username = $(this).children("td:nth-child(3)").text();
+                    //#leavetable > tbody > tr:nth-child(1) > td:nth-child(13)
+                    str += $(this).children("td:nth-child(4)").text() + ",";
+                    LeaveRemark += $(this).children("td:nth-child(13)").text() + ",";
+                }
+            });
+            str = str.substring(0, str.length - 1);
+            LeaveRemark = LeaveRemark.substring(0, LeaveRemark.length - 1);
+            $("#txtLeaveRemarkModal1").val(LeaveRemark);
+            if (str == "") {
+                $("#msg").text("请选择审批行!");
+                $("#CheckViewModal").modal("show");
+            }
+            else
+            {
+                $("#myModal").modal("show");
+                $("#msg").text("审批成功!");
+            }
+
+
         }
 
+        //查询
+        function Selectbystr() {
+            $("#leavetable").bootstrapTable("refresh");
+        }
+
+        //审批操作
         function submitinfo() {
-            $("#myModal").modal("hide");
-            $("#CheckViewModal").modal("show");
+            //$("#myModal").modal("hide");
+            var reason = $("#txtLeaveRemarkModal2").val();
+            var leavestate = $("#selectcheck").val();
+
+            //alert(str + "|" + reason + "|" + leavestate);
+            $.ajax({
+                type:"post",
+                url: "Handler/LeaveHandler.ashx",
+                data: {
+                    op:"updateleavestate",
+                    leaveid: str,
+                    leavestate: leavestate,
+                    leavereason: reason
+                },
+                dataType: "json",
+                success: function (rs) {
+
+                    if (rs != "updatefailed") {
+                        $("#msg").text("审批成功!");
+                        $("#CheckViewModal").modal("show");
+                        $("#leavetable").bootstrapTable("refresh");
+                    }
+                    else
+                    {
+                        $("#msg").text("审批不成功!");
+                    }
+                }
+
+            });
+
+                $("#myModal").modal("hide");
+            
         }
 
     </script>
@@ -103,7 +165,7 @@
                                    <tr>
                                     <td class=" label-inverse label-left">部门:&nbsp;&nbsp;</td>
                                     <td>
-                                        <select  id="selectdept" class="form-control" style="width: 150px">
+                                        <select  id="selectdept" disabled="disabled" class="form-control" style="width: 150px">
                                   
                                         </select>
                                       
@@ -121,7 +183,7 @@
                                        </td>
                                        <td>&nbsp;</td>
                                       <td>
-                                            <input type="button" class="btn btn-grey"  name="name" value="查询" onclick="Selectbydate();" />
+                                            <input type="button" class="btn btn-grey"  name="name" value="查询" onclick="Selectbystr();" />
                                       </td>
                                           <td>&nbsp;</td>
                                       <td>
@@ -214,7 +276,7 @@
                         <h4 class="modal-title" id="ViewModalLabel">操作提示</h4>
                     </div>
                     <div class="modal-body">
-                        <label>操作成功</label>
+                        <label id="msg">操作成功</label>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">确定</button>
@@ -224,9 +286,6 @@
             </div>
             <!-- /.modal -->
         </div>
-
-
-
           </div>
         </div>
     <script>
@@ -235,23 +294,28 @@
             BindDate();
             //绑定datatable
             DataTable();
+            
+            //$("#leavetable").bootstrapTable("refresh");
         });
 
+        var deptname = "";
         //绑定datatable
         function DataTable() {
             $("#leavetable").bootstrapTable({
                 url: 'Handler/LeaveHandler.ashx', //请求后台的URL（*）控制器中的方法   那个控制器 那个方法
                 dataType: "json",
+                //async: true,//同步发送请求
                 method: "get",
+                //type: "get",
                 striped: true, //是否显示行间隔色
                 cache: false, //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
-                //pagination: true, //是否显示分页（*）
+                pagination: true, //是否显示分页（*）
                 //sortable: true, //是否启用排序
-                //sidePagination: "client", //分页方式：client客户端分页，server服务端分页（*）       打开后表中才有数据
+                sidePagination: "client", //分页方式：client客户端分页，server服务端分页（*）       打开后表中才有数据
                 pageNumber: 1, //初始化加载第一页，默认第一页
                 clickToSelect: false, // 是否启用点击选中行
-                pageSize: 50, //每页的记录行数（*）
-                pageList: [50], //可供选择的每页的行数（*）
+                pageSize: 5, //每页的记录行数（*）
+                pageList: [10,20,40], //可供选择的每页的行数（*）
                 queryParams: function (parms) {
                     var temp = { //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
                         op: "selectbydept",//此参数用来判断操作
@@ -266,7 +330,15 @@
                     { field: 'UserID', title: '用户编号', align: 'center', class: 'hidden' },
                     { field: 'LeaveID', title: '编号', align: 'center', class: 'hidden' },
                     { field: 'UserName', title: '姓名', align: 'center', },
-                    { field: 'DepartmentName', title: '部门', align: 'center' },
+                    {
+                        field: 'DepartmentName', title: '部门', align: 'center',
+                        formatter: function (value) {
+                            if (value != null) {
+                                $("#selectdept").append("<option value='-1'>" + value + "</option>")
+                                return value;
+                            }
+                        }
+                    },
                     { field: 'UserTel', title: '电话', align: 'center' },
                     {
                         field: 'LeaveStartTime',
@@ -288,8 +360,24 @@
                     },
                     { field: 'LeaveDays', title: '请假工时', align: 'center', formatter: function (value) { return "<font color='blue'>" + value + "</font>" } },
                     { field: 'LeaveHalfDay', title: '是否为半天', align: 'center' },
-                    { field: 'LeaveTime', title: '申请时间', align: 'center' },
-                    { field: 'LeaveReason', title: '理由', align: 'center' }
+                    { field: 'LeaveTime', title: '申请时间', align: 'center', formatter: function (value) { return value.substring(0, value.indexOf("T")); } },
+                    { field: 'LeaveReason', title: '理由', align: 'center' },
+                    {
+                        field: 'CI_Name',//LeaveState
+                        title: '审批状态',
+                        align: 'center',
+                        formatter: function (value) {
+                            if (value != null) {
+                                if (value == "审批中") {
+                                    return "<label class='label label-warning'>未审批</label>";
+                                }
+                                else{
+                                    return "<label class='label label-success'>已审批</label>";
+                                }
+
+                            }
+                        }
+                    },
                 ]
 
             });
@@ -314,6 +402,7 @@
                 clearBtn: true//清除按钮
             });
         }
-    </script>
+
+      </script>
 </body>
 </html>

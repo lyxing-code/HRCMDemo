@@ -36,6 +36,15 @@
         //点击申请按钮打开模态框
         function ApplicationDate()
         {
+            //默认不显示
+            $(".selectdaytimes").hide();
+
+            $("#txtdateStartModal").val("");
+            $("#txtdateEndModal").val("");
+            $("#selectdaytimes").val("全天")
+            $("LeaveTimeChaModal").val("")
+            $("selectdaytimeval").text("")
+
             $('#myModal').modal("show");
         }
 
@@ -168,6 +177,94 @@
            $("#leavetable").bootstrapTable('refresh');
         }
 
+       
+        //验证部分//
+        function Starttime() {
+            //alert($("#txtdateStartModal").val());
+            var starttime = $("#txtdateStartModal").val();
+            var endtime = $("#txtdateEndModal").val();
+
+            if (starttime != "")
+            {   
+                var day = new Date(starttime).getDay();
+                
+                if (day == 0 || day==6) {
+                    alert("节假日不用请假!");
+                    return false;
+                }
+
+                if (showthisday(starttime, endtime)) {
+                    $(".selectdaytimes").show();
+                } else {
+                    $(".selectdaytimes").hide();
+                }
+
+                var day = autotime(starttime, endtime);
+                if (day > 7) {
+                    alert("请假不能超过七天!");
+                    return false;
+                }
+                else
+                {
+                    $("#LeaveTimeChaModal").val(day * 24);
+                }
+            }
+            else
+            {
+                alert("请起始选择日期!");
+            }
+            
+        }
+
+        function Endtime() {
+            var starttime = $("#txtdateStartModal").val();
+            var endtime = $("#txtdateEndModal").val();
+           
+            if (endtime != "") {
+                var day = new Date(endtime).getDay();
+                if (day == 0 || day == 6) {
+                    alert("节假日不用请假!");
+                    return false;
+                }
+                if (showthisday(starttime, endtime)) {
+                    $(".selectdaytimes").show();
+                } else {
+                    $(".selectdaytimes").hide();
+                }
+
+                var day = autotime(starttime, endtime);
+                if (day > 7) {
+                    alert("请假不能超过七天!");
+                    return false;
+                } else {
+                    $("#LeaveTimeChaModal").val(day * 24);
+                }
+            }
+            else
+            {
+                alert("请选择结束日期!");
+            }
+           
+        }
+
+        //隐藏
+        function showthisday(start,end) {
+            if (start == end) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        //自动计算时长
+        function autotime(start, end) {
+            var starttime = new Date(start);
+            var endtime = new Date(end);
+            //先计算出距离1900-1-1的时间差的毫秒数 / 1000(秒数) / 3600(小时)/24(天)
+            var ndays = Math.abs(parseInt(Date.parse(starttime) - Date.parse(endtime)) / 1000 / 3600 / 24);
+            return ndays;
+        }
+
 
 
     </script>
@@ -242,22 +339,21 @@
                                    <label>开始时间:</label>&nbsp;&nbsp;&nbsp;
                                 </td>
                                 <td>
-                                    <input type="datetime" placeholder="开始时间" id="txtdateStartModal" class="form-control" name="txtdateStartModal" value="" />
+                                    <input type="datetime" placeholder="开始时间" onchange="Starttime();" id="txtdateStartModal" class="form-control" name="txtdateStartModal" value="" />
                                 </td>
                                 <td>
                                    &nbsp;&nbsp;&nbsp;<label>结束时间:</label>&nbsp;&nbsp;
                                 </td>
                                  <td>
-                                  <input type="datetime" placeholder="结束时间" id="txtdateEndModal" class="form-control" name="txtdateEndModal" value=""  />
+                                  <input type="datetime" placeholder="结束时间" onchange="Endtime();" id="txtdateEndModal" class="form-control" name="txtdateEndModal" value=""  />
                                 </td>
                             </tr>
                             <tr><td>&nbsp;</td></tr>
-                            <tr id="dateselect">
-                                <td>
-                                   <label>是否半天:</label>&nbsp;&nbsp;
-                                </td>
-                                <td>
-                                    <select class="form-control" name="selectdaytimes" id="selectdaytimes" style="width:120px;">
+                            <tr>
+                                <td class="selectdaytimes"><label>是否半天:</label>&nbsp;&nbsp;</td>
+                                <td class="selectdaytimes">
+                                    <select class="form-control" onchange="selecttime();" name="selectdaytimes" id="selectdaytimeval" style="width:120px;">
+                                        <option value="0">*请选择*</option>
                                         <option value="全天">全天</option>
                                         <option value="上午">上午</option>
                                         <option value="下午">下午</option>
@@ -267,7 +363,7 @@
                                    <label>请假时工:</label>&nbsp;&nbsp;
                                 </td>
                                 <td>
-                                    <input type="text" placeholder="以小时为单位" class="form-control"  id="LeaveTimeChaModal" name="LeaveTimeChaModal" value="" />
+                                    <input type="text" placeholder="以小时为单位" disabled="disabled" class="form-control"  id="LeaveTimeChaModal" name="LeaveTimeChaModal" value="" />
                                 </td>
                             </tr>
                              <tr>
@@ -333,8 +429,6 @@
             <!-- /.modal -->
         </div>
 
-
-
           </div>
         </div>
 
@@ -344,6 +438,8 @@
              BindDate();
             //绑定datatable
             DataTable();
+          
+            //$("#leavetable").bootstrapTable("refresh");
         });
 
          //绑定datatable
@@ -351,7 +447,9 @@
             $("#leavetable").bootstrapTable({
                 url: 'Handler/LeaveHandler.ashx', //请求后台的URL（*）控制器中的方法   那个控制器 那个方法
                 dataType: "json",
-                method: "get",
+               //async: true,
+                //method: "get",
+                type: "get",
                 striped: true, //是否显示行间隔色
                 cache: false, //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
                 pagination: true, //是否显示分页（*）
@@ -404,7 +502,7 @@
                         formatter: function (value) {
                             if (value != null) {
                                 if (value.substring(0, value.indexOf("T")) == "1900-01-01") {
-                                    return "-";
+                                    return "未审批";
                                 }
                                 else
                                 {
@@ -467,8 +565,18 @@
             });
         }
 
-       
-        
+        //是否半天
+        function selecttime() {
+            if ($("#selectdaytimeval").val() == "全天") {
+                $("#LeaveTimeChaModal").val("8");
+            }
+            else
+            {
+                $("#LeaveTimeChaModal").val("4");
+            }
+            
+        }
+
     </script>
     <hr />
    <%-- <label id="test" class="label label-danger ">123</label>--%>

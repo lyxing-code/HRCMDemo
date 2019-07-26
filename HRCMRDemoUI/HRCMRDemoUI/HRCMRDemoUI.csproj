@@ -381,7 +381,6 @@
     <Content Include="LeaveInfo.aspx" />
     <Content Include="LeaveManger.aspx" />
     <Content Include="UserInfo.aspx" />
-    <Content Include="WebForm1.aspx" />
     <Content Include="Handler\DeptHandler.ashx" />
     <Content Include="Handler\EmpHandler.ashx" />
     <Content Include="Handler\ImageHandler.ashx" />
@@ -1484,13 +1483,6 @@
     </Compile>
     <Compile Include="ViewSwitcher.ascx.designer.cs">
       <DependentUpon>ViewSwitcher.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="WebForm1.aspx.cs">
-      <DependentUpon>WebForm1.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="WebForm1.aspx.designer.cs">
-      <DependentUpon>WebForm1.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

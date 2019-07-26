@@ -69,9 +69,22 @@ namespace HRCMDemoBLL
         /// </summary>
         /// <param name="deptname">部门名称</param>
         /// <returns></returns>
-        public  List<LeaveEntity> GetSelectBydept(string deptname)
+        public  List<LeaveEntity> GetSelectBydept(string deptname,string str)
         {
-            return HRCMDemoDAL.LeaveDAL.SelectBydept(deptname);
+            return HRCMDemoDAL.LeaveDAL.SelectBydept(deptname, str);
+        }
+
+
+        /// <summary>
+        /// 审批请假
+        /// </summary>
+        /// <param name="idlist">请假信息id</param>
+        /// <param name="state">审批状态</param>
+        /// <param name="reason">备注</param>
+        /// <returns></returns>
+        public  bool GetUpdateLeavestateByidlist(string idlist, string state, string reason)
+        {
+            return HRCMDemoDAL.LeaveDAL.UpdateLeavestateByidlist(idlist, state, reason);
         }
 
     }

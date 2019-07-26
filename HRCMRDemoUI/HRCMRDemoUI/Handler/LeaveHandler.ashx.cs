@@ -33,7 +33,10 @@ namespace HRCMRDemoUI.Handler
                     break;
                 case "selectbydept":
                     Selectbydept(context);
-                    break;
+                    break; 
+                case "updateleavestate":
+                    Updateleavestate(context);
+                    break; 
                 default:
                     break;
             }
@@ -42,7 +45,36 @@ namespace HRCMRDemoUI.Handler
         }
 
         /// <summary>
-        /// 
+        /// 修改审核状态
+        /// </summary>
+        /// <param name="context"></param>
+        private void Updateleavestate(HttpContext context)
+        {
+            string ids = context.Request["leaveid"];
+            string state = context.Request["leavestate"];
+            string reason = context.Request["leavereason"];
+            if (user.RoleID != 4 || user.RoleID != 5)
+            {
+                if (new LeaveBLL().GetUpdateLeavestateByidlist(ids, state, reason))
+                {
+                    LoginHandler.contextResponseWrite(context, "updatesuccess");
+                }
+                else
+                {
+                    LoginHandler.contextResponseWrite(context, "updatefailed");
+                }
+            }
+            else
+            {
+                LoginHandler.contextResponseWrite(context, "error");
+            }
+
+
+            //throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// 请假审核信息
         /// </summary>
         /// <param name="context"></param>
         private void Selectbydept(HttpContext context)
@@ -51,7 +83,19 @@ namespace HRCMRDemoUI.Handler
             string endtime = (context.Request["endtime"]);
             if (user.RoleID != 4 || user.RoleID !=5)
             {
-                List<LeaveEntity> list = new LeaveBLL().GetSelectBydept(user.DepartmentName);
+                
+                List<LeaveEntity> list = null;
+                if (starttime !="" && endtime !="")
+                {
+                    string str = " AND LeaveTime BETWEEN '"+ starttime + "' AND '"+ endtime + "'";
+                    list = new LeaveBLL().GetSelectBydept(user.DepartmentName, str);
+                }
+                else
+                {
+                    list = new LeaveBLL().GetSelectBydept(user.DepartmentName,"");
+                }
+
+                
                 LoginHandler.contextResponseWrite(context, list);
             }
             else
@@ -67,21 +111,27 @@ namespace HRCMRDemoUI.Handler
         /// <param name="context"></param>
         public void AddLeaveInfo(HttpContext context)
         {
-           
-            LeaveEntity obj = new LeaveEntity();
-            obj.UserID = user.UserID;
-            obj.LeaveStartTime = Convert.ToDateTime(context.Request["txtdateStartModal"]);
-            obj.LeaveEndTime = Convert.ToDateTime(context.Request["txtdateEndModal"]);
-            obj.LeaveHalfDay =  context.Request["selectdaytimes"];
-            obj.LeaveDays = Convert.ToInt32(context.Request["LeaveTimeChaModal"]);
-            obj.LeaveReason = context.Request["txtLeaveRemarkModal"];
-            if (new LeaveBLL().AddLeaveInfo(obj))
+            if (user.UserID ==0)
             {
-                LoginHandler.contextResponseWrite(context, "addsuccess");
+                LoginHandler.contextResponseWrite(context, "addfailed");
             }
             else
             {
-                LoginHandler.contextResponseWrite(context, "addfailed");
+                LeaveEntity obj = new LeaveEntity();
+                obj.UserID = user.UserID;
+                obj.LeaveStartTime = Convert.ToDateTime(context.Request["txtdateStartModal"]);
+                obj.LeaveEndTime = Convert.ToDateTime(context.Request["txtdateEndModal"]);
+                obj.LeaveHalfDay =  context.Request["selectdaytimes"];
+                obj.LeaveDays = Convert.ToInt32(context.Request["LeaveTimeChaModal"]);
+                obj.LeaveReason = context.Request["txtLeaveRemarkModal"];
+                if (new LeaveBLL().AddLeaveInfo(obj))
+                {
+                    LoginHandler.contextResponseWrite(context, "addsuccess");
+                }
+                else
+                {
+                    LoginHandler.contextResponseWrite(context, "addfailed");
+                }
             }
          
         }
