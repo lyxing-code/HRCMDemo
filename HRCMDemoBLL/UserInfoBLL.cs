@@ -97,5 +97,12 @@ namespace HRCMDemoBLL
             return UserInfoDAL.UpdateLoginState(id);
         }
 
+
+        public  bool GetUpdateLoginPwd(string pwd, string id)
+        {
+            return UserInfoDAL.UpdateLoginPwd(pwd,id);
+        }
+
+
     }
 }

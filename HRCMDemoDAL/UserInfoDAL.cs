@@ -181,6 +181,12 @@ namespace HRCMDemoDAL
         }
 
 
+        public static bool UpdateLoginPwd(string pwd,string id)
+        {
+            string sql = "UPDATE UserInfo SET LoginPwd = '"+pwd+"' WHERE UserID =" + id;
+            return DBHelper.UpdateOpera(sql);
+        }
+
 
     }
 }

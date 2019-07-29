@@ -38,28 +38,25 @@
 
     <script>
         $(function () {
-
             //ajax获取session
             $.ajax({
-                    type: "get",
-                    url: "Handler/LoginHandler.ashx",
-                    data:
-                    {
-                        Method:"Gessession",
-                    },
-                    dataType: "json",
-                success: function (rs)
+                type: "get",
+                url: "Handler/LoginHandler.ashx",
+                data:
                 {
+                    Method: "Gessession",
+                },
+                dataType: "json",
+                success: function (rs) {
                     //alert(rs[0]);
                     //alert(rs[0].UserName);
                     $("#user_name").text(rs[0].UserName);
-                    $("#imguser").prop("src", "UserFace/"+ rs[0].UserFace)
+                    $("#imguser").prop("src", "UserFace/" + rs[0].UserFace)
                     //权限分配<a href="UserFace/韩梅梅">UserFace/韩梅梅</a>
-                    switch (rs[0].RoleID)
-                    {
+                    switch (rs[0].RoleID) {
                         //leavemanger applicationdate
                         case 1:
-                          
+
                             break;
                         case 2:
                             $("#deptinfo").hide();
@@ -92,7 +89,7 @@
                             $("#applicationnote").hide();
                             break;
                     }
-               }
+                }
 
             });
 
@@ -101,7 +98,7 @@
             //showdept
             $("#list >li").click(function () {
                 $("#sp_map").text($("#" + $(this).attr("id") + "  > a >span[class='menu-text']").text() + titlt)
-                  //alert(titlt);
+                //alert(titlt);
                 $("#list > li").removeClass("active");
                 $(this).addClass("active");
                 if ($(this).attr("id") == "deptinfo") {
@@ -116,24 +113,24 @@
                 }
             });
 
-           
+
             //showuser  
             $("#list li li").click(function () {
-                titlt =  " / " +$("#" + $(this).attr("id") + " > a > span").text();
+                titlt = " / " + $("#" + $(this).attr("id") + " > a > span").text();
                 $("#sp_map").text(titlt)
                 //alert(titlt);
                 $(this).removeClass().addClass("libgcolor");
-                 if($(this).attr("id") =="userinfo") {
+                if ($(this).attr("id") == "userinfo") {
                     $("#usertable").show();
-                 }
-                 else {
-                     $("#usertable").hide();
-                 }
+                }
+                else {
+                    $("#usertable").hide();
+                }
 
-                if ($(this).attr("id") =="empmanger" ) {
+                if ($(this).attr("id") == "empmanger") {
                     $("#empmangertable").show();
                 } else {
-                     $("#empmangertable").hide();
+                    $("#empmangertable").hide();
                 }
 
                 if ($(this).attr("id") == "applicationdate") {
@@ -154,7 +151,7 @@
                     $("#empseecolleagetable").hide();
                 }
 
-                
+
             });
 
             //点击头像下拉框显示
@@ -166,8 +163,53 @@
                 $("#usertable").show();
             });
 
+        
+            $("#updatepwd").click(function () {
+                $("#UPPwdModal").modal("show");
+                $("#oldpwd").val("");
+                $("#newpwd1").val("");
+                $("#newpwd2").val("");
+            });
 
         });
+
+       //修改密码
+        function UpadteValue() {
+            if ($("#newpwd1").val()=="" || $("#newpwd2").val() == "") {
+                alert("密码不能为空!");
+                return;
+            }
+            else if ($("#newpwd1").val() != $("#newpwd2").val()) {
+                alert("两次密码不一样");
+                return;
+            }
+            else
+            {
+                $.ajax({
+                    type: "get",
+                    url: "Handler/UserHandler.ashx",
+                    data:
+                    {
+                        Method: "ckeck",
+                        OldeValue: $("#oldpwd").val(),
+                        NewValue: $("#newpwd2").val(),
+                    },
+                    dataType: "json",
+                    success: function (rs) {
+                        if (rs != "failed" && rs != "updatefailed") {
+                            alert("修改成功");
+                            window.location.href = "Login.aspx";
+                            $("#UPPwdModal").modal("hide");
+                        }
+                        else {
+                            alert("输入的原密码有误!");
+                        }
+                    }
+                });
+            }
+          
+        }
+
 
     </script>
 
@@ -466,7 +508,7 @@
 						<ul class="dropdown-menu">
 							<li><a href="#" id="a_userinfo"><i class="fa fa-user"></i>个人信息</a></li>
 							<li><a href="#"><i class="fa fa-cog"></i>账号设置</a></li>
-							<li><a href="#"><i class="fa fa-eye"></i>个人隐私</a></li>
+							<li id="updatepwd"><a href="#"><i class="fa fa-eye"></i>修改密码</a></li>
 							<li><a href="Login.aspx"><i class="fa fa-power-off"></i>退出登录</a></li>
 						</ul>
 					</li>
@@ -903,7 +945,6 @@
 				</div>
 				<!-- /SIDEBAR -->
 		<div id="main-content">
-			
 
             <div class="container">
 
@@ -922,6 +963,48 @@
                     </div>
 		        </div>
                
+
+
+      <!-- 模态框（Modal-view） -->
+    <div class="modal fade" id="UPPwdModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content" >
+                    <div class="modal-header">
+                        <button type="button" class="close"
+                            data-dismiss="modal" aria-hidden="true">
+                            &times;           
+                        </button>
+                        <h4 class="modal-title" id="ViewModalLabel">修改密码</h4>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table">
+                            <tr id="rowbgcolor" class="">
+                                <td id="rowoldpwd" class="">
+                                  原密码:<input id="oldpwd" type="password"  class="form-control" name="name" value="" />
+                                </td>
+                            </tr>
+                            <tr>
+                                 <td id="rowonewpwd1" class="">
+                                  密码:<input id="newpwd1" type="password" class="form-control" name="name" value="" />
+                                </td>
+                            </tr>
+                            <tr>
+                                 <td id="rowonewpwd2" class="">
+                                  确认密码:<input id="newpwd2" type="password" class="form-control" name="name" value="" />
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="UpadteValue();">提交</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal -->
+        </div>
+
+
                 <%--其他页面--%>
                    <div style="width:100%;height:100%" class="text-center">
                        <iframe style="width:100%;height:600px;" src="Department.aspx" hidden="hidden" id="depttable" frameborder="0">
