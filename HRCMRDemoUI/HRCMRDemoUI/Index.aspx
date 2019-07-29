@@ -90,7 +90,7 @@
                             $("#empmanger").hide();
                             $("#leavemanger").hide();
                             $("#applicationnote").hide();
-                             break;
+                            break;
                     }
                }
 
@@ -110,13 +110,14 @@
                     $("#usertable").hide();
                     $("#leavetable").hide();
                     $("#leavemangertable").hide();
+                    $("#empseecolleagetable").hide();
                 } else {
                     $("#depttable").hide();
                 }
             });
 
            
-            //showuser
+            //showuser  
             $("#list li li").click(function () {
                 titlt =  " / " +$("#" + $(this).attr("id") + " > a > span").text();
                 $("#sp_map").text(titlt)
@@ -147,7 +148,12 @@
                     $("#leavemangertable").hide();
                 }
 
-               
+                if ($(this).attr("id") == "empmycolleage") {
+                    $("#empseecolleagetable").show();
+                } else {
+                    $("#empseecolleagetable").hide();
+                }
+
                 
             });
 
@@ -787,7 +793,7 @@
 								</a>	
                                 <ul class="sub">
                                     <li id="userinfo"><a class="" href="#"><span class="sub-menu-text">个人信息</span></a></li>
-                                    <li><a class="" href="#"><span class="sub-menu-text">查询同事信息</span></a></li>
+                                    <li id="empmycolleage"><a class="" href="#"><span class="sub-menu-text">查询同事信息</span></a></li>
                                     <li id="empmanger"><a class="" href="#"><span class="sub-menu-text">员工信息管理</span></a></li>
                                 </ul>
 							</li>
@@ -937,6 +943,11 @@
                        <iframe style="width:100%;height:600px;" src="LeaveManger.aspx" hidden="hidden" id="leavemangertable" frameborder="0">
                        </iframe>
                    </div>
+                <div style="width:100%;height:100%" class="text-center">
+                       <iframe style="width:100%;height:600px;" src="EmpMyColleage.aspx" hidden="hidden" id="empseecolleagetable" frameborder="0">
+                       </iframe>
+                   </div>
+                
            </div>
             </div>
 	

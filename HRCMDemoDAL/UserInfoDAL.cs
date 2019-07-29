@@ -171,6 +171,9 @@ namespace HRCMDemoDAL
             return Commnuity(sql).Count > 0 ? Commnuity(sql) : new List<UserInfoEntity>();
         }
 
+        
+
+
         public static bool UpdateLoginState(string id)
         {
             string sql = "UPDATE UserInfo SET UserStatr = 1 WHERE UserID =" +id;

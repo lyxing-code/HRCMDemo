@@ -44,6 +44,7 @@ namespace HRCMRDemoUI
             {
                 string id = dt.Rows[0][0].ToString();
                 obj = new UserInfoBLL().GetInfoById(id);
+                context.Session["getuser"] = new UserInfoBLL().GetInfoById(id);
                 if (obj.UserStatr == 1)
                 {
                     context.Session["user"] = dt;

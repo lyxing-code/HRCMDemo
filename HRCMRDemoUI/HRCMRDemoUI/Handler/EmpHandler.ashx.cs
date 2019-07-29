@@ -5,18 +5,20 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Web;
+using System.Web.SessionState;
 
 namespace HRCMRDemoUI.Handler
 {
     /// <summary>
     /// UserInfoHandler 的摘要说明
     /// </summary>
-    public class UserInfoHandler : IHttpHandler
+    public class UserInfoHandler : IHttpHandler,IRequiresSessionState
     {
+        UserInfoEntity user = null;
 
         public void ProcessRequest(HttpContext context)
         {
-
+            user = (UserInfoEntity)context.Session["getuser"];
             string op = context.Request["Method"];
             switch (op)
             {
@@ -47,8 +49,11 @@ namespace HRCMRDemoUI.Handler
                 case "updatelogins":
                     Updatelogins(context);
                     break;
-                default:
+                case "SelectMyColleageInfo":
+                    SelectMyColleageInfo(context);
                     break;
+                default:
+                    break; 
             }
 
         }
@@ -67,9 +72,6 @@ namespace HRCMRDemoUI.Handler
 
             //throw new NotImplementedException();
         }
-
-
-
 
         //修改
         public void UpdatebyId(HttpContext context)
@@ -200,6 +202,32 @@ namespace HRCMRDemoUI.Handler
             UserInfoEntity obj = new UserInfoBLL().GetInfoById(id);
             LoginHandler.contextResponseWrite(context, obj);
         }
+
+
+
+        public void SelectMyColleageInfo(HttpContext context)
+        {
+            string str = "";
+            string username = context.Request["userName"];
+            if (username != "")
+            {
+                str += " and t1.DepartmentID="+user.DepartmentID+" AND t1.UserName LIKE '%" + username + "%'";
+            }
+            else
+            {
+                str += " and t1.DepartmentID=" + user.DepartmentID ?? 0 + "";
+            }
+            List<UserInfoEntity> list = new UserInfoBLL().GetAllInfo(str);
+
+            LoginHandler.contextResponseWrite(context, list);
+
+
+        }
+
+
+
+
+
 
 
         public bool IsReusable

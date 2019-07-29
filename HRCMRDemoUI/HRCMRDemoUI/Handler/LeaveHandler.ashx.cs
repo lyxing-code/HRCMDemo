@@ -4,18 +4,20 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.SessionState;
 
 namespace HRCMRDemoUI.Handler
 {
     /// <summary>
     /// LeaveHandler 的摘要说明
     /// </summary>
-    public class LeaveHandler : IHttpHandler
+    public class LeaveHandler : IHttpHandler,IRequiresSessionState
     {
-         UserInfoEntity user = new LoginHandler().GetUser();
+        UserInfoEntity user = null;//new LoginHandler().GetUser();
 
         public void ProcessRequest(HttpContext context)
         {
+            user = (UserInfoEntity)context.Session["getuser"];
             string op = context.Request["op"];
             switch (op)
             {

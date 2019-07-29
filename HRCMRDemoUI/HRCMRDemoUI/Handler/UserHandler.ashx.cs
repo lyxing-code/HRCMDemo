@@ -3,18 +3,19 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.SessionState;
 
 namespace HRCMRDemoUI.Handler
 {
     /// <summary>
     /// UserHandler 的摘要说明
     /// </summary>
-    public class UserHandler : IHttpHandler
+    public class UserHandler : IHttpHandler,IRequiresSessionState
     {
         
         public void ProcessRequest(HttpContext context)
         {
-           UserInfoEntity obj = new LoginHandler().GetUser();
+           UserInfoEntity obj = (UserInfoEntity)context.Session["getuser"];//new LoginHandler().GetUser();
            string op = context.Request["Method"];
             switch (op)
             {

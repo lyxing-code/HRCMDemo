@@ -149,6 +149,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Site.css" />
     <Content Include="css\animatecss\animate.min.css" />
+    <Content Include="EmpMyColleage.aspx" />
     <Content Include="js\bootstrap-daterangepicker\bootstrap-datetimepicker.zh-CN.js" />
     <Content Include="js\bootstraptable\bootstrap-table-zh-CN.min.js" />
     <Content Include="js\bootstraptable\bootstrap-table.css" />
@@ -1399,6 +1400,13 @@
     </Compile>
     <Compile Include="EmpManger.aspx.designer.cs">
       <DependentUpon>EmpManger.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="EmpMyColleage.aspx.cs">
+      <DependentUpon>EmpMyColleage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="EmpMyColleage.aspx.designer.cs">
+      <DependentUpon>EmpMyColleage.aspx</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
