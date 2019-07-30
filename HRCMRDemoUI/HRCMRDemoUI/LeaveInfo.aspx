@@ -52,6 +52,7 @@
         function submitinfo() {
             var datalist = new FormData($("#formleaveadd")[0]);
             datalist.append('op', 'addinfo');
+            datalist.append('LeaveTimeChaModal', $("#LeaveTimeChaModal").val());
             $.ajax({
                 type: "post",
                 url: "Handler/LeaveHandler.ashx",
@@ -363,7 +364,7 @@
                                    <label>请假时工:</label>&nbsp;&nbsp;
                                 </td>
                                 <td>
-                                    <input type="text" placeholder="以小时为单位" disabled="disabled" class="form-control"  id="LeaveTimeChaModal" name="LeaveTimeChaModal" value="" />
+                                    <input type="text" placeholder="以小时为单位"  class="form-control" disabled="disabled"  id="LeaveTimeChaModal" name="LeaveTimeChaModal" value="" />
                                 </td>
                             </tr>
                              <tr>
@@ -438,10 +439,27 @@
              BindDate();
             //绑定datatable
             DataTable();
-          
+
+            //设置起始日期
+            var str = datetostring(new Date);
+            $('#txtdateStartModal').datetimepicker('setStartDate', str );
+            $('#txtdateEndModal').datetimepicker('setStartDate', str);
             //$("#leavetable").bootstrapTable("refresh");
         });
 
+        //时间格式转化
+        function datetostring(date) {
+            var t = new Date(date)
+            if (t != null || t!=="") {
+                return t.getFullYear() + "-" + (t.getMonth()+1) + "-" + t.getDate();
+            }
+            else
+            {
+                return new Date();
+            }
+
+        }
+        
          //绑定datatable
         function DataTable() {
             $("#leavetable").bootstrapTable({
