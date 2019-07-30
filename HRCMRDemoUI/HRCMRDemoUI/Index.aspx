@@ -197,7 +197,8 @@
                     dataType: "json",
                     success: function (rs) {
                         if (rs != "failed" && rs != "updatefailed") {
-                            alert("修改成功");
+                            alert("修改成功!");
+                            alert("您的登录已经失效,请重新登陆!");
                             window.location.href = "Login.aspx";
                             $("#UPPwdModal").modal("hide");
                         }

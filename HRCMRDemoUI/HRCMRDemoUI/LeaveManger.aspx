@@ -68,9 +68,10 @@
             });
         }
 
-        var str = "";
+        var id = "";
         //打开审批模态框
         function ApplicationCheck() {
+            var str = "";
             var LeaveRemark = "";
             $("#leavetable > tbody > tr").each(function (index, item) {
                 if ($(this).hasClass("selected")) {
@@ -81,6 +82,7 @@
                 }
             });
             str = str.substring(0, str.length - 1);
+            id = str;
             LeaveRemark = LeaveRemark.substring(0, LeaveRemark.length - 1);
             $("#txtLeaveRemarkModal1").val(LeaveRemark);
             if (str == "") {
@@ -106,14 +108,14 @@
             //$("#myModal").modal("hide");
             var reason = $("#txtLeaveRemarkModal2").val();
             var leavestate = $("#selectcheck").val();
-
+            //alert(id);
             //alert(str + "|" + reason + "|" + leavestate);
             $.ajax({
                 type:"post",
                 url: "Handler/LeaveHandler.ashx",
                 data: {
-                    op:"updateleavestate",
-                    leaveid: str,
+                    op: "updateleavestate",
+                    leaveid: id,
                     leavestate: leavestate,
                     leavereason: reason
                 },

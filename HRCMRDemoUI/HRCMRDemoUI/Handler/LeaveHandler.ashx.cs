@@ -57,7 +57,7 @@ namespace HRCMRDemoUI.Handler
             string reason = context.Request["leavereason"];
             if (user.RoleID != 4 || user.RoleID != 5)
             {
-                if (new LeaveBLL().GetUpdateLeavestateByidlist(ids, state, reason))
+                if (new LeaveBLL().GetUpdateLeavestateByidlist(ids, state, reason,user.UserID.ToString()))
                 {
                     LoginHandler.contextResponseWrite(context, "updatesuccess");
                 }

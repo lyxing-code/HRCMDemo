@@ -82,9 +82,9 @@ namespace HRCMDemoBLL
         /// <param name="state">审批状态</param>
         /// <param name="reason">备注</param>
         /// <returns></returns>
-        public  bool GetUpdateLeavestateByidlist(string idlist, string state, string reason)
+        public  bool GetUpdateLeavestateByidlist(string idlist, string state, string reason, string ApproverID)
         {
-            return HRCMDemoDAL.LeaveDAL.UpdateLeavestateByidlist(idlist, state, reason);
+            return HRCMDemoDAL.LeaveDAL.UpdateLeavestateByidlist(idlist, state, reason, ApproverID);
         }
 
     }

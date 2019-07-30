@@ -127,9 +127,9 @@ namespace HRCMDemoDAL
         /// <param name="state">审批状态</param>
         /// <param name="reason">备注</param>
         /// <returns></returns>
-        public static bool UpdateLeavestateByidlist(string idlist,string state,string reason)
+        public static bool UpdateLeavestateByidlist(string idlist,string state,string reason,string ApproverID)
         {
-            string sql = "UPDATE Leave SET LeaveState = "+ state + ", ApprovalTime=getdate(),ApproverReason='"+ reason + "' WHERE LeaveID in("+ idlist + ")";
+            string sql = "UPDATE Leave SET LeaveState = "+ state + ", ApprovalTime=getdate(),ApproverReason='"+ reason + "',ApproverID="+ ApproverID + " WHERE LeaveID in(" + idlist + ")";
             return DBHelper.UpdateOpera(sql);
         }
 
