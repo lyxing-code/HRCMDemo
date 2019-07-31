@@ -92,17 +92,36 @@ namespace HRCMDemoBLL
             return UserInfoDAL.BootstrapPageSelect(pageindex, pagesize);
         }
 
+        /// <summary>
+        /// 修改登录状态
+        /// </summary>
+        /// <param name="id">用户id</param>
+        /// <returns></returns>
         public  bool UpdateLoginState(string id)
         {
             return UserInfoDAL.UpdateLoginState(id);
         }
 
-
+        /// <summary>
+        /// 修改用户密码
+        /// </summary>
+        /// <param name="pwd">新密码</param>
+        /// <param name="id">用户id</param>
+        /// <returns></returns>
         public  bool GetUpdateLoginPwd(string pwd, string id)
         {
             return UserInfoDAL.UpdateLoginPwd(pwd,id);
         }
 
+        /// <summary>
+        /// 修改最后登录时间
+        /// </summary>
+        /// <param name="id">用户id</param>
+        /// <returns></returns>
+        public  bool GetUpadteLoginTime(string id)
+        {
+            return UserInfoDAL.UpadteLoginTime(id);
+        }
 
     }
 }

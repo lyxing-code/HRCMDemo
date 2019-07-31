@@ -171,9 +171,6 @@ namespace HRCMDemoDAL
             return Commnuity(sql).Count > 0 ? Commnuity(sql) : new List<UserInfoEntity>();
         }
 
-        
-
-
         public static bool UpdateLoginState(string id)
         {
             string sql = "UPDATE UserInfo SET UserStatr = 1 WHERE UserID =" +id;
@@ -184,6 +181,13 @@ namespace HRCMDemoDAL
         public static bool UpdateLoginPwd(string pwd,string id)
         {
             string sql = "UPDATE UserInfo SET LoginPwd = '"+pwd+"' WHERE UserID =" + id;
+            return DBHelper.UpdateOpera(sql);
+        }
+
+
+        public static bool UpadteLoginTime(string id)
+        {
+            string sql = "UPDATE UserInfo SET EntryTime = getdate() WHERE UserID =" + id;
             return DBHelper.UpdateOpera(sql);
         }
 

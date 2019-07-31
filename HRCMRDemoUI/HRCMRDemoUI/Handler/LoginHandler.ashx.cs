@@ -25,14 +25,13 @@ namespace HRCMRDemoUI
                     Login(context);
                     break;
                 case "Gessession":
-                    GesSession(context);
+                    GetSession(context);
                     break;
                 default:
                     break;
             }
         }
 
-        private static UserInfoEntity obj = new UserInfoEntity();
         public void Login(HttpContext context)
         {
             string name = context.Request["name"];
@@ -43,11 +42,14 @@ namespace HRCMRDemoUI
             if (dt.Rows.Count > 0)
             {
                 string id = dt.Rows[0][0].ToString();
-                obj = new UserInfoBLL().GetInfoById(id);
                 context.Session["getuser"] = new UserInfoBLL().GetInfoById(id);
+                UserInfoEntity obj = (UserInfoEntity)context.Session["getuser"];
+
                 if (obj.UserStatr == 1)
                 {
-                    context.Session["user"] = dt;
+                    //context.Session["user"] = dt;
+                    //修改最后登录时间
+                    new UserInfoBLL().GetUpadteLoginTime(obj.UserID.ToString());
                     contextResponseWrite(context, dt);
                 }
                 else
@@ -68,18 +70,13 @@ namespace HRCMRDemoUI
         /// 设置session
         /// </summary>
         /// <param name="context"></param>
-        public void GesSession(HttpContext context)
+        public void GetSession(HttpContext context)
         {
-            DataTable dts = context.Session["user"] as DataTable;
-            contextResponseWrite(context, dts);
+            UserInfoEntity obj = context.Session["getuser"] as UserInfoEntity;
+            contextResponseWrite(context, obj);
         }
 
         
-        public UserInfoEntity GetUser()
-        {
-            return obj;
-        }
-
         /// <summary>
         /// 返回json交给前端页面
         /// </summary>
@@ -90,7 +87,6 @@ namespace HRCMRDemoUI
              string json = JsonConvert.SerializeObject(o);
              context.Response.Write(json);
         }
-
 
 
         public bool IsReusable

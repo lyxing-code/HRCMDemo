@@ -48,10 +48,10 @@
                 },
                 dataType: "json",
                 success: function (rs) {
-                    //alert(rs[0]);
-                    //alert(rs[0].UserName);
-                    $("#user_name").text(rs[0].UserName);
-                    $("#imguser").prop("src", "UserFace/" + rs[0].UserFace)
+                    //alert(rs);
+                    //alert(rs.UserName);
+                    $("#user_name").text(rs.UserName);
+                    $("#imguser").prop("src", "UserFace/" + rs.UserFace)
                     //权限分配<a href="UserFace/韩梅梅">UserFace/韩梅梅</a>
                     switch (rs[0].RoleID) {
                         //leavemanger applicationdate
