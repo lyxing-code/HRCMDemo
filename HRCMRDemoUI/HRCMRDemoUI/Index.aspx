@@ -53,7 +53,7 @@
                     $("#user_name").text(rs.UserName);
                     $("#imguser").prop("src", "UserFace/" + rs.UserFace)
                     //权限分配<a href="UserFace/韩梅梅">UserFace/韩梅梅</a>
-                    switch (rs[0].RoleID) {
+                    switch (rs.RoleID) {
                         //leavemanger applicationdate
                         case 1:
 
@@ -61,18 +61,23 @@
                         case 2:
                             $("#deptinfo").hide();
                             $("#deptmanger").hide();
+                            $("#watchtodayclock").hide();
+                            $("#watchclock").hide();
                             break;
                         case 3:
                             $("#deptinfo").hide();
                             $("#deptmanger").hide();
                             $("#empmanger").hide();
                             $("#applicationnote").hide();
+                            $("#watchtodayclock").hide();
+                            $("#watchclock").hide();
                             break;
                         case 4:
                             $("#deptinfo").hide();
                             $("#deptmanger").hide();
                             $("#empmanger").hide();
                             $("#applicationnote").hide();
+                            $("#watchclock").hide();
                             break;
                         case 5:
                             $("#deptinfo").hide();
@@ -80,6 +85,8 @@
                             $("#empmanger").hide();
                             $("#leavemanger").hide();
                             $("#applicationnote").hide();
+                            $("#watchtodayclock").hide();
+                            $("#watchclock").hide()
                             break;
                         default:
                             $("#deptinfo").hide();
@@ -87,6 +94,8 @@
                             $("#empmanger").hide();
                             $("#leavemanger").hide();
                             $("#applicationnote").hide();
+                            $("#watchtodayclock").hide();
+                            $("#watchclock").hide();
                             break;
                     }
                 }
@@ -108,6 +117,7 @@
                     $("#leavetable").hide();
                     $("#leavemangertable").hide();
                     $("#empseecolleagetable").hide();
+                    $("#daclocktable").hide();
                 } else {
                     $("#depttable").hide();
                 }
@@ -151,7 +161,15 @@
                     $("#empseecolleagetable").hide();
                 }
 
+                if ($(this).attr("id") == "clock") {
+                    $("#daclocktable").show();
+                } else
+                {
+                    $("#daclocktable").hide();
+                }
 
+
+                
             });
 
             //点击头像下拉框显示
@@ -863,9 +881,9 @@
 								<span class="arrow"></span>
 								</a>
 								<ul class="sub">
-									<li><a class="" href="#"><span class="sub-menu-text">签到</span></a></li>
-									<li><a class="" href="#"><span class="sub-menu-text">查看本日考勤</span></a></li>
-									<li><a class="" href="#"><span class="sub-menu-text">查看考勤记录</span></a></li>
+									<li id="clock"><a class="" href="#"><span class="sub-menu-text">签到</span></a></li>
+									<li id="watchtodayclock"><a class="" href="#"><span class="sub-menu-text">查看本日考勤</span></a></li>
+									<li id="watchclock"><a class="" href="#"><span class="sub-menu-text">查看考勤记录</span></a></li>
 								    <%--包含3级菜单--%>
                                     <%--	<li class="has-sub-sub">
 										<a href="javascript:;" class=""><span class="sub-menu-text">Third Level Menu</span>
@@ -1031,7 +1049,10 @@
                        <iframe style="width:100%;height:600px;" src="EmpMyColleage.aspx" hidden="hidden" id="empseecolleagetable" frameborder="0">
                        </iframe>
                    </div>
-                
+                <div style="width:100%;height:100%" class="text-center">
+                       <iframe style="width:100%;height:600px;" src="UserClock.aspx" hidden="hidden" id="daclocktable" frameborder="0">
+                       </iframe>
+                   </div>
            </div>
             </div>
 	

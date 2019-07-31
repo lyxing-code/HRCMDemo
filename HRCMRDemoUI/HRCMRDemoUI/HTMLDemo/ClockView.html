@@ -1,0 +1,125 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>签到</title>
+    <link href="../js/qdclock/css/signin.css" rel="stylesheet" />
+    <link href="../js/qdclock/css/index.css" rel="stylesheet" />
+    <link href="../js/qdclock/css/public.css" rel="stylesheet" />
+    <link href="../js/qdclock/css/font_234130_nem7eskcrkpdgqfr.css" rel="stylesheet" />
+   
+</head>
+<body>
+    <div class="index_frame_leftTop">
+        <div id='schedule-boxS'></div>
+        <div class="index_liTLeft">
+            <div class="index_liTline"></div>
+        </div>
+        <div class="index_liTRight">
+            <div class="index_liTline"></div>
+        </div>
+    </div>
+    <div class="index_frame_leftBottom">
+        <div class="index_liBLeft"></div>
+        <div class="index_liBRight"></div>
+        <div class="index_frame_leftBottom_Top clearfix">
+            <span style="position:absolute;top:50px;left:12%">
+                <label style="position:relative;top:-10px;">正常:</label><span class="currentDate dayStyle zc_day"></span>
+                <label style="position:relative;top:-10px;">迟到:</label><span class="currentDate dayStyle qq-style"></span>
+                <label style="position:relative;top:-10px;">早退:</label><span class="currentDate dayStyle zt-style"></span>
+                <label style="position:relative;top:-10px;">迟到/早退:</label><span class="currentDate dayStyle cdzt-style"></span>
+            </span>
+            <div>
+                <div id="attendance1" style="width: 100%; height: 145px;"></div>
+                <span>出勤情况</span>
+            </div>
+            <div>
+                <div id="attendance2" style="width: 100%; height: 145px;"></div>
+                <span>早退/迟到</span>
+            </div>
+            <div>
+                <div id="attendance3" style="width: 100%; height: 145px;"></div>
+                <span>缺勤</span>
+            </div>
+            <div>
+                <div id="attendance4" style="width: 100%; height: 145px;"></div>
+                <span>旷工</span>
+            </div>
+        </div>
+        <div class="index_frame_leftBottom_bottom clearfix">
+            <div>
+                <span>1</span>
+                <span>病假</span>
+            </div>
+            <div>
+                <span>0</span>
+                <span>事假</span>
+            </div>
+            <div>
+                <span>2</span>
+                <span>年假</span>
+            </div>
+            <div>
+                <span>3</span>
+                <span>调休</span>
+            </div>
+            <div>
+                <span>0</span>
+                <span>婚/丧假</span>
+            </div>
+            <div>
+                <span>0</span>
+                <span>产假/护理假</span>
+            </div>
+        </div>
+        <div class="top flex flex-align-end flex-pack-center flex-warp">
+            <div class="out-1 flex flex-align-center flex-pack-center" id="signIn">
+                <div class="out-2 flex flex-align-center flex-pack-center">
+                    <div class="signBtn">
+                        <strong id="sign-txt">签到</strong>
+                        <span>连续<em id="sign-count">0</em>天</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/jquery/jquery-2.0.3.min.js"></script>
+    <script src="../js/qdclock/js/schedule.js"></script>
+    <script src="../js/qdclock/js/index.js"></script>
+    <script src="../js/qdclock/js/rili.js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+
+            var mySchedule = new Schedule({
+                el: '#schedule-boxS',
+                //异常考勤迟到
+                //qqDate: [{ time: "2019-07-09", Morning: "", Afternoon: "16:01" }, { time: "2018-11-16", Morning: "08:15", Afternoon: "" }, { time: "2018-12-19", Morning: "08:15", Afternoon: "" }],
+                qqDate: [{ time: "2019-07-09", Morning: "08:01", Afternoon: "18:03" }],
+                //正常考勤
+                zcDate: [
+                    { time: "2019-07-01", Morning: "08:01", Afternoon: "18:03" },
+                    { time: "2019-07-02", Morning: "08:01", Afternoon: "18:03" },
+                    { time: "2019-07-03", Morning: "08:01", Afternoon: "18:03" }
+                ],
+                //早退迟到
+                cdzt: [
+                    { time: "2019-07-04", Morning: "20:11", Afternoon: "18:03" }
+                ],
+                //早退
+                zt: [
+                    { time: "2019-07-05", Morning: "20:11", Afternoon: "18:03" }
+                ]
+
+                
+            });
+
+
+        });
+
+
+    </script>
+
+</body>
+</html>

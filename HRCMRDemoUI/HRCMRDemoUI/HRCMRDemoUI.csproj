@@ -150,6 +150,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="css\animatecss\animate.min.css" />
     <Content Include="EmpMyColleage.aspx" />
+    <Content Include="HTMLDemo\ClockView.html" />
     <Content Include="js\bootstrap-daterangepicker\bootstrap-datetimepicker.zh-CN.js" />
     <Content Include="js\bootstraptable\bootstrap-table-zh-CN.min.js" />
     <Content Include="js\bootstraptable\bootstrap-table.css" />
@@ -304,6 +305,14 @@
     <Content Include="js\fileupjs\fileinput_locale_uk.js" />
     <Content Include="js\fileupjs\fileinput_locale_zh.js" />
     <Content Include="js\jQuery-Knob\knob.jquery.json" />
+    <Content Include="js\qdclock\css\font_234130_nem7eskcrkpdgqfr.css" />
+    <Content Include="js\qdclock\css\index.css" />
+    <Content Include="js\qdclock\css\public.css" />
+    <Content Include="js\qdclock\css\signin.css" />
+    <Content Include="js\qdclock\js\echarts.simple.min.js" />
+    <Content Include="js\qdclock\js\index.js" />
+    <Content Include="js\qdclock\js\rili.js" />
+    <Content Include="js\qdclock\js\schedule.js" />
     <Content Include="js\tablecloth\js\.DS_Store" />
     <Content Include="js\timelinejs\example_json.json" />
     <Content Include="js\xcharts\LICENSE" />
@@ -381,6 +390,7 @@
     <Content Include="bootstrap-dist\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="LeaveInfo.aspx" />
     <Content Include="LeaveManger.aspx" />
+    <Content Include="UserClock.aspx" />
     <Content Include="UserInfo.aspx" />
     <Content Include="Handler\DeptHandler.ashx" />
     <Content Include="Handler\EmpHandler.ashx" />
@@ -389,6 +399,7 @@
     <Content Include="Handler\PageHandler.ashx" />
     <Content Include="HTMLDemo\Handler\BootStrapTableHandler.ashx" />
     <Content Include="Handler\LeaveHandler.ashx" />
+    <Content Include="Handler\UserClockHandler.ashx" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="img\addressbook\1.jpg" />
     <Content Include="img\addressbook\2.jpg" />
@@ -1426,6 +1437,9 @@
     <Compile Include="Handler\PageHandler.ashx.cs">
       <DependentUpon>PageHandler.ashx</DependentUpon>
     </Compile>
+    <Compile Include="Handler\UserClockHandler.ashx.cs">
+      <DependentUpon>UserClockHandler.ashx</DependentUpon>
+    </Compile>
     <Compile Include="Handler\UserHandler.ashx.cs">
       <DependentUpon>UserHandler.ashx</DependentUpon>
     </Compile>
@@ -1477,6 +1491,13 @@
     </Compile>
     <Compile Include="Site.Mobile.Master.designer.cs">
       <DependentUpon>Site.Mobile.Master</DependentUpon>
+    </Compile>
+    <Compile Include="UserClock.aspx.cs">
+      <DependentUpon>UserClock.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UserClock.aspx.designer.cs">
+      <DependentUpon>UserClock.aspx</DependentUpon>
     </Compile>
     <Compile Include="UserInfo.aspx.cs">
       <DependentUpon>UserInfo.aspx</DependentUpon>
