@@ -77,8 +77,8 @@
                         <div class="top flex flex-align-end flex-pack-center flex-warp">
                             <div class="out-1 flex flex-align-center flex-pack-center" id="signIn">
                                 <div class="out-2 flex flex-align-center flex-pack-center">
-                                    <div class="signBtn">
-                                        <strong id="sign-txt">签到</strong>
+                                    <div class="signBtn btn">
+                                        <strong id="sign-txt" onclick="AddClock();">签到</strong>
                                         <span>连续<em id="sign-count">0</em>天</span>
                                     </div>
                                 </div>
@@ -96,11 +96,16 @@
     <script src="js/qdclock/js/rili.js"></script>
     <script>
         $(function () {
-            var zc_day = "["; 
+            //显示签到数据
+            ShowClock();
+        });
+
+        //签到数据显示
+        function ShowClock() {
+            var zc_day = "[";
             var zt = "[";
             var cdzt = "[";
             var qq = "[";
-            var cd = "[";
             var today, start, end = "";
             $.ajax({
                 type: "get",
@@ -114,10 +119,10 @@
                     $(d).each(function (index, item) {
                         switch (item.AttendanceType) {
                             case 1://正常
-                                today = (item.AttendanceStartTime).substring(0, (item.AttendanceStartTime).indexOf('T')) ;
+                                today = (item.AttendanceStartTime).substring(0, (item.AttendanceStartTime).indexOf('T'));
                                 start = item.ClockTime.substring(item.ClockTime.indexOf('T') + 1, item.ClockTime.length - 3);
                                 end = item.ClockOutTime.substring(item.ClockOutTime.indexOf('T') + 1, item.ClockOutTime.length - 3);
-                                zc_day += ("{time: \"" + today + "\", Morning: \"" + start + "\", Afternoon: \"" + end +"\"},");
+                                zc_day += ("{time: \"" + today + "\", Morning: \"" + start + "\", Afternoon: \"" + end + "\"},");
                                 //alert("状态:" + item.AttendanceType + "当前时间:" + today + "上班:" + start + "|下班:" + end);
                                 break;
                             case 5://请假
@@ -146,7 +151,7 @@
                                 end = item.ClockOutTime.substring(item.ClockOutTime.indexOf('T') + 1, item.ClockOutTime.length - 3);
                                 qq += ("{time: \"" + today + "\", Morning: \"" + start + "\", Afternoon: \"" + end + "\"},");
                                 break;
-                            case 6,7://467
+                            case 6, 7://467
                                 today = (item.AttendanceStartTime).substring(0, (item.AttendanceStartTime).indexOf('T'));
                                 start = item.ClockTime.substring(item.ClockTime.indexOf('T') + 1, item.ClockTime.length - 3);
                                 end = item.ClockOutTime.substring(item.ClockOutTime.indexOf('T') + 1, item.ClockOutTime.length - 3);
@@ -154,13 +159,13 @@
                                 break;
                         }
                         //alert(item.AttendanceType);
-                       // alert("状态:" + item.AttendanceType + "当前时间:" + item.AttendanceStartTime + "上班:" + item.ClockTime + "|下班:" + item.ClockOutTime);
+                        // alert("状态:" + item.AttendanceType + "当前时间:" + item.AttendanceStartTime + "上班:" + item.ClockTime + "|下班:" + item.ClockOutTime);
                     });
                     zc_day += "]";
                     zt += "]";
                     cdzt += "]";
                     qq += "]";
-                    alert(qq);
+                    //alert(qq);
                     var mySchedule = new Schedule({
                         el: '#schedule-boxS',
                         //异常考勤迟到
@@ -171,18 +176,67 @@
                         //请假
                         cdzt: (new Function("return " + cdzt))(),
                         //早退
-                        zt:(new Function("return " + zt))()
+                        zt: (new Function("return " + zt))()
                     });
 
                 }
             });
-           
-            
-
-        });
 
 
+        }
 
+        function AddClock()
+        {
+            //#schedule-boxS > ul.schedule-bd.ul-box.clearfix > li:nth-child(5)
+            var date = new Date();
+            var a = $("#schedule-boxS > ul.schedule-bd.ul-box.clearfix > li:nth-child(" + (4 + date.getDate()) + ") >span");
+
+            var clocktime = $("#schedule-boxS > ul.schedule-bd.ul-box.clearfix > li:nth-child(" + (4 + date.getDate()) + ") > div > div:nth-child(1)").text();
+            if (a.hasClass("zc_day"))
+            {
+                alert("今天已经签到" + clocktime);
+            }
+            else if (a.hasClass("qq-style"))
+            {
+                alert("打卡成功!迟到" + clocktime);
+            }
+            else
+            {
+                //qiandao
+                $.ajax({
+                    type: "get",
+                    url: "Handler/UserClockHandler.ashx",
+                    data:
+                    {
+                        Method: "addclock"
+                    },
+                    dataType: "json",
+                    success: function (d, s)
+                    {
+                        if (d != "clockfailed")
+                        {
+                            switch (d.AttendanceType) {
+                                case 1:
+                                    alert("打卡成功!");
+                                    break;
+                                case 2:
+                                    alert("迟到!");
+                                    break;
+                                default:
+                            }
+                            ShowClock();
+                        }
+                        else
+                        {
+                            alert("打卡失败!");
+                        }
+                    }
+
+
+                });
+
+            }
+        }
     </script>
 </body>
 </html>

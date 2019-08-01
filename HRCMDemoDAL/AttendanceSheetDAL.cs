@@ -24,7 +24,7 @@ namespace HRCMDemoDAL
                    obj.AttendanceType = Convert.ToInt32(sdr["AttendanceType"]);
                    obj.ClockTime = Convert.ToDateTime(sdr["ClockTime"] is DBNull ? DateTime.MinValue : sdr["ClockTime"]);
                    obj.ClockOutTime = Convert.ToDateTime(sdr["ClockOutTime"] is DBNull ? DateTime.MinValue : sdr["ClockOutTime"]);
-                   obj.Workinghours = Convert.ToInt32(sdr["Workinghours"]);
+                   obj.Workinghours = Convert.ToInt32(sdr["Workinghours"] is DBNull ? 0 : sdr["Workinghours"]);
                    obj.Remake = Convert.ToString(sdr["Remake"] is DBNull ? "" : sdr["Remake"]);
                    obj.Late = Convert.ToInt32(sdr["Late"] is DBNull ? 0 : sdr["Late"]);
                    obj.Absenteeism = Convert.ToInt32(sdr["Absenteeism"] is DBNull ? 0 :sdr["Absenteeism"]);
@@ -49,6 +49,16 @@ namespace HRCMDemoDAL
             return Commnuity(sql).Count > 0 ? Commnuity(sql) : new List<AttendanceSheetEntity>();
         }
 
+        /// <summary>
+        /// 签到
+        /// </summary>
+        /// <param name="obj">签到信息</param>
+        /// <returns>bool</returns>
+        public static bool InsertClock(AttendanceSheetEntity obj)
+        {
+            string sql = "insert  AttendanceSheet values(getdate(),"+obj.AttendanceType + ","+obj.UserID+","+obj.DepartmentID+",getdate(),null,null,null,null,null)";
+            return DBHelper.UpdateOpera(sql);
+        }
 
 
 

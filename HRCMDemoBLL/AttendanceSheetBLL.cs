@@ -29,6 +29,16 @@ namespace HRCMDemoBLL
             return HRCMDemoDAL.AttendanceSheetDAL.SelectAll(str);
         }
 
+        /// <summary>
+        /// 签到
+        /// </summary>
+        /// <param name="obj">签到信息</param>
+        /// <returns>bool</returns>
+        public  bool GetInsertClock(AttendanceSheetEntity obj)
+        {
+            return HRCMDemoDAL.AttendanceSheetDAL.InsertClock(obj);
+        }
+
 
     }
 }
