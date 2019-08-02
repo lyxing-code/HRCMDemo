@@ -93,7 +93,7 @@
     <script src="Scripts/jquery-3.3.1.js"></script>
     <script src="js/qdclock/js/index.js"></script>
     <script src="js/qdclock/js/schedule.js"></script>
-    <script src="js/qdclock/js/rili.js"></script>
+   <%-- <script src="js/qdclock/js/rili.js"></script>--%>
     <script>
         $(function () {
             //显示签到数据
@@ -102,141 +102,142 @@
 
         //签到数据显示
         function ShowClock() {
-            var zc_day = "[";
-            var zt = "[";
-            var cdzt = "[";
-            var qq = "[";
-            var today, start, end = "";
+            var zc_day = [];
+            var zt = [];
+            var cdzt = [];
+            var qq = [];
             $.ajax({
                 type: "get",
                 url: "Handler/UserClockHandler.ashx",
+                async: false,
                 data:
                 {
                     Method: "selectbyid"
                 },
                 dataType: "json",
                 success: function (d, s) {
-                    $(d).each(function (index, item) {
-                        switch (item.AttendanceType) {
-                            case 1://正常
-                                today = (item.AttendanceStartTime).substring(0, (item.AttendanceStartTime).indexOf('T'));
-                                start = item.ClockTime.substring(item.ClockTime.indexOf('T') + 1, item.ClockTime.length - 3);
-                                end = item.ClockOutTime.substring(item.ClockOutTime.indexOf('T') + 1, item.ClockOutTime.length - 3);
-                                zc_day += ("{time: \"" + today + "\", Morning: \"" + start + "\", Afternoon: \"" + end + "\"},");
-                                //alert("状态:" + item.AttendanceType + "当前时间:" + today + "上班:" + start + "|下班:" + end);
+                    for (var i = 0; i < d.length; i++) {
+                        switch (d[i].state) {
+                            case 1:
+                                zc_day.push(d[i]);
                                 break;
-                            case 5://请假
-                                today = (item.AttendanceStartTime).substring(0, (item.AttendanceStartTime).indexOf('T'));
-                                start = item.ClockTime.substring(item.ClockTime.indexOf('T') + 1, item.ClockTime.length - 3);
-                                end = item.ClockOutTime.substring(item.ClockOutTime.indexOf('T') + 1, item.ClockOutTime.length - 3);
-                                cdzt += ("{time: \"" + today + "\", Morning: \"" + start + "\", Afternoon: \"" + end + "\"},");
-                                //alert("状态:" + item.AttendanceType + "当前时间:" + today + "上班:" + start + "|下班:" + end);
+                            case 2:
+                                qq.push(d[i]);
                                 break;
-                            case 3://早退
-                                today = (item.AttendanceStartTime).substring(0, (item.AttendanceStartTime).indexOf('T'));
-                                start = item.ClockTime.substring(item.ClockTime.indexOf('T') + 1, item.ClockTime.length - 3);
-                                end = item.ClockOutTime.substring(item.ClockOutTime.indexOf('T') + 1, item.ClockOutTime.length - 3);
-                                zt += ("{time: \"" + today + "\", Morning: \"" + start + "\", Afternoon: \"" + end + "\"},");
-                                //alert("状态:" + item.AttendanceType + "当前时间:" + today + "上班:" + start + "|下班:" + end);
+                            case 3:
+                                zt.push(d[i]);
                                 break;
-                            case 2://迟到
-                                today = (item.AttendanceStartTime).substring(0, (item.AttendanceStartTime).indexOf('T'));
-                                start = item.ClockTime.substring(item.ClockTime.indexOf('T') + 1, item.ClockTime.length - 3);
-                                end = item.ClockOutTime.substring(item.ClockOutTime.indexOf('T') + 1, item.ClockOutTime.length - 3);
-                                qq += ("{time: \"" + today + "\", Morning: \"" + start + "\", Afternoon: \"" + end + "\"},");
-                                break;
-                            case 4://迟到
-                                today = (item.AttendanceStartTime).substring(0, (item.AttendanceStartTime).indexOf('T'));
-                                start = item.ClockTime.substring(item.ClockTime.indexOf('T') + 1, item.ClockTime.length - 3);
-                                end = item.ClockOutTime.substring(item.ClockOutTime.indexOf('T') + 1, item.ClockOutTime.length - 3);
-                                qq += ("{time: \"" + today + "\", Morning: \"" + start + "\", Afternoon: \"" + end + "\"},");
-                                break;
-                            case 6, 7://467
-                                today = (item.AttendanceStartTime).substring(0, (item.AttendanceStartTime).indexOf('T'));
-                                start = item.ClockTime.substring(item.ClockTime.indexOf('T') + 1, item.ClockTime.length - 3);
-                                end = item.ClockOutTime.substring(item.ClockOutTime.indexOf('T') + 1, item.ClockOutTime.length - 3);
-                                qq += ("{time: \"" + today + "\", Morning: \"" + start + "\", Afternoon: \"" + end + "\"},");
+                            //case 4:
+                            //    break;
+                            //case 5,6,7:
+                            //    break;
+                            default:
+                                qq.push(d[i]);
                                 break;
                         }
-                        //alert(item.AttendanceType);
-                        // alert("状态:" + item.AttendanceType + "当前时间:" + item.AttendanceStartTime + "上班:" + item.ClockTime + "|下班:" + item.ClockOutTime);
-                    });
-                    zc_day += "]";
-                    zt += "]";
-                    cdzt += "]";
-                    qq += "]";
-                    //alert(qq);
-                    var mySchedule = new Schedule({
-                        el: '#schedule-boxS',
-                        //异常考勤迟到
-                        //qqDate: [{ time: "2019-07-09", Morning: "", Afternoon: "16:01" }, { time: "2018-11-16", Morning: "08:15", Afternoon: "" }, { time: "2018-12-19", Morning: "08:15", Afternoon: "" }],
-                        qqDate: (new Function("return " + qq))(),
-                        //正常考勤
-                        zcDate: (new Function("return " + zc_day))(),//字符串转json
-                        //请假
-                        cdzt: (new Function("return " + cdzt))(),
-                        //早退
-                        zt: (new Function("return " + zt))()
-                    });
+                        
+                    }
 
                 }
             });
-
-
+            var mySchedule = new Schedule({
+                el: '#schedule-boxS',
+                //异常考勤迟到
+                //qqDate: [{ time: "2019-07-09", Morning: "", Afternoon: "16:01" }, { time: "2018-11-16", Morning: "08:15", Afternoon: "" }, { time: "2018-12-19", Morning: "08:15", Afternoon: "" }],
+                qqDate: qq,
+                //正常考勤
+                zcDate: zc_day,
+                //迟到+早退
+                cdzt: [],
+                //早退
+                zt: []
+            });
         }
-
+                
         function AddClock()
         {
             //#schedule-boxS > ul.schedule-bd.ul-box.clearfix > li:nth-child(5)
             var date = new Date();
-            var a = $("#schedule-boxS > ul.schedule-bd.ul-box.clearfix > li:nth-child(" + (4 + date.getDate()) + ") >span");
-
+            var a = $("#schedule-boxS > ul.schedule-bd.ul-box.clearfix > li:nth-child(" + (4 + date.getDate()) + ") > span");
+            //alert(a == "下班：" || a == "下班：00:00");
+            //alert(a);
             var clocktime = $("#schedule-boxS > ul.schedule-bd.ul-box.clearfix > li:nth-child(" + (4 + date.getDate()) + ") > div > div:nth-child(1)").text();
-            if (a.hasClass("zc_day"))
-            {
-                alert("今天已经签到" + clocktime);
-            }
-            else if (a.hasClass("qq-style"))
-            {
-                alert("打卡成功!迟到" + clocktime);
-            }
-            else
-            {
-                //qiandao
-                $.ajax({
-                    type: "get",
-                    url: "Handler/UserClockHandler.ashx",
-                    data:
+            var clocktime2 = $("#schedule-boxS > ul.schedule-bd.ul-box.clearfix > li:nth-child(" + (4 + date.getDate()) + ") > div > div:nth-child(2)").text();
+            //qiandao
+            //alert(clocktime2 == "下班：" || clocktime2 == "下班：00:00");
+                 if (1==1)
                     {
-                        Method: "addclock"
-                    },
-                    dataType: "json",
-                    success: function (d, s)
-                    {
-                        if (d != "clockfailed")
+
+                   }
+                   else if (clocktime == "上班：" || clocktime == "上班：00:00") {
+                         $.ajax({
+                        type: "get",
+                        url: "Handler/UserClockHandler.ashx",
+                        async: false,
+                        data:
                         {
-                            switch (d.AttendanceType) {
-                                case 1:
-                                    alert("打卡成功!");
-                                    break;
-                                case 2:
-                                    alert("迟到!");
-                                    break;
-                                default:
+                            Method: "clockone"
+                        },
+                        dataType: "json",
+                        success: function (d, s)
+                        {
+                            if (d != "clockfailed")
+                            {
+                                switch (d.AttendanceType) {
+                                    case 1:
+                                        alert("打卡成功!");
+                                        break;
+                                    case 2:
+                                        alert("迟到!");
+                                        break;
+                                    default:
+                                }
+                                ShowClock();
                             }
-                            ShowClock();
+                            else
+                            {
+                                alert("打卡失败!");
+                            }
                         }
-                        else
-                        {
-                            alert("打卡失败!");
-                        }
+                    });
                     }
-
-
-                });
-
-            }
+                    else if (clocktime2 == "下班：" || clocktime2 == "下班：00:00")
+                    {
+                        $.ajax({
+                            type: "get",
+                            url: "Handler/UserClockHandler.ashx",
+                            async: false,
+                            data:
+                            {
+                                Method: "clocktwo"
+                            },
+                            dataType: "json",
+                            success: function (d, s) {
+                                if (d != "clockfailed") {
+                                    switch (d.AttendanceType) {
+                                        case 1:
+                                            alert("打卡成功!");
+                                            break;
+                                        case 2:
+                                            alert("迟到!");
+                                            break;
+                                        default:
+                                    }
+                                    ShowClock();
+                                }
+                                else {
+                                    alert("打卡失败!");
+                                }
+                            }
+                        });
+                    }
+                    else
+                    {
+                        alert("今天已经签到,谢谢!");
+                    }
         }
-    </script>
+
+
+        </script>
 </body>
 </html>

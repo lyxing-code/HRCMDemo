@@ -50,7 +50,7 @@ namespace HRCMDemoDAL
         }
 
         /// <summary>
-        /// 签到
+        /// 上班签到
         /// </summary>
         /// <param name="obj">签到信息</param>
         /// <returns>bool</returns>
@@ -59,8 +59,17 @@ namespace HRCMDemoDAL
             string sql = "insert  AttendanceSheet values(getdate(),"+obj.AttendanceType + ","+obj.UserID+","+obj.DepartmentID+",getdate(),null,null,null,null,null)";
             return DBHelper.UpdateOpera(sql);
         }
-
-
+        
+        /// <summary>
+        /// 下班签到
+        /// </summary>
+        /// <param name="obj">签到信息</param>
+        /// <returns>bool</returns>
+        public static bool UPdateClock(AttendanceSheetEntity obj)
+        {
+            string sql = "UPDATE v_attendance SET ClockOutTime = getdate(),AttendanceType="+obj.AttendanceType+ " WHERE day(AttendanceStartTime) =  day(getdate()) and UserID =" + obj.UserID;
+            return DBHelper.UpdateOpera(sql);
+        }
 
     }
 }

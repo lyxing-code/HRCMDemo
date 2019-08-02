@@ -19,18 +19,18 @@ namespace HRCMDemoBLL
         }
 
         /// <summary>
-        /// 获取单个信息
+        /// 获取当前月份的签到信息
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public List<AttendanceSheetEntity> GetSelectAll(string id)
+        public List<AttendanceSheetEntity> GetSelectAll(string id,string year,string month)
         {
-            string str = " WHERE UserID ="+id;
+            string str = " WHERE year(AttendanceStartTime) ="+year+" and month(AttendanceStartTime) = "+month+" AND UserID=" + id;
             return HRCMDemoDAL.AttendanceSheetDAL.SelectAll(str);
         }
 
         /// <summary>
-        /// 签到
+        /// 上班签到
         /// </summary>
         /// <param name="obj">签到信息</param>
         /// <returns>bool</returns>
@@ -39,6 +39,14 @@ namespace HRCMDemoBLL
             return HRCMDemoDAL.AttendanceSheetDAL.InsertClock(obj);
         }
 
-
+        /// <summary>
+        /// 下班签到
+        /// </summary>
+        /// <param name="obj">签到信息</param>
+        /// <returns>bool</returns>
+        public bool GetUPdateClock(AttendanceSheetEntity obj)
+        {
+            return HRCMDemoDAL.AttendanceSheetDAL.UPdateClock(obj);
+        }
     }
 }

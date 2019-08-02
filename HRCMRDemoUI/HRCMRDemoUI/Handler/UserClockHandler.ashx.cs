@@ -23,8 +23,11 @@ namespace HRCMRDemoUI.Handler
                 case "selectbyid":
                     SelectByid(context);
                     break;
-                case "addclock":
-                    Addclock(context);
+                case "clockone":
+                    Addclockone(context);
+                    break;
+                case "clocktwo":
+                    Updateclocktwo(context);
                     break;
                 default:
                     break;
@@ -32,14 +35,36 @@ namespace HRCMRDemoUI.Handler
            
         }
 
-        private void Addclock(HttpContext context)
+        private void Updateclocktwo(HttpContext context)
         {
-            string str = "";
+            AttendanceSheetEntity obj = new AttendanceSheetEntity();
+            obj.UserID = user.UserID;
+            if (Convert.ToDateTime(DateTime.Now.ToString("HH:mm")) <= Convert.ToDateTime("17:00"))
+            {
+                obj.AttendanceType = 3;
+            }
+            else
+            {
+                obj.AttendanceType = 1;
+            }
+            if (new AttendanceSheetBLL().GetUPdateClock(obj))
+            {
+                LoginHandler.contextResponseWrite(context, obj);
+            }
+            else
+            {
+                LoginHandler.contextResponseWrite(context, "clockfailed");
+            }
+            //throw new NotImplementedException();
+        }
+
+        private void Addclockone(HttpContext context)
+        {
+           
             AttendanceSheetEntity obj = new AttendanceSheetEntity();
             obj.UserID = user.UserID;
             obj.DepartmentID = user.DepartmentID;
-            str = DateTime.Now.ToString("yyyy/MM/dd") + " 08:00:00";
-            if (DateTime.Compare(DateTime.Now,Convert.ToDateTime(str)) < 0)
+            if ((Convert.ToDateTime(DateTime.Now.ToString("HH:mm")) <= Convert.ToDateTime("09:00")))
             {
                 obj.AttendanceType = 1;
             }
@@ -60,7 +85,15 @@ namespace HRCMRDemoUI.Handler
 
         private  void SelectByid(HttpContext context)
         {
-            object json = new AttendanceSheetBLL().GetSelectAll(user.UserID.ToString());
+           
+            var json = from o in new AttendanceSheetBLL().GetSelectAll(user.UserID.ToString(),DateTime.Now.Year.ToString(),DateTime.Now.Month.ToString())
+                       select new
+                       {
+                           time = o.AttendanceStartTime.ToString("yyyy-MM-dd"),
+                           Morning = o.ClockTime.ToString("HH:mm"),
+                           Afternoon = o.ClockOutTime.ToString("HH:mm"),
+                           state = o.AttendanceType
+                       };
             LoginHandler.contextResponseWrite(context, json);
         }
 

@@ -151,6 +151,7 @@
     <Content Include="css\animatecss\animate.min.css" />
     <Content Include="EmpMyColleage.aspx" />
     <Content Include="HTMLDemo\ClockView.html" />
+    <Content Include="HTMLDemo\UserClock.html" />
     <Content Include="js\bootstrap-daterangepicker\bootstrap-datetimepicker.zh-CN.js" />
     <Content Include="js\bootstraptable\bootstrap-table-zh-CN.min.js" />
     <Content Include="js\bootstraptable\bootstrap-table.css" />
@@ -400,6 +401,7 @@
     <Content Include="HTMLDemo\Handler\BootStrapTableHandler.ashx" />
     <Content Include="Handler\LeaveHandler.ashx" />
     <Content Include="Handler\UserClockHandler.ashx" />
+    <Content Include="HTMLDemo\Handler\ClockDemoHandler.ashx" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="img\addressbook\1.jpg" />
     <Content Include="img\addressbook\2.jpg" />
@@ -1445,6 +1447,9 @@
     </Compile>
     <Compile Include="HTMLDemo\Handler\BootStrapTableHandler.ashx.cs">
       <DependentUpon>BootStrapTableHandler.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="HTMLDemo\Handler\ClockDemoHandler.ashx.cs">
+      <DependentUpon>ClockDemoHandler.ashx</DependentUpon>
     </Compile>
     <Compile Include="Index.aspx.cs">
       <DependentUpon>Index.aspx</DependentUpon>

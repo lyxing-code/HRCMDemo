@@ -36,7 +36,6 @@
             cdzt = opt.cdzt || "",
             cd = opt.cd || "",
             zt = opt.zt || "",
-            xx = opt.xx || "",
 			el = document.querySelector(opt.el) || document.querySelector('body'),
 			_this = this;
 		var bindEvent = function() {
