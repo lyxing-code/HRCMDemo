@@ -69,9 +69,9 @@
                         <div class="index_frame_leftBottom_Top clearfix">
                             <span style="position: absolute; top: 50px; left: 12%">
                                 <label style="position: relative; top: -10px;">正常:</label><span class="currentDate dayStyle zc_day"></span>
-                                <label style="position: relative; top: -10px;">迟到:</label><span class="currentDate dayStyle qq-style"></span>
+                                <label style="position: relative; top: -10px;">迟到:</label><span class="currentDate dayStyle cdzt-style"></span>
                                 <label style="position: relative; top: -10px;">早退:</label><span class="currentDate dayStyle zt-style"></span>
-                                <label style="position: relative; top: -10px;">请假:</label><span class="currentDate dayStyle cdzt-style"></span>
+                                <label style="position: relative; top: -10px;">旷工:</label><span class="currentDate dayStyle qq-style"></span>
                             </span>
                         </div>
                         <div class="top flex flex-align-end flex-pack-center flex-warp">
@@ -93,18 +93,40 @@
     <script src="Scripts/jquery-3.3.1.js"></script>
     <script src="js/qdclock/js/index.js"></script>
     <script src="js/qdclock/js/schedule.js"></script>
-   <%-- <script src="js/qdclock/js/rili.js"></script>--%>
+    <%-- <script src="js/qdclock/js/rili.js"></script>--%>
     <script>
         $(function () {
             //显示签到数据
-            ShowClock();
+            ShowClock("selectbyid", "", "");
+
+            //查看上一个月签到记录
+            $("#prevMonth").click(function () {
+                var datestr = $(".today").text();
+                var year = datestr.substring(0, datestr.lastIndexOf("年"));
+                var month = datestr.substring(datestr.indexOf("年") + 1, datestr.lastIndexOf("月"));
+                ShowClock("selectbyprevdate", month, year);
+               
+               
+            });
+            //查看下一个月签到记录
+            $("#nextMonth").click(function () {
+                var datestr = $(".today").text();
+                var year = datestr.substring(0, datestr.lastIndexOf("年"));
+                var month = datestr.substring(datestr.indexOf("年") + 1, datestr.lastIndexOf("月"));
+                ShowClock("selectbynextdate", month, year);
+                
+
+
+            });
+
         });
 
+       
         //签到数据显示
-        function ShowClock() {
+        function ShowClock(op, month, year) {
             var zc_day = [];
-            var zt = [];
-            var cdzt = [];
+            var ztarr = [];
+            var cdztarr = [];
             var qq = [];
             $.ajax({
                 type: "get",
@@ -112,96 +134,67 @@
                 async: false,
                 data:
                 {
-                    Method: "selectbyid"
+                    Method: op,
+                    Month: month,
+                    Year: year
                 },
                 dataType: "json",
                 success: function (d, s) {
+                    $("#sign-count").text(d[0].count);
+                    //alert(); 
                     for (var i = 0; i < d.length; i++) {
                         switch (d[i].state) {
                             case 1:
                                 zc_day.push(d[i]);
                                 break;
                             case 2:
-                                qq.push(d[i]);
+                                cdztarr.push(d[i]);
                                 break;
                             case 3:
-                                zt.push(d[i]);
+                                ztarr.push(d[i]);
                                 break;
-                            //case 4:
-                            //    break;
+                            case 4:
+                                qq.push(d[i]);
+                                break;
                             //case 5,6,7:
                             //    break;
                             default:
                                 qq.push(d[i]);
                                 break;
                         }
-                        
+
                     }
 
                 }
-            });
+            }); 
             var mySchedule = new Schedule({
                 el: '#schedule-boxS',
-                //异常考勤迟到
+                //异常考勤旷工
                 //qqDate: [{ time: "2019-07-09", Morning: "", Afternoon: "16:01" }, { time: "2018-11-16", Morning: "08:15", Afternoon: "" }, { time: "2018-12-19", Morning: "08:15", Afternoon: "" }],
                 qqDate: qq,
                 //正常考勤
                 zcDate: zc_day,
-                //迟到+早退
-                cdzt: [],
                 //早退
-                zt: []
+                zt: ztarr,
+                //迟到
+                cdzt: cdztarr,
             });
         }
-                
-        function AddClock()
-        {
-            //#schedule-boxS > ul.schedule-bd.ul-box.clearfix > li:nth-child(5)
-            var date = new Date();
-            var a = $("#schedule-boxS > ul.schedule-bd.ul-box.clearfix > li:nth-child(" + (4 + date.getDate()) + ") > span");
-            //alert(a == "下班：" || a == "下班：00:00");
-            //alert(a);
-            var clocktime = $("#schedule-boxS > ul.schedule-bd.ul-box.clearfix > li:nth-child(" + (4 + date.getDate()) + ") > div > div:nth-child(1)").text();
-            var clocktime2 = $("#schedule-boxS > ul.schedule-bd.ul-box.clearfix > li:nth-child(" + (4 + date.getDate()) + ") > div > div:nth-child(2)").text();
-            //qiandao
-            //alert(clocktime2 == "下班：" || clocktime2 == "下班：00:00");
-                 if (1==1)
-                    {
 
-                   }
-                   else if (clocktime == "上班：" || clocktime == "上班：00:00") {
-                         $.ajax({
-                        type: "get",
-                        url: "Handler/UserClockHandler.ashx",
-                        async: false,
-                        data:
-                        {
-                            Method: "clockone"
-                        },
-                        dataType: "json",
-                        success: function (d, s)
-                        {
-                            if (d != "clockfailed")
-                            {
-                                switch (d.AttendanceType) {
-                                    case 1:
-                                        alert("打卡成功!");
-                                        break;
-                                    case 2:
-                                        alert("迟到!");
-                                        break;
-                                    default:
-                                }
-                                ShowClock();
-                            }
-                            else
-                            {
-                                alert("打卡失败!");
-                            }
-                        }
-                    });
-                    }
-                    else if (clocktime2 == "下班：" || clocktime2 == "下班：00:00")
+       
+        //签到
+        function AddClock() {
+            $.ajax({
+                type: "get",
+                url: "Handler/UserClockHandler.ashx",
+                async: false,
+                data:
+                {
+                    Method: "clockone"
+                },
+                dataType: "json",
+                success: function (d, s) {
+                    if (d == "hasclock")
                     {
                         $.ajax({
                             type: "get",
@@ -213,17 +206,23 @@
                             },
                             dataType: "json",
                             success: function (d, s) {
+                                //alert("update|"+d);
                                 if (d != "clockfailed") {
-                                    switch (d.AttendanceType) {
-                                        case 1:
-                                            alert("打卡成功!");
-                                            break;
+                                    switch (d) {
                                         case 2:
                                             alert("迟到!");
                                             break;
+                                        case 3:
+                                            alert("早退!");
+                                            break;
+                                        case 4:
+                                            alert("旷工!");
+                                            break;
                                         default:
+                                            alert("打卡成功!");
+                                            break;
                                     }
-                                    ShowClock();
+                                    ShowClock("selectbyid", "", "");
                                 }
                                 else {
                                     alert("打卡失败!");
@@ -231,13 +230,38 @@
                             }
                         });
                     }
+                    else if (d == "todayclocked")
+                    {
+                        alert("今天已经签到过了!");
+                    }
                     else
                     {
-                        alert("今天已经签到,谢谢!");
+                        //alert("add|"+d);
+                        switch (d) {
+                            case 2:
+                                alert("迟到!");
+                                break;
+                            case 4:
+                                alert("旷工!");
+                                break;
+                            default:
+                                alert("打卡成功!");
+                                break;
+                        }
+                        ShowClock("selectbyid", "", "");
+                        
+                        //alert("打卡失败!");
                     }
+                }
+            });
+
+
+
+
         }
 
 
-        </script>
+
+    </script>
 </body>
 </html>

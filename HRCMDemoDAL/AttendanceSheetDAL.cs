@@ -49,6 +49,8 @@ namespace HRCMDemoDAL
             return Commnuity(sql).Count > 0 ? Commnuity(sql) : new List<AttendanceSheetEntity>();
         }
 
+       
+
         /// <summary>
         /// 上班签到
         /// </summary>

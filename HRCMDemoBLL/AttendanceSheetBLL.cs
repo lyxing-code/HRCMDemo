@@ -30,6 +30,17 @@ namespace HRCMDemoBLL
         }
 
         /// <summary>
+        /// 查询用户当天签到信息
+        /// </summary>
+        /// <returns></returns>
+        public  AttendanceSheetEntity SelectbyUserId(string id)
+        {
+            string sql = " WHERE year(AttendanceStartTime) =year(getdate()) and month(AttendanceStartTime) = month(getdate()) AND day(AttendanceStartTime) =day(getdate())  AND UserID="+id;
+            return HRCMDemoDAL.AttendanceSheetDAL.SelectAll(sql).Count>0 ? HRCMDemoDAL.AttendanceSheetDAL.SelectAll(sql)[0] :new AttendanceSheetEntity();
+        }
+
+
+        /// <summary>
         /// 上班签到
         /// </summary>
         /// <param name="obj">签到信息</param>
