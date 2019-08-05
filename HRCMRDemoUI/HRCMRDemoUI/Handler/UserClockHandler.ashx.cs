@@ -38,13 +38,14 @@ namespace HRCMRDemoUI.Handler
                 default:
                     break;
             }
-           
+
         }
 
+        //下个月签到情况
         private void SelectByDate2(HttpContext context)
         {
-            int month = (Convert.ToInt32(context.Request["Month"]) + 1) == 12 ? 1 : (Convert.ToInt32(context.Request["Month"]) - 1);
-            int year = month == 12 ? Convert.ToInt32(context.Request["Year"]) + 1 : Convert.ToInt32(context.Request["Year"]);
+            int month =Convert.ToInt32(context.Request["Month"]);
+            int year = Convert.ToInt32(context.Request["Year"]);
             List<AttendanceSheetEntity> list = new AttendanceSheetBLL().GetSelectAll(user.UserID.ToString(), (year).ToString(), (month).ToString());
             var json = from o in list
                        select new
@@ -59,10 +60,11 @@ namespace HRCMRDemoUI.Handler
             //throw new NotImplementedException();
         }
 
+        //上个月签到情况
         private void SelectByDate1(HttpContext context)
         {
-            int month = (Convert.ToInt32(context.Request["Month"]) - 1) ==0 ? 12 : (Convert.ToInt32(context.Request["Month"]) - 1);
-            int year = month == 12 ?  Convert.ToInt32(context.Request["Year"])- 1 : Convert.ToInt32(context.Request["Year"]);
+            int month = Convert.ToInt32(context.Request["Month"]);
+            int year = Convert.ToInt32(context.Request["Year"]);
             List<AttendanceSheetEntity> list = new AttendanceSheetBLL().GetSelectAll(user.UserID.ToString(), (year).ToString(), (month).ToString());
             var json = from o in list
                        select new
@@ -77,9 +79,12 @@ namespace HRCMRDemoUI.Handler
             //throw new NotImplementedException();
         }
 
+        //第二次下班打卡
         private void Updateclocktwo(HttpContext context)
         {
             AttendanceSheetEntity obj = new AttendanceSheetBLL().SelectbyUserId(user.UserID.ToString());
+            TimeSpan workinghours = (DateTime.Now - obj.ClockTime);
+            obj.Workinghours = (int)workinghours.Hours;//工作时长
             if (Convert.ToDateTime(obj.ClockTime.ToString("HH:mm")) >= Convert.ToDateTime("17:00"))
             {
                 obj.AttendanceType = 4;
@@ -108,20 +113,12 @@ namespace HRCMRDemoUI.Handler
             //throw new NotImplementedException();
         }
 
+        //第一次上班打卡
         private void Addclockone(HttpContext context)
         {
 
             AttendanceSheetEntity obj = new AttendanceSheetBLL().SelectbyUserId(user.UserID.ToString());
-            //var json = from o in list
-            //           where o.ClockTime.Day == DateTime.Now.Day
-            //           select new
-            //           {
-            //               time = o.AttendanceStartTime.ToString("yyyy-MM-dd"),
-            //               Morning = o.ClockTime.ToString("HH:mm"),
-            //               Afternoon = o.ClockOutTime.ToString("HH:mm"),
-            //               state = o.AttendanceType,
-            //               count = list.Count
-            //           };
+           
             if (obj.ClockTime != DateTime.MinValue && obj.ClockOutTime != DateTime.MinValue)
             {
                 LoginHandler.contextResponseWrite(context, "todayclocked");
@@ -158,6 +155,7 @@ namespace HRCMRDemoUI.Handler
             }
         }
 
+        //查询当前当月的打卡信息
         private  void SelectByid(HttpContext context)
         {
             List<AttendanceSheetEntity> list = new AttendanceSheetBLL().GetSelectAll(user.UserID.ToString(), DateTime.Now.Year.ToString(), DateTime.Now.Month.ToString());

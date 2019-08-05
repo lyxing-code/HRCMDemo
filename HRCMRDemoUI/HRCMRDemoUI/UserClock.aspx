@@ -97,33 +97,12 @@
     <script>
         $(function () {
             //显示签到数据
-            ShowClock("selectbyid", "", "");
-
-            //查看上一个月签到记录
-            $("#prevMonth").click(function () {
-                var datestr = $(".today").text();
-                var year = datestr.substring(0, datestr.lastIndexOf("年"));
-                var month = datestr.substring(datestr.indexOf("年") + 1, datestr.lastIndexOf("月"));
-                ShowClock("selectbyprevdate", month, year);
-               
-               
-            });
-            //查看下一个月签到记录
-            $("#nextMonth").click(function () {
-                var datestr = $(".today").text();
-                var year = datestr.substring(0, datestr.lastIndexOf("年"));
-                var month = datestr.substring(datestr.indexOf("年") + 1, datestr.lastIndexOf("月"));
-                ShowClock("selectbynextdate", month, year);
-                
-
-
-            });
-
+            ShowClock("selectbyid", "", "","");
         });
 
        
         //签到数据显示
-        function ShowClock(op, month, year) {
+        function ShowClock(op, month, year,date) {
             var zc_day = [];
             var ztarr = [];
             var cdztarr = [];
@@ -140,8 +119,8 @@
                 },
                 dataType: "json",
                 success: function (d, s) {
+                    $("#sign-count").text("0");
                     $("#sign-count").text(d[0].count);
-                    //alert(); 
                     for (var i = 0; i < d.length; i++) {
                         switch (d[i].state) {
                             case 1:
@@ -169,8 +148,9 @@
             }); 
             var mySchedule = new Schedule({
                 el: '#schedule-boxS',
+                //指定当前月份的显示信息
+                date:date,
                 //异常考勤旷工
-                //qqDate: [{ time: "2019-07-09", Morning: "", Afternoon: "16:01" }, { time: "2018-11-16", Morning: "08:15", Afternoon: "" }, { time: "2018-12-19", Morning: "08:15", Afternoon: "" }],
                 qqDate: qq,
                 //正常考勤
                 zcDate: zc_day,
@@ -178,6 +158,26 @@
                 zt: ztarr,
                 //迟到
                 cdzt: cdztarr,
+                clickCb: function (y, m, d) {
+                    //alert(1);
+                    //点击日期回调（可选）
+                },
+                nextMonthCb: function (y, m, d) {
+                    var date = y + "-" + m;
+                    ShowClock("selectbynextdate", m, y, date);
+                    //点击下个月回调（可选）
+                },
+                nextYeayCb: function (y, m, d) {
+                    //点击下一年回调（可选）
+                },
+                prevMonthCb: function (y, m, d) {
+                    //点击上个月回调（可选）
+                    var date = y + "-" + m;
+                    ShowClock("selectbyprevdate", m, y, date);
+                },
+                prevYearCb: function (y, m, d) {
+                    //点击上一年月回调（可选）
+                }
             });
         }
 
@@ -260,6 +260,7 @@
 
         }
 
+       
 
 
     </script>
