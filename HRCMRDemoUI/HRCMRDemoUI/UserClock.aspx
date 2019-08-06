@@ -120,8 +120,8 @@
                 dataType: "json",
                 success: function (d, s) {
                     $("#sign-count").text("0");
-                    $("#sign-count").text(d[0].count);
                     for (var i = 0; i < d.length; i++) {
+                    $("#sign-count").text(d[i].count);
                         switch (d[i].state) {
                             case 1:
                                 zc_day.push(d[i]);
@@ -141,47 +141,12 @@
                                 qq.push(d[i]);
                                 break;
                         }
-
                     }
-
+                    InitSchedule(date, qq, zc_day, ztarr, cdztarr)
                 }
-            }); 
-            var mySchedule = new Schedule({
-                el: '#schedule-boxS',
-                //指定当前月份的显示信息
-                date:date,
-                //异常考勤旷工
-                qqDate: qq,
-                //正常考勤
-                zcDate: zc_day,
-                //早退
-                zt: ztarr,
-                //迟到
-                cdzt: cdztarr,
-                clickCb: function (y, m, d) {
-                    //alert(1);
-                    //点击日期回调（可选）
-                },
-                nextMonthCb: function (y, m, d) {
-                    var date = y + "-" + m;
-                    ShowClock("selectbynextdate", m, y, date);
-                    //点击下个月回调（可选）
-                },
-                nextYeayCb: function (y, m, d) {
-                    //点击下一年回调（可选）
-                },
-                prevMonthCb: function (y, m, d) {
-                    //点击上个月回调（可选）
-                    var date = y + "-" + m;
-                    ShowClock("selectbyprevdate", m, y, date);
-                },
-                prevYearCb: function (y, m, d) {
-                    //点击上一年月回调（可选）
-                }
-            });
+            });    
         }
 
-       
         //签到
         function AddClock() {
             $.ajax({
@@ -222,7 +187,7 @@
                                             alert("打卡成功!");
                                             break;
                                     }
-                                    ShowClock("selectbyid", "", "");
+                                    ShowClock("selectbyid", "", "","");
                                 }
                                 else {
                                     alert("打卡失败!");
@@ -230,7 +195,7 @@
                             }
                         });
                     }
-                    else if (d == "todayclocked")
+                    else if(d == "todayclocked")
                     {
                         alert("今天已经签到过了!");
                     }
@@ -248,9 +213,8 @@
                                 alert("打卡成功!");
                                 break;
                         }
-                        ShowClock("selectbyid", "", "");
-                        
-                        //alert("打卡失败!");
+                         ShowClock("selectbyid", "", "","");
+                       
                     }
                 }
             });
@@ -260,6 +224,39 @@
 
         }
 
+        //初始化日历控件
+        function InitSchedule(date, qq, zc_day, ztarr, cdztarr) {
+            var mySchedule = new Schedule({
+                el: '#schedule-boxS',
+                //指定当前月份的显示信息
+                date: date,
+                //异常考勤旷工
+                qqDate: qq,
+                //正常考勤
+                zcDate: zc_day,
+                //早退
+                zt: ztarr,
+                //迟到
+                cdzt: cdztarr,
+                nextMonthCb: function (y, m, d) {
+                    var clickdate = y + "-" + m;
+                    ShowClock("selectbynextdate", m, y, clickdate);
+
+                    alert(clickdate);
+                    //点击下个月回调（可选）
+                },
+                //nextYeayCb: function (y, m, d) {
+                //    //点击下一年回调（可选）
+                //},
+                prevMonthCb: function (y, m, d) {
+                    //点击上个月回调（可选）
+                    var clickdate = y + "-" + m;
+                    ShowClock("selectbyprevdate", m, y, clickdate);
+                    //alert(clickdate);
+                }
+            });
+                
+        }
        
 
 

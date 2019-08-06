@@ -168,7 +168,12 @@
                     $("#daclocktable").hide();
                 }
 
-
+                if ($(this).attr("id") == "watchtodayclock") {
+                    $("#clockviewtable").show();
+                } else {
+                    $("#clockviewtable").hide();
+                }
+               
                 
             });
 
@@ -178,6 +183,10 @@
                 $("#depttable").hide();
                 $("#empmangertable").hide();
                 $("#leavetable").hide();
+                $("#leavemangertable").hide();
+                $("#empseecolleagetable").hide();
+                $("#daclocktable").hide();
+                $("#clockviewtable").hide();
                 $("#usertable").show();
             });
 
@@ -1051,6 +1060,10 @@
                    </div>
                 <div style="width:100%;height:100%" class="text-center">
                        <iframe style="width:100%;height:600px;" src="UserClock.aspx" hidden="hidden" id="daclocktable" frameborder="0">
+                       </iframe>
+                   </div>
+                <div style="width:100%;height:100%" class="text-center">
+                       <iframe style="width:100%;height:600px;" src="UserClockView.html" hidden="hidden" id="clockviewtable" frameborder="0">
                        </iframe>
                    </div>
            </div>

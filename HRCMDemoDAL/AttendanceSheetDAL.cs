@@ -73,5 +73,38 @@ namespace HRCMDemoDAL
             return DBHelper.UpdateOpera(sql);
         }
 
+        /// <summary>
+        /// 当天签到数据
+        /// </summary>
+        /// <param name="pageindex">起始页</param>
+        /// <param name="pagesize">显示条数</param>
+        /// <param name="deptid">部门id</param>
+        /// <param name="count">数据条数</param>
+        /// <returns></returns>
+        public static List<AttendanceSheetEntity> SelectbyPage(int pageindex, int pagesize, string deptid,ref int count)
+        {
+            string sql = "SELECT* FROM " +
+                "(SELECT  row_number() OVER(order BY AttendanceID) AS idx, " +
+                "*FROM v_attendance  where DepartmentID = "+ deptid + " AND year(AttendanceStartTime)= year(getdate()) AND month(AttendanceStartTime)= month(getdate())  AND day(AttendanceStartTime) = day(getdate())" +
+                " )a WHERE 1 = 1 AND idx BETWEEN "+ (pageindex+1) + " AND "+ (pageindex+pagesize) + "";
+            List <AttendanceSheetEntity> list= Commnuity(sql).Count > 0 ? Commnuity(sql) : new List<AttendanceSheetEntity>();
+            count = Commnuity("SELECT  row_number() OVER (order BY AttendanceID) AS idx,* FROM v_attendance  where DepartmentID="+ deptid + " AND year(AttendanceStartTime)= year(getdate()) AND month(AttendanceStartTime)= month(getdate()) AND day(AttendanceStartTime)=day(getdate())").Count;
+            return list;
+        }
+
+        /// <summary>
+        /// 修改考勤记录
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="remake"></param>
+        /// <returns></returns>
+        public static bool UpdateClockRemake(string id,string remake)
+        {
+            string sql = "UPDATE AttendanceSheet SET remake = '"+ remake + "' WHERE AttendanceID in ("+id+")";
+            return DBHelper.UpdateOpera(sql);
+        } 
+
+
+
     }
 }

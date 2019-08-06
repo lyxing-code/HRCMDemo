@@ -35,10 +35,30 @@ namespace HRCMRDemoUI.Handler
                 case "clocktwo":
                     Updateclocktwo(context);
                     break;
+                case "updateremake":
+                    UpdateRemake(context);
+                    break;
                 default:
                     break;
             }
 
+        }
+
+        //修改备注信息
+        private void UpdateRemake(HttpContext context)
+        {
+            string idlist = context.Request["Clockid"];
+            string remake = context.Request["Remake"];
+            if (new AttendanceSheetBLL().GetUpdateClockRemake(idlist,remake))
+            {
+                LoginHandler.contextResponseWrite(context, "updatesuccess");
+            }
+            else
+            {
+                LoginHandler.contextResponseWrite(context, "updatefailed");
+            }
+
+            //throw new NotImplementedException();
         }
 
         //下个月签到情况
@@ -170,6 +190,7 @@ namespace HRCMRDemoUI.Handler
                        };
             LoginHandler.contextResponseWrite(context, json);
         }
+
 
         public bool IsReusable
         {

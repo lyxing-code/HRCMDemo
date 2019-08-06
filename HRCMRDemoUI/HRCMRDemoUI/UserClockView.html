@@ -1,0 +1,260 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>HRCM 人力之源管理 | 本日签到记录</title>
+    <link rel="stylesheet" type="text/css" href="css/cloud-admin.css" />
+    <link rel="stylesheet" type="text/css" href="css/themes/default.css" id="skin_switcher" />
+    <link rel="stylesheet" type="text/css" href="css/responsive.css" />
+    <!-- STYLESHEETS -->
+    <!--[if lt IE 9]><script src="js/flot/excanvas.min.js"></script><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script><![endif]-->
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+    <!-- ANIMATE -->
+    <link rel="stylesheet" type="text/css" href="css/animatecss/animate.min.css" />
+    <!-- DATE RANGE PICKER -->
+    <link rel="stylesheet" type="text/css" href="js/bootstrap-daterangepicker/daterangepicker-bs3.css" />
+    <!-- TODO -->
+    <link rel="stylesheet" type="text/css" href="js/jquery-todo/css/styles.css" />
+    <!-- FULL CALENDAR -->
+    <link rel="stylesheet" type="text/css" href="js/fullcalendar/fullcalendar.min.css" />
+    <!-- GRITTER -->
+    <link rel="stylesheet" type="text/css" href="js/gritter/css/jquery.gritter.css" />
+
+
+    <script src="Scripts/jquery-3.3.1.js"></script>
+    <script src="Scripts/bootstrap.min.js"></script>
+    <link href="Content/bootstrap.css" rel="stylesheet" />
+    <link href="js/bootstraptable/bootstrap-table.css" rel="stylesheet" />
+    <script src="js/bootstraptable/bootstrap-table.js"></script>
+    <script src="js/bootstraptable/bootstrap-table-zh-CN.min.js"></script>
+    <script>
+
+        jQuery(function () {
+            
+            
+        });
+
+        //修改
+        var num = "";
+        function Updateremake() {
+            var str = "";
+             $("#clockviewtable > tbody > tr").each(function (index, item) {
+                if ($(this).hasClass("selected")) {
+                    str += $(this).children(" td:nth-child(4)").text() + ",";
+                }
+            });
+            str = str.substring(0, str.length - 1);
+            num = str;
+            if (str == "") {
+                alert("未选中行!请选中行!");
+            } else {
+                $("#txtremake").val("");
+                $("#ClockViewModal").modal("show");
+            }
+        }
+
+       function UpdateremakeModal()
+       {
+           
+            $.ajax({
+                type:"get",
+                url: "Handler/UserClockHandler.ashx",
+                async: false,
+                data: {
+                    Method: "updateremake",
+                    Clockid: num,
+                    Remake:$("#txtremake").val()
+                },
+                dataType: "json",
+                success: function (rs) {
+                    if (rs != "updatefailed") {
+                        alert("修改成功!");
+                         $("#clockviewtable").bootstrapTable("refresh");
+                    }
+                    else
+                    {
+                        alert("修改失败!");
+                    }
+                }
+
+            });
+                $("#ClockViewModal").modal("hide");
+       }
+
+    </script>
+
+</head>
+<body>
+    <div>
+        <!-- 表格-->
+        <div class="box border inverse">
+            <div class="box-title">
+                <h4><i class="fa fa-table"></i>本日考勤</h4>
+                <div class="tools">
+                    <a href="#box-config" data-toggle="modal" class="config">
+                        <i class="fa fa-cog"></i>
+                    </a>
+                    <a href="javascript:;" class="reload">
+                        <i class="fa fa-refresh"></i>
+                    </a>
+                    <a href="javascript:;" class="collapse">
+                        <i class="fa fa-chevron-up"></i>
+                    </a>
+                    <a href="javascript:;" class="remove">
+                        <i class="fa fa-times"></i>
+                    </a>
+                </div>
+                <table style="margin-top:5px;margin-bottom:8px;">
+                    <tr>
+                        <td class=" label-inverse label-left">姓名:&nbsp;&nbsp;</td>
+                        <td>
+                            <input type="text" placeholder="按照姓名查询" style="width:150px;" class=" form-control" id="username" name="username" value="" />
+                        </td>
+                        <td>&nbsp;</td>
+                        <td>
+                            <input id="select" type="button" class="btn btn-success" name="name" value="查询" />
+                        </td>
+                        <td>&nbsp;</td>
+                        <td>
+                            <input type="button" class="btn btn-grey" name="name" value="修改" onclick="Updateremake();" />
+                        </td>
+                    </tr>
+                </table>
+
+            </div>
+            <div class="box-body  text-center">
+                <table id="clockviewtable"></table>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- 模态框（Modal-view） -->
+    <div class="modal fade" id="ClockViewModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close"
+                            data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="ViewModalLabel">操作提示</h4>
+                </div>
+                <div class="modal-body">
+                    <label id="msg">修改备注:</label>
+                    <input id="txtremake" type="text" name="name" value="" class="form-control" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-success" data-dismiss="modal" onclick="UpdateremakeModal();">修改</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal -->
+    </div>
+
+    <script>
+        $(function () {
+            //数据显示
+            DataTable();
+         
+            $("#select").click(function () {
+               $("#clockviewtable").bootstrapTable("refresh");
+            });
+
+
+
+        });
+
+        //展示数据
+        function DataTable() {
+            $("#clockviewtable").bootstrapTable({
+                url: 'Handler/PageHandler.ashx', //请求后台的URL（*）控制器中的方法   那个控制器 那个方法
+                dataType: "json",
+                //async: true,//同步发送请求
+                method: "get",
+                //type: "get",
+                striped: true, //是否显示行间隔色
+                cache: false, //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                pagination: true, //是否显示分页（*）
+                //sortable: true, //是否启用排序
+                sidePagination: "server", //分页方式：client客户端分页，server服务端分页（*）       打开后表中才有数据
+                pageNumber: 1, //初始化加载第一页，默认第一页
+                clickToSelect: false, // 是否启用点击选中行
+                pageSize: 5, //每页的记录行数（*）
+                pageList: [1,5,10, 20, 40], //可供选择的每页的行数（*）
+                queryParams: function (parms) {
+                    var temp = { //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
+                        ops: "selectclockpage",
+                        limit: parms.limit, //页面大小
+                        //////页码
+                        offset: parms.offset,
+                        username:$("#username").val()
+                    };
+                    return temp;
+                },
+                columns: [
+                    { checkbox: true },
+                    { field: 'CI_ID', title: '状态编号', align: 'center',class: 'hidden' },
+                    { field: 'UserID', title: '用户编号', align: 'center', class: 'hidden' },
+                    { field: 'AttendanceID', title: '编号', align: 'center',class: 'hidden' },
+                    { field: 'UserName', title: '姓名', align: 'center', },
+                    {
+                        field: 'ClockTime',
+                        title: '上班时间',
+                        align: 'center',
+                        formatter: function (value) {
+                            if (value != null) {
+                                return value.substring(value.indexOf("T") + 1, value.lastIndexOf(":"));
+                            }
+                        }
+                    },
+                    {
+                        field: 'ClockOutTime', title: '下班时间', align: 'center',
+                        formatter: function (value) {
+                            if (value != null) {
+                                return value.substring(value.indexOf("T") + 1, value.lastIndexOf(":"));
+                            }
+                        }
+                    },
+                    {
+                        field: 'remake', title: '备注', align: 'center',
+                        formatter: function (value) {
+                            return value == undefined ? "--" : value
+                        }
+                    },
+                    {
+                        field: 'CI_Name',
+                        title: '出勤状态',
+                        align: 'center',
+                        formatter: function (value) {
+                            if (value != null) {
+                                if (value == "缺勤") {
+                                    return "<font color='red'style='font-weight:bold'>" + value + "</font>";
+                                }
+                                else if (value == "迟到") {
+                                    return "<font color='lightpink' style='font-weight:bold'>" + value + "</font>";
+                                }
+                                else if (value == "早退") {
+                                    return "<font color='gary' style='font-weight:bold'>" + value + "</font>";
+                                }
+                                else if (value == "正常") {
+                                    return "<font color='green' style='font-weight:bold'>" + value + "</font>";
+                                }
+                            }
+                        }
+                    },
+                ]
+
+            });
+        }
+
+
+    
+       
+
+    </script>
+  
+</body>
+</html>
