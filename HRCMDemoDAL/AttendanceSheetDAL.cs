@@ -102,9 +102,30 @@ namespace HRCMDemoDAL
         {
             string sql = "UPDATE AttendanceSheet SET remake = '"+ remake + "' WHERE AttendanceID in ("+id+")";
             return DBHelper.UpdateOpera(sql);
-        } 
+        }
 
-
+        /// <summary>
+        /// 复合查询签到数据
+        /// </summary>
+        /// <param name="pageindex">起始页</param>
+        /// <param name="pagesize">显示条数</param>
+        /// <param name="wherestr">查询条件</param>
+        /// <param name="count">数据条数</param>
+        /// <returns></returns>
+        public static List<AttendanceSheetEntity> SelectClockListPage(int pageindex, int pagesize,string wherestr, ref int count)
+        {
+            string sql = "SELECT * FROM (SELECT  row_number() OVER(order BY AttendanceID) AS idx, *FROM v_attendance" +
+                " WHERE 1 = 1 " +wherestr+
+                ")a where  idx BETWEEN "+ (pageindex+1) + " AND "+(pagesize+ pageindex) +"";
+            //"and DepartmentID = 6--AND year(AttendanceStartTime) = year(getdate()) AND month(AttendanceStartTime) = month(getdate()) AND day(AttendanceStartTime) = day(getdate())" +
+            List<AttendanceSheetEntity> list = Commnuity(sql).Count > 0 ? Commnuity(sql) : new List<AttendanceSheetEntity>();
+            string sql2 = "SELECT * FROM (SELECT  row_number() OVER(order BY AttendanceID) AS idx, *FROM v_attendance" +
+                " WHERE 1 = 1 " + wherestr +
+                ")a";
+            count = Commnuity(sql2).Count;
+            return list;
+        }
+ 
 
     }
 }

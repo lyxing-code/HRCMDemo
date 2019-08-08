@@ -30,13 +30,75 @@ namespace HRCMRDemoUI.Handler
                 case "selectclockpage":
                     Selectclockpage(context);//当日签到信息分页
                     break;
-                default:
+                case "selectclockwatchpage":
+                    Selectclockwatchpage(context);//复合查询签到信息分页
                     break;
+                default:
+                    break; 
             }
 
 
         }
-       
+
+        //复合查询签到信息分页
+        private void Selectclockwatchpage(HttpContext context)
+        {
+            user = (UserInfoEntity)context.Session["getuser"];
+            int pageindex = Convert.ToInt32(context.Request["offset"]);
+            int pagesize = Convert.ToInt32(context.Request["limit"]);
+            string deptid = context.Request["deptid"];
+            string startdate = context.Request["starttime"];
+            string enddate = context.Request["endtime"];
+            string str = "";
+            int count = 0;
+            if (user.RoleID ==1)
+            {
+                if (deptid != "")
+                {
+                    str += " and DepartmentID = " + deptid + "";
+                }
+                //if (startdate != "" || enddate != "")
+                //{
+                //    str += " AND year(AttendanceStartTime) = year('"+Convert.ToDateTime(startdate)+ "') AND month(AttendanceStartTime) = month('"+ Convert.ToDateTime(startdate) +"') AND day(AttendanceStartTime) = day('"+ Convert.ToDateTime(startdate) +"')";
+                //}
+                if (startdate !="" && enddate !="")
+                {
+                    str += " AND AttendanceStartTime   BETWEEN '"+ Convert.ToDateTime(startdate) + "' AND '"+ Convert.ToDateTime(enddate) +"'";
+                }
+                List<AttendanceSheetEntity> clocklist = new AttendanceSheetBLL().GetSelectClockListPage(pageindex, pagesize, str, ref count);
+                        var list = from o in clocklist
+                               select new
+                               {
+                                   CI_ID = o.CI_ID,
+                                   AttendanceStartTime = o.AttendanceStartTime,
+                                   UserID = o.UserID,
+                                   AttendanceID = o.AttendanceID,
+                                   UserName = o.UserName,
+                                   ClockTime = o.ClockTime,
+                                   ClockOutTime = o.ClockOutTime,
+                                   remake = o.Remake,
+                                   CI_Name = o.CI_Name
+
+                               };
+                    var json = new
+                    {
+                        total = count,
+                        rows = list
+                    };
+                    LoginHandler.contextResponseWrite(context, json);
+
+                
+
+            }
+            else
+            {
+                LoginHandler.contextResponseWrite(context, "selectfailed");
+            }
+
+            //throw new NotImplementedException();
+        }
+
+        //当日签到信息分页
         private void Selectclockpage(HttpContext context)
         {
            
@@ -96,7 +158,7 @@ namespace HRCMRDemoUI.Handler
             //throw new NotImplementedException();
         }
 
-
+        //获取最大页码数
         private void Getmaxpage(HttpContext context)
         {
             //throw new NotImplementedException();

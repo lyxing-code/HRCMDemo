@@ -242,7 +242,7 @@
                     var clickdate = y + "-" + m;
                     ShowClock("selectbynextdate", m, y, clickdate);
 
-                    alert(clickdate);
+                    //alert(clickdate);
                     //点击下个月回调（可选）
                 },
                 //nextYeayCb: function (y, m, d) {

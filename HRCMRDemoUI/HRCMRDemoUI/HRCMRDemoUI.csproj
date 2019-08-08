@@ -393,6 +393,7 @@
     <Content Include="LeaveManger.aspx" />
     <Content Include="UserClock.aspx" />
     <Content Include="UserClockView.html" />
+    <Content Include="UserClockWatch.html" />
     <Content Include="UserInfo.aspx" />
     <Content Include="Handler\DeptHandler.ashx" />
     <Content Include="Handler\EmpHandler.ashx" />

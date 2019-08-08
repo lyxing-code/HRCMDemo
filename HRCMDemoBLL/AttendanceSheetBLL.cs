@@ -86,6 +86,18 @@ namespace HRCMDemoBLL
             return HRCMDemoDAL.AttendanceSheetDAL.UpdateClockRemake(id, remake);
         }
 
+        /// <summary>
+        /// 复合查询签到数据
+        /// </summary>
+        /// <param name="pageindex">起始页</param>
+        /// <param name="pagesize">显示条数</param>
+        /// <param name="wherestr">查询条件</param>
+        /// <param name="count">数据条数</param>
+        /// <returns></returns>
+        public  List<AttendanceSheetEntity> GetSelectClockListPage(int pageindex, int pagesize, string wherestr, ref int count)
+        {
+            return HRCMDemoDAL.AttendanceSheetDAL.SelectClockListPage(pageindex,pagesize,wherestr ,ref count);
+        }
 
     }
 }

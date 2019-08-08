@@ -173,7 +173,12 @@
                 } else {
                     $("#clockviewtable").hide();
                 }
-               
+
+                if ($(this).attr("id") == "watchclock") {
+                    $("#watchclocktable").show();
+                } else {
+                    $("#watchclocktable").hide();
+                }
                 
             });
 
@@ -187,6 +192,7 @@
                 $("#empseecolleagetable").hide();
                 $("#daclocktable").hide();
                 $("#clockviewtable").hide();
+                $("#watchclocktable").hide();
                 $("#usertable").show();
             });
 
@@ -1064,6 +1070,10 @@
                    </div>
                 <div style="width:100%;height:100%" class="text-center">
                        <iframe style="width:100%;height:600px;" src="UserClockView.html" hidden="hidden" id="clockviewtable" frameborder="0">
+                       </iframe>
+                   </div>
+                <div style="width:100%;height:100%" class="text-center">
+                       <iframe style="width:100%;height:600px;" src="UserClockWatch.html" hidden="hidden" id="watchclocktable" frameborder="0">
                        </iframe>
                    </div>
            </div>
