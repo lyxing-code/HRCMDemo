@@ -39,7 +39,7 @@ namespace HRCMDemoBLL
             return HRCMDemoDAL.AttendanceSheetDAL.SelectAll(sql).Count > 0 ? HRCMDemoDAL.AttendanceSheetDAL.SelectAll(sql)[0] : new AttendanceSheetEntity();
         }
 
-
+       
         /// <summary>
         /// 上班签到
         /// </summary>

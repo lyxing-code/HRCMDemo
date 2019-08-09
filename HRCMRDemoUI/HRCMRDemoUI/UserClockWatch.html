@@ -23,11 +23,12 @@
     <link href="Content/bootstrap.css" rel="stylesheet" />
     <link href="js/bootstraptable/bootstrap-table.css" rel="stylesheet" />
     <script src="js/bootstraptable/bootstrap-table.js"></script>
+    <link href="js/datetimepicker/bootstrap-datetimepicker.min.css" rel="stylesheet" />
 
     <script src="js/datetimepicker/bootstrap-datetimepicker.js"></script>
-    <link href="js/datetimepicker/bootstrap-datetimepicker.min.css" rel="stylesheet" />
     <script src="js/datetimepicker/bootstrap-datetimepicker.zh-CN.js"></script>
     <script src="js/bootstraptable/bootstrap-table-zh-CN.min.js"></script>
+    <script src="js/bootstraptable/echarts.js"></script>
     <script>
          $(function () {
             DllBind("#selectdept");
@@ -96,7 +97,7 @@
                         <tr>
                             <td class=" label-inverse label-left">部门:&nbsp;&nbsp;</td>
                             <td>
-                                <select id="selectdept"  class="form-control" style="width: 150px"></select>
+                                <select id="selectdept" class="form-control" style="width: 150px"></select>
                             </td>
                             <td>&nbsp;</td>
                             <td>
@@ -119,20 +120,151 @@
                 <div class="box-body  text-center">
                     <table id="clockwatchtable"></table>
                 </div>
+                <div id="main" style="width:100%;height:400px;margin-top:30px;"></div>
             </div>
         </div>
     </div>
     <script>
-         $(function () {
-            //日历控件初始化
-            BindDate();
-            //绑定datatable
-             DataTable();
-            
-            //$("#clockwatchtable").bootstrapTable("refresh");
+    $(function () {
+        //日历控件初始化
+        BindDate();
+        //绑定datatable
+        DataTable();
+
+        //$("#clockwatchtable").bootstrapTable("refresh");
+        //图表加载
+        window.onresize = function () {
+            myChart.resize();
+        }
+        var myChart = echarts.init(document.getElementById('main'));
+        myChart.setOption({
+
+            title: {
+                text: '出勤情况统计',
+                //subtext: '纯属虚构'
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            legend: {
+                data: ['迟到', '早退', '缺勤']
+            },
+            toolbox: {
+                show: true,
+                feature: {
+                    mark: { show: true },
+                    dataView: { show: true, readOnly: false },
+                    magicType: { show: true, type: ['line', 'bar'] },
+                    restore: { show: true },
+                    saveAsImage: { show: true }
+                }
+            },
+            calculable: true,
+            xAxis: [
+                {
+                    type: 'category',
+                    boundaryGap: false,
+                    data: []
+                }
+            ],
+            yAxis: [
+                {
+                    type: 'value',
+                    //axisLabel: {
+                    //    formatter: '{value} °C'
+                    //}
+                }
+            ],
+            series: [
+                {
+                    name: '迟到',
+                    type: 'line',
+
+                    itemStyle: { normal: { areaStyle: { type: 'default' } } },
+                    data: [],
+
+                },
+                {
+                    name: '早退',
+                    type: 'line',
+
+                    itemStyle: { normal: { areaStyle: { type: 'default' } } },
+                    data: [],
+
+                }
+            ]
         });
 
-        var deptname = "";
+       
+         $('#clockwatchtable').on('click-row.bs.table', function (e, row, element) {
+                //$(element).css({"color":"blue","font-size":"16px;"});
+             //alert(row.AttendanceID);
+                var time = [];
+                //迟到
+                var cd = [];
+                //缺勤
+                var zt = [];
+                $.ajax({
+                    type: "post",
+                    cache: false,
+                    url: 'Handler/UserClockHandler.ashx',
+                    data: {
+                        Method: "SelectByUserid",
+                        time:row.AttendanceStartTime,
+                        id: row.UserID
+                    },
+                    dataType: "json",
+                    success: function (result) {
+                        if (result != null && result.length > 0) {
+                            for (var i = 0; i < result.length; i++)
+                            {
+                                   cd.push(result[i].cd)
+                                   zt.push(result[i].zt)
+                                   time.push(result[i].time.substring(0, result[i].time.indexOf("T")));
+                            }
+                            //myChart.hideLoading();    //隐藏加载动画
+                           //alert(time + "|"+cd+"|"+zt);
+                            myChart.setOption({        //载入数据
+                                xAxis: {
+                                    data: time    //填入X轴数据
+                                },
+                                series: [    //填入系列（内容）数据
+                                              {
+                                                  // 根据名字对应到相应的系列
+                                                  name: '迟到',
+                                                  data: cd
+                                              },
+                                              {
+                                                  name: '早退',
+                                                  data: zt
+                                              },
+                                ]
+                            });
+
+                        }
+                        else {
+                            //返回的数据为空时显示提示信息
+                            alert("图表请求数据为空，可能服务器暂无记录数据，您可以稍后再试！");
+                            myChart.hideLoading();
+
+                        }
+
+                    },
+                    error: function (errorMsg) {
+                        //请求失败时执行该函数
+                        alert("图表请求数据失败，可能是服务器开小差了");
+                        myChart.hideLoading();
+                    }
+                })
+
+         });
+
+
+
+    });
+
+
+
         //绑定datatable
         function DataTable() {
             $("#clockwatchtable").bootstrapTable({
@@ -244,6 +376,9 @@
                 clearBtn: true//清除按钮
             });
         }
+
+  
+
     </script>
 </body>
 </html>

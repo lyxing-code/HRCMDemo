@@ -53,7 +53,7 @@ namespace HRCMRDemoUI.Handler
             int count = 0;
             if (user.RoleID ==1)
             {
-                if (deptid != "")
+                if (deptid != "-1" && deptid != "")
                 {
                     str += " and DepartmentID = " + deptid + "";
                 }

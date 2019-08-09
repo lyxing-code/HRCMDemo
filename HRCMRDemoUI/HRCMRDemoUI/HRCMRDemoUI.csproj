@@ -265,6 +265,7 @@
     <Content Include="img\Thumbs.db" />
     <Content Include="Index.aspx" />
     <Content Include="js\bootstraptable\bootstrap-table.js" />
+    <Content Include="js\bootstraptable\echarts.js" />
     <Content Include="js\ckeditor\plugins\scayt\LICENSE.md" />
     <Content Include="js\ckeditor\plugins\scayt\README.md" />
     <Content Include="js\ckeditor\plugins\wsc\LICENSE.md" />

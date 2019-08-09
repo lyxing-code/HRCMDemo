@@ -69,7 +69,7 @@ namespace HRCMDemoDAL
         /// <returns>bool</returns>
         public static bool UPdateClock(AttendanceSheetEntity obj)
         {
-            string sql = "UPDATE v_attendance SET ClockOutTime = getdate(),Workinghours = "+obj.Workinghours+" ,AttendanceType=" + obj.AttendanceType+ " WHERE day(AttendanceStartTime) =  day(getdate()) and UserID =" + obj.UserID;
+            string sql = "UPDATE v_attendance SET ClockOutTime = getdate(),Workinghours = "+obj.Workinghours+" ,AttendanceType=" + obj.AttendanceType+ ",Late="+obj.Late+ ",Absenteeism="+obj.Absenteeism+" WHERE day(AttendanceStartTime) =  day(getdate()) and UserID =" + obj.UserID;
             return DBHelper.UpdateOpera(sql);
         }
 
